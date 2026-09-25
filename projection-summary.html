@@ -1,0 +1,399 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Projection summary · Revenue Grid</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+.stage-inner { margin: 0; font-family: "Schibsted Grotesk", system-ui, sans-serif; }
+a { color: #23605a; } a:hover { color: #164039; }
+button:focus-visible { outline: 2px solid #23605a; outline-offset: 1px; }
+.stage-inner{margin:0;font-family:"Schibsted Grotesk",system-ui,sans-serif;color:#15171a;}
+.stage-inner a{color:#23605a;}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <span class="brand"><a href="index.html">Revenue Grid</a></span>
+  <span class="sub">SPNI ad sales · wireframes</span>
+  <span class="spacer"></span>
+  <span class="meta">Eight screens to be built</span>
+</header>
+<nav class="nav">
+<a href="entry-grid.html">Entry grid</a>
+<a href="manager-view.html">Manager View</a>
+<a href="projection-summary.html" class="on">Projection summary</a>
+<a href="client-tracking.html">Client tracking</a>
+<a href="coverage-accuracy.html">Coverage &amp; accuracy</a>
+<a href="prs-insights.html">PRS Insights and Masters</a>
+<a href="dashboard.html">Leadership dashboard</a>
+<a href="delegation.html">Delegation</a>
+</nav>
+
+<div class="boardhead">
+  <h1>Projection summary</h1>
+  <p>The monthly artifact: the SD Only, SD + HD and wallet share blocks, plus the impact property strip, by region.</p>
+</div>
+<div class="boardbar">
+  
+  <div class="zoom">
+    <button type="button" data-mode="fit" class="on">Fit width</button>
+    <button type="button" data-mode="full">100%</button>
+  </div>
+  <span class="hint" data-hint="0">The toggle switches between the current file&#x27;s impact split and the corrected one, so the effect of the correction is visible rather than argued about.</span>
+</div>
+<div class="stage">
+<section class="boardpane" data-pane="0"><div class="stage-frame" data-zoom="fit"><div class="stage-scroll"><div class="stage-inner" id="dc-host-0" data-w="1680" data-h="1420" style="width:1680px;height:1420px;"></div></div></div></section>
+</div>
+<template id="dc-template-0"><div style="width: 1680px; height: 1420px; box-sizing: border-box; background: #f4f3ef; color: #15171a; display: flex; flex-direction: column; overflow: hidden;">
+
+  <div style="height: 52px; flex-shrink: 0; background: #15171a; display: flex; align-items: center; gap: 14px; padding: 0 20px;">
+    <span style="font-size: 14px; font-weight: 700; color: #ffffff;">Revenue Grid</span>
+    <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #9a9c9f;">Projection summary</span>
+    <div style="width: 1px; height: 20px; background: #35383c;"></div>
+    <div style="display: flex; gap: 2px;">
+      <sc-for list="{{genreTabs}}" as="g" hint-placeholder-count="6">
+        <button type="button" onClick="{{g.onPick}}" style="{{g.style}}">{{g.label}}</button>
+      </sc-for>
+    </div>
+    <div style="flex-grow: 1;"></div>
+    <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #9a9c9f;">Oct'26 · ₹ Cr · every figure sums the row sheet by Region</span>
+  </div>
+
+  <div style="height: 50px; flex-shrink: 0; background: #ffffff; border-bottom: 1px solid #e3e1da; display: flex; align-items: center; gap: 10px; padding: 0 20px;">
+    <span style="font-size: 10px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: #8a8c90;">Impact split</span>
+    <sc-for list="{{fixToggle}}" as="f" hint-placeholder-count="2">
+      <button type="button" onClick="{{f.onPick}}" style="{{f.style}}">{{f.label}}</button>
+    </sc-for>
+    <div style="{{fixNoteStyle}}">
+      <span style="width: 16px; height: 16px; border-radius: 8px; background: #f3e4cd; color: #8a5210; font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">!</span>
+      <span style="font-size: 12px; color: #8a5210;">{{fixNote}}</span>
+    </div>
+    <div style="flex-grow: 1;"></div>
+    <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #56585c;">Last year figures load from the LYSM columns, not pasted</span>
+  </div>
+
+  <div style="flex-grow: 1; padding: 18px 20px; display: flex; flex-direction: column; gap: 16px; overflow-y: auto;">
+
+    <!-- BLOCK 1 -->
+    <div style="background: #ffffff; border: 1px solid #e3e1da; border-radius: 5px; padding: 16px 20px 18px;">
+      <div style="display: flex; align-items: baseline; gap: 10px; margin-bottom: 12px;">
+        <span style="font-size: 14px; font-weight: 600;">SD</span>
+        <span style="font-size: 12px; color: #56585c;">Implied revenue against last year, SD figures</span>
+        <span style="flex-grow: 1;"></span>
+        <span style="display: inline-flex; align-items: center; gap: 6px; font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; color: #8a5210;"><span style="width: 6px; height: 6px; border-radius: 3px; background: #b9791f;"></span>SAB reads SD Regular, SET reads SD+HD — confirmed error, PRS correcting</span>
+      </div>
+      <div style="display: flex; height: 26px; align-items: center; border-bottom: 1px solid #efedE6;">
+        <span style="width: 96px;"></span>
+        <span style="width: 372px; text-align: center; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; color: #8a8c90; background: #faf9f6; border-radius: 3px 3px 0 0;">Implied Rev · Oct'25</span>
+        <span style="width: 8px;"></span>
+        <span style="width: 372px; text-align: center; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; color: #8a8c90; background: #eef3f2; border-radius: 3px 3px 0 0;">Implied Rev Projection · Oct'26</span>
+        <span style="width: 8px;"></span>
+        <span style="flex-grow: 1; text-align: center; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; color: #8a8c90; background: #f4f1ea; border-radius: 3px 3px 0 0;">GoLY</span>
+      </div>
+      <div style="display: flex; height: 40px; align-items: center; border-bottom: 1px solid #c7c4ba;">
+        <span style="width: 96px; font-size: 10px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #56585c;">Region</span>
+        <sc-for list="{{b1head}}" as="h" hint-placeholder-count="12">
+          <span style="{{h.style}}">{{h.label}}</span>
+        </sc-for>
+      </div>
+      <sc-for list="{{b1rows}}" as="r" hint-placeholder-count="5">
+        <div style="{{r.rowStyle}}">
+          <span style="{{r.nameStyle}}">{{r.name}}</span>
+          <sc-for list="{{r.cells}}" as="c" hint-placeholder-count="12">
+            <span style="{{c.style}}">{{c.v}}</span>
+          </sc-for>
+        </div>
+      </sc-for>
+    </div>
+
+    <!-- IMPACT PROPERTIES -->
+    <div style="background: #ffffff; border: 1px solid #e3e1da; border-radius: 5px; padding: 16px 20px 18px;">
+      <div style="display: flex; align-items: baseline; gap: 10px; margin-bottom: 12px;">
+        <span style="font-size: 14px; font-weight: 600;">Impact properties</span>
+        <span style="font-size: 12px; color: #56585c;">Ours and the market's, side by side — the five SPNI slots plus five competitor properties</span>
+      </div>
+      <div style="display: flex; height: 38px; align-items: center; border-bottom: 1px solid #c7c4ba;">
+        <span style="width: 96px; font-size: 10px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #56585c;">Region</span>
+        <sc-for list="{{impHead}}" as="h" hint-placeholder-count="12">
+          <span style="{{h.style}}">{{h.label}}</span>
+        </sc-for>
+      </div>
+      <sc-for list="{{impRows}}" as="r" hint-placeholder-count="5">
+        <div style="{{r.rowStyle}}">
+          <span style="{{r.nameStyle}}">{{r.name}}</span>
+          <sc-for list="{{r.cells}}" as="c" hint-placeholder-count="12">
+            <span style="{{c.style}}">{{c.v}}</span>
+          </sc-for>
+        </div>
+      </sc-for>
+      <div style="display: flex; gap: 20px; margin-top: 10px; padding-top: 10px; border-top: 1px solid #f0eee8;">
+        <span style="display: inline-flex; align-items: center; gap: 7px; font-size: 11.5px; color: #56585c;"><span style="width: 10px; height: 10px; border-radius: 2px; background: #dce6f4;"></span>SPNI — Impact 1–5</span>
+        <span style="display: inline-flex; align-items: center; gap: 7px; font-size: 11.5px; color: #56585c;"><span style="width: 10px; height: 10px; border-radius: 2px; background: #f2e8e4;"></span>Competition — CC impact</span>
+        <span style="flex-grow: 1;"></span>
+        <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #56585c;">{{impNote}}</span>
+      </div>
+    </div>
+
+    <!-- BLOCK 2 -->
+    <div style="background: #ffffff; border: 1px solid #e3e1da; border-radius: 5px; padding: 16px 20px 18px;">
+      <div style="display: flex; align-items: baseline; gap: 10px; margin-bottom: 12px;">
+        <span style="font-size: 14px; font-weight: 600;">SD + HD</span>
+        <span style="font-size: 12px; color: #56585c;">With stretch and contribution calculated, ROIH entered by PRS</span>
+      </div>
+      <div style="display: flex; height: 38px; align-items: center; border-bottom: 1px solid #c7c4ba;">
+        <span style="width: 96px; font-size: 10px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #56585c;">Region</span>
+        <sc-for list="{{b2head}}" as="h" hint-placeholder-count="14">
+          <span style="{{h.style}}">{{h.label}}</span>
+        </sc-for>
+      </div>
+      <sc-for list="{{b2rows}}" as="r" hint-placeholder-count="5">
+        <div style="{{r.rowStyle}}">
+          <span style="{{r.nameStyle}}">{{r.name}}</span>
+          <sc-for list="{{r.cells}}" as="c" hint-placeholder-count="14">
+            <span style="{{c.style}}">{{c.v}}</span>
+          </sc-for>
+        </div>
+      </sc-for>
+      <div style="margin-top: 10px; padding-top: 10px; border-top: 1px solid #f0eee8; font-size: 11.5px; color: #56585c;">Regular is derived as total with stretch minus impact, so any error in impact lands here. Contribution is each region's total with stretch over the national total.</div>
+    </div>
+
+    <!-- BLOCK 3 -->
+    <div style="background: #ffffff; border: 1px solid #e3e1da; border-radius: 5px; padding: 16px 20px 18px;">
+      <div style="display: flex; align-items: baseline; gap: 10px; margin-bottom: 12px;">
+        <span style="font-size: 14px; font-weight: 600;">Wallet share</span>
+        <span style="font-size: 12px; color: #56585c;">Against a closed market of five — SAB, SET, Star Plus, Colors, Zee</span>
+        <span style="flex-grow: 1;"></span>
+        <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #56585c;">SPNI holds {{spniShare}} of ₹{{marketTotal}} Cr</span>
+      </div>
+      <div style="display: flex; height: 38px; align-items: center; border-bottom: 1px solid #c7c4ba;">
+        <span style="width: 96px; font-size: 10px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #56585c;">Region</span>
+        <sc-for list="{{b3head}}" as="h" hint-placeholder-count="6">
+          <span style="{{h.style}}">{{h.label}}</span>
+        </sc-for>
+        <span style="width: 18px;"></span>
+        <span style="flex-grow: 1; font-size: 10px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #56585c;">Share of the five</span>
+      </div>
+      <sc-for list="{{b3rows}}" as="r" hint-placeholder-count="5">
+        <div style="{{r.rowStyle}}">
+          <span style="{{r.nameStyle}}">{{r.name}}</span>
+          <sc-for list="{{r.cells}}" as="c" hint-placeholder-count="6">
+            <span style="{{c.style}}">{{c.v}}</span>
+          </sc-for>
+          <span style="width: 18px;"></span>
+          <div style="flex-grow: 1; display: flex; height: 20px; align-items: stretch;">
+            <sc-for list="{{r.bars}}" as="b" hint-placeholder-count="5">
+              <div style="{{b.style}}"><span style="{{b.labStyle}}">{{b.lab}}</span></div>
+            </sc-for>
+          </div>
+        </div>
+      </sc-for>
+      <div style="display: flex; gap: 18px; margin-top: 10px; padding-top: 10px; border-top: 1px solid #f0eee8;">
+        <sc-for list="{{shareLegend}}" as="l" hint-placeholder-count="5">
+          <span style="display: inline-flex; align-items: center; gap: 7px; font-size: 11.5px; color: #56585c;"><span style="{{l.sw}}"></span>{{l.label}}</span>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+</div></template>
+
+<div class="foot">Wireframe. Figures are sample data from the current working file, shown so the layout can be judged — not a production system.</div>
+<script src="assets/dc-lite.js"></script>
+<script>window.__DC0 = (function () {
+
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { fixed: true, genre: 'HGEC' }; }
+
+  data() {
+    return {
+      b1: [
+        ['West',  38.3, 12.5, 40.1, 56.6,  21.3,  5.2, 45.1, 50.5,  -44, -58,  12, -11],
+        ['North', 15.8,  4.1, 18.2, 22.9,  12.7,  4.1, 25.3, 29.7,  -20,   0,  39,  30],
+        ['South', 12.8,  3.3, 10.0, 14.0,   6.0,  1.1, 12.3, 13.5,  -53, -67,  23,  -4],
+        ['East',   0.6,  0.1,  0.4,  0.5,   0.7,  0.4,  0.0,  0.4,    9, 207,-100, -24],
+        ['Total', 67.6, 20.0, 68.6, 94.0,  40.7, 10.8, 82.6, 94.1,  -40, -46,  20,   0]
+      ],
+      imp: [
+        ['West',  0.0,  9.1, 33.4, 2.6, 0.0,  0.4, 0.9, 0.0, 6.4, 1.2,  53.8],
+        ['North', 1.9,  4.0, 16.8, 2.6, 0.0,  4.6, 1.2, 0.2, 1.8, 3.2,  36.2],
+        ['South', 0.3,  1.8, 10.2, 0.0, 0.0,  0.0, 0.0, 0.0, 0.0, 0.0,  12.3],
+        ['East',  0.0,  0.0,  0.0, 0.0, 0.0,  0.8, 0.0, 0.0, 0.0, 1.0,   1.8],
+        ['Total', 2.2, 14.8, 60.4, 5.1, 0.0,  5.7, 2.0, 0.2, 8.2, 5.4, 104.1]
+      ],
+      // region, LY SAB, LY SET, CY SAB, CY SET, strSAB, strSET, totSAB, totSET, roihSAB, roihSET, contSAB, contSET, integ, transfer, impactAsIs, impactFixed
+      b2: [
+        ['West',  39.6, 56.6, 27.2, 50.5, 0.5, 0.3, 27.7, 50.8, 1.1, 0.2, 52, 54, 0.0,  5.5, 42.5, 45.06],
+        ['North', 16.1, 22.9, 15.1, 29.7, 0.0, 0.0, 15.1, 29.7, 1.2, 0.0, 28, 31, 0.1,  1.9, 22.7, 25.30],
+        ['South', 13.3, 14.0, 10.1, 13.5, 0.0, 0.0, 10.1, 13.5, 0.0, 0.0, 19, 14, 1.3,  2.8, 12.3, 12.25],
+        ['East',   0.7,  0.5,  0.7,  0.4, 0.0, 0.0,  0.7,  0.4, 0.0, 0.0,  1,  0, 0.0,  0.0,  0.0,  0.00],
+        ['Total', 69.7, 94.0, 53.0, 94.1, 0.5, 0.3, 53.5, 94.4, 2.4, 0.2,100,100, 1.4, 10.2, 77.5, 82.61]
+      ],
+      b3: [
+        ['West',  27.7, 50.8, 18.3, 20.9,  9.4, 127.1],
+        ['North', 15.1, 29.7, 16.7, 10.2, 11.3,  82.9],
+        ['South', 10.1, 13.5,  3.0,  2.4,  2.0,  30.9],
+        ['East',   0.7,  0.4,  2.0,  0.6,  2.1,   5.7],
+        ['Total', 53.5, 94.4, 40.0, 34.0, 24.7, 246.6]
+      ]
+    };
+  }
+
+  renderVals() {
+    var self = this, st = this.state, D = this.data();
+    var f1 = function (v) { return (Math.round(v * 10) / 10).toFixed(1); };
+    var f2 = function (v) { return (Math.round(v * 100) / 100).toFixed(2); };
+
+    var genreTabs = ['HGEC', 'HFF', 'FTA', 'Marathi GEC', 'Bengali GEC', 'Kids'].map(function (g) {
+      var on = st.genre === g;
+      return { label: g, style: 'appearance: none; height: 30px; padding: 0 11px; border-radius: 3px; border: none; background: ' + (on ? '#ffffff' : 'transparent') + '; color: ' + (on ? '#15171a' : '#b9bbbe') + '; font: inherit; font-size: 12px; font-weight: ' + (on ? '600' : '400') + '; cursor: ' + (on ? 'default' : 'pointer') + ';', onPick: function () { self.setState({ genre: g }); } };
+    });
+
+    var fixToggle = [[true, 'Corrected — all five properties'], [false, 'As in the current file']].map(function (t) {
+      var on = st.fixed === t[0];
+      return { label: t[1], style: 'appearance: none; height: 28px; padding: 0 12px; border-radius: 3px; border: 1px solid ' + (on ? '#15171a' : '#e3e1da') + '; background: ' + (on ? '#15171a' : '#ffffff') + '; color: ' + (on ? '#ffffff' : '#56585c') + '; font: inherit; font-size: 11.5px; font-weight: ' + (on ? '600' : '400') + '; cursor: pointer;', onPick: function () { self.setState({ fixed: t[0] }); } };
+    });
+
+    var num = function (w, v, opts) {
+      var o = opts || {};
+      return { v: v, style: 'width: ' + w + 'px; flex-shrink: 0; text-align: right; padding-right: 10px; box-sizing: border-box; font-family: "IBM Plex Mono", monospace; font-size: ' + (o.big ? '12.5px' : '12px') + '; font-variant-numeric: tabular-nums; color: ' + (o.c || '#15171a') + '; font-weight: ' + (o.w || '400') + '; background: ' + (o.bg || 'transparent') + ';' };
+    };
+    var head = function (w, label, bg) {
+      return { label: label, style: 'width: ' + w + 'px; flex-shrink: 0; text-align: right; padding-right: 10px; box-sizing: border-box; font-size: 9.5px; font-weight: 600; letter-spacing: 0.03em; text-transform: uppercase; color: #56585c; line-height: 1.2; background: ' + (bg || 'transparent') + ';' };
+    };
+
+    // ---- block 1
+    var b1w = 93;
+    var b1head = [];
+    ['SAB Overall', 'SET Reg SD', 'SET Impact', 'SET Overall'].forEach(function (l) { b1head.push(head(b1w, l, '#faf9f6')); });
+    b1head.push(head(8, ''));
+    ['SAB Overall', 'SET Regular', 'SET Impact', 'SET Overall'].forEach(function (l) { b1head.push(head(b1w, l, '#eef3f2')); });
+    b1head.push(head(8, ''));
+    ['SAB', 'SET Reg', 'SET Imp', 'SET Ovr'].forEach(function (l) { b1head.push(head(b1w, l, '#f4f1ea')); });
+
+    var b1rows = D.b1.map(function (r) {
+      var tot = r[0] === 'Total';
+      var cells = [];
+      for (var i = 1; i <= 4; i++) { cells.push(num(b1w, f1(r[i]), { bg: '#faf9f6', c: '#56585c' })); }
+      cells.push({ v: '', style: 'width: 8px;' });
+      for (var j = 5; j <= 8; j++) { cells.push(num(b1w, f1(r[j]), { bg: '#eef3f2', w: tot ? '500' : '400' })); }
+      cells.push({ v: '', style: 'width: 8px;' });
+      for (var k = 9; k <= 12; k++) {
+        var v = r[k];
+        cells.push(num(b1w, (v >= 0 ? '+' : '') + v + '%', { bg: '#f4f1ea', c: v >= 0 ? '#1d544e' : '#8f2a2a' }));
+      }
+      return {
+        name: r[0], cells: cells,
+        nameStyle: 'width: 96px; flex-shrink: 0; font-size: 12.5px; font-weight: ' + (tot ? '700' : '500') + ';',
+        rowStyle: 'display: flex; align-items: center; height: 34px; border-bottom: 1px solid ' + (tot ? 'transparent' : '#f4f2ec') + '; border-top: ' + (tot ? '2px solid #c7c4ba' : 'none') + ';'
+      };
+    });
+
+    // ---- impact properties
+    var iw = 96;
+    var impLabels = ['IBD', 'TRSS', 'KBC', 'Idol', 'IGS', '1% Club', 'KKK', 'LC', 'BB', 'SRGMP', 'Total'];
+    var impHead = impLabels.map(function (l, i) { return head(iw, l, i < 5 ? '#dce6f4' : (i < 10 ? '#f2e8e4' : 'transparent')); });
+    var impRows = D.imp.map(function (r) {
+      var tot = r[0] === 'Total';
+      var cells = r.slice(1).map(function (v, i) {
+        var isIdol = i === 3;
+        return num(iw, f1(v), {
+          bg: i < 5 ? (isIdol && !st.fixed ? '#fdf8f1' : '#dce6f4') : (i < 10 ? '#f2e8e4' : 'transparent'),
+          w: i === 10 ? '500' : '400',
+          c: isIdol && !st.fixed ? '#8a5210' : '#15171a'
+        });
+      });
+      return {
+        name: r[0], cells: cells,
+        nameStyle: 'width: 96px; flex-shrink: 0; font-size: 12.5px; font-weight: ' + (tot ? '700' : '500') + ';',
+        rowStyle: 'display: flex; align-items: center; height: 34px; border-bottom: 1px solid ' + (tot ? 'transparent' : '#f4f2ec') + '; border-top: ' + (tot ? '2px solid #c7c4ba' : 'none') + ';'
+      };
+    });
+
+    // ---- block 2
+    var w2 = 88;
+    var b2head = [head(w2, 'LY SAB', '#faf9f6'), head(w2, 'LY SET', '#faf9f6'), head(w2, 'SAB', '#eef3f2'), head(w2, 'SET', '#eef3f2'),
+      head(w2, 'Stretch SAB', '#eef3f2'), head(w2, 'Stretch SET', '#eef3f2'), head(w2, 'Total SAB', '#e3ece9'), head(w2, 'Total SET', '#e3ece9'),
+      head(w2, 'ROIH SAB', '#f4f1ea'), head(w2, 'ROIH SET', '#f4f1ea'), head(w2, 'Cont SAB', '#f4f1ea'), head(w2, 'Cont SET', '#f4f1ea'),
+      head(w2, 'Integration'), head(w2, 'Transfer'), head(w2, 'Impact'), head(w2, 'Regular')];
+
+    var b2rows = D.b2.map(function (r) {
+      var tot = r[0] === 'Total';
+      var impact = st.fixed ? r[16] : r[15];
+      var regular = r[8] - impact;
+      var flagBg = st.fixed ? 'transparent' : '#fdf8f1';
+      var flagCol = st.fixed ? '#15171a' : '#8a5210';
+      var cells = [
+        num(w2, f1(r[1]), { bg: '#faf9f6', c: '#56585c' }), num(w2, f1(r[2]), { bg: '#faf9f6', c: '#56585c' }),
+        num(w2, f1(r[3]), { bg: '#eef3f2' }), num(w2, f1(r[4]), { bg: '#eef3f2' }),
+        num(w2, f2(r[5]), { bg: '#eef3f2', c: '#56585c' }), num(w2, f2(r[6]), { bg: '#eef3f2', c: '#56585c' }),
+        num(w2, f1(r[7]), { bg: '#e3ece9', w: '500' }), num(w2, f1(r[8]), { bg: '#e3ece9', w: '500' }),
+        num(w2, f1(r[9]), { bg: '#f4f1ea', c: '#56585c' }), num(w2, f1(r[10]), { bg: '#f4f1ea', c: '#56585c' }),
+        num(w2, r[11] + '%', { bg: '#f4f1ea' }), num(w2, r[12] + '%', { bg: '#f4f1ea' }),
+        num(w2, f1(r[13]), { c: '#56585c' }),
+        num(w2, f1(r[14]), { c: '#56585c' }),
+        num(w2, f2(impact), { w: '500', c: flagCol, bg: flagBg }),
+        num(w2, f2(regular), { w: '500', c: flagCol, bg: flagBg })
+      ];
+      return {
+        name: r[0], cells: cells,
+        nameStyle: 'width: 96px; flex-shrink: 0; font-size: 12.5px; font-weight: ' + (tot ? '700' : '500') + ';',
+        rowStyle: 'display: flex; align-items: center; height: 34px; border-bottom: 1px solid ' + (tot ? 'transparent' : '#f4f2ec') + '; border-top: ' + (tot ? '2px solid #c7c4ba' : 'none') + ';'
+      };
+    });
+
+    // ---- block 3
+    var w3 = 104;
+    var b3head = ['SAB', 'SET', 'Star Plus', 'Colors', 'Zee', 'Market'].map(function (l, i) { return head(w3, l, i < 2 ? '#eef3f2' : (i < 5 ? '#f6f0ec' : '#f4f1ea')); });
+    var shareCols = ['#2a78d6', '#1baf7a', '#eb6834', '#eda100', '#8f8b82'];
+    var b3rows = D.b3.map(function (r) {
+      var tot = r[0] === 'Total', total = r[6];
+      var cells = [];
+      for (var i = 1; i <= 6; i++) {
+        cells.push(num(w3, f1(r[i]), { bg: i <= 2 ? '#eef3f2' : (i <= 5 ? '#f6f0ec' : '#f4f1ea'), w: i === 6 ? '500' : '400' }));
+      }
+      var bars = [];
+      for (var j = 1; j <= 5; j++) {
+        var pct = r[j] / total * 100;
+        bars.push({
+          lab: Math.round(pct) + '%',
+          style: 'width: ' + pct + '%; background: ' + shareCols[j - 1] + '; margin-right: 2px; border-radius: ' + (j === 1 ? '3px 0 0 3px' : (j === 5 ? '0 3px 3px 0' : '0')) + '; display: flex; align-items: center; overflow: hidden;',
+          labStyle: pct > 9 ? 'font-family: "IBM Plex Mono", monospace; font-size: 10.5px; color: #ffffff; padding-left: 7px; white-space: nowrap;' : 'display: none;'
+        });
+      }
+      return {
+        name: r[0], cells: cells, bars: bars,
+        nameStyle: 'width: 96px; flex-shrink: 0; font-size: 12.5px; font-weight: ' + (tot ? '700' : '500') + ';',
+        rowStyle: 'display: flex; align-items: center; height: 36px; border-bottom: 1px solid ' + (tot ? 'transparent' : '#f4f2ec') + '; border-top: ' + (tot ? '2px solid #c7c4ba' : 'none') + ';'
+      };
+    });
+
+    var shareLegend = ['SAB', 'SET', 'Star Plus', 'Colors', 'Zee'].map(function (l, i) {
+      return { label: l, sw: 'width: 10px; height: 10px; border-radius: 2px; background: ' + shareCols[i] + ';' };
+    });
+
+    return {
+      genreTabs: genreTabs, fixToggle: fixToggle,
+      fixNote: st.fixed ? 'Impact now sums all five properties. Current file omits Idol — ₹5.14 Cr moves from Regular to Impact.' : 'Idol is excluded, as the current formula does. ₹5.14 Cr is sitting in Regular that belongs in Impact.',
+      fixNoteStyle: 'display: flex; align-items: center; gap: 8px; height: 30px; padding: 0 12px; border-radius: 3px; background: ' + (st.fixed ? '#eef3f2' : '#fdf8f1') + '; border: 1px solid ' + (st.fixed ? '#cfe0dd' : '#f0e2cd') + ';',
+      b1head: b1head, b1rows: b1rows,
+      impHead: impHead, impRows: impRows,
+      impNote: 'SPNI five = ₹82.61 Cr · market ten = ₹104.10 Cr',
+      b2head: b2head, b2rows: b2rows,
+      b3head: b3head, b3rows: b3rows, shareLegend: shareLegend,
+      spniShare: '60%', marketTotal: '246.6'
+    };
+  }
+}
+
+return Component;
+})();</script>
+<script>
+mountDC('dc-template-0', window.__DC0, 'dc-host-0');
+</script>
+<script src="assets/site.js"></script>
+</body>
+</html>

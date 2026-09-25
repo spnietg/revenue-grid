@@ -1,0 +1,462 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Leadership dashboard · Revenue Grid</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+.stage-inner { margin: 0; font-family: "Schibsted Grotesk", system-ui, sans-serif; }
+a { color: #23605a; } a:hover { color: #164039; }
+button:focus-visible { outline: 2px solid #23605a; outline-offset: 1px; }
+.stage-inner{margin:0;font-family:"Schibsted Grotesk",system-ui,sans-serif;color:#15171a;}
+.stage-inner a{color:#23605a;}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <span class="brand"><a href="index.html">Revenue Grid</a></span>
+  <span class="sub">SPNI ad sales · wireframes</span>
+  <span class="spacer"></span>
+  <span class="meta">Eight screens to be built</span>
+</header>
+<nav class="nav">
+<a href="entry-grid.html">Entry grid</a>
+<a href="manager-view.html">Manager View</a>
+<a href="projection-summary.html">Projection summary</a>
+<a href="client-tracking.html">Client tracking</a>
+<a href="coverage-accuracy.html">Coverage &amp; accuracy</a>
+<a href="prs-insights.html">PRS Insights and Masters</a>
+<a href="dashboard.html" class="on">Leadership dashboard</a>
+<a href="delegation.html">Delegation</a>
+</nav>
+
+<div class="boardhead">
+  <h1>Leadership dashboard</h1>
+  <p>Filter by genre, region, client status and client type, then break the projection down by any of those plus group head and exec.</p>
+</div>
+<div class="boardbar">
+  
+  <div class="zoom">
+    <button type="button" data-mode="fit" class="on">Fit width</button>
+    <button type="button" data-mode="full">100%</button>
+  </div>
+  <span class="hint" data-hint="0">Every figure recomputes from the filtered rows. Try breaking down by client type.</span>
+</div>
+<div class="stage">
+<section class="boardpane" data-pane="0"><div class="stage-frame" data-zoom="fit"><div class="stage-scroll"><div class="stage-inner" id="dc-host-0" data-w="1680" data-h="1520" style="width:1680px;height:1520px;"></div></div></div></section>
+</div>
+<template id="dc-template-0"><div style="width: 1680px; height: 1520px; box-sizing: border-box; background: #f4f3ef; color: #15171a; display: flex; flex-direction: column; overflow: hidden;">
+
+  <div style="height: 52px; flex-shrink: 0; background: #15171a; display: flex; align-items: center; gap: 14px; padding: 0 20px;">
+    <span style="font-size: 14px; font-weight: 700; color: #ffffff;">Revenue Grid</span>
+    <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #9a9c9f;">Leadership · Sep-26 · as of 18:00</span>
+    <div style="flex-grow: 1;"></div>
+    <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #9a9c9f;">Every figure reads the same column definitions the grid uses</span>
+  </div>
+
+  <div style="flex-shrink: 0; background: #ffffff; border-bottom: 1px solid #e3e1da; padding: 12px 20px 14px; display: flex; flex-direction: column; gap: 10px;">
+    <sc-for list="{{filterRows}}" as="fr" hint-placeholder-count="4">
+      <div style="display: flex; align-items: flex-start; flex-wrap: wrap; gap: 6px;">
+        <span style="width: 92px; flex-shrink: 0; padding-top: 7px; font-size: 10px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: #8a8c90;">{{fr.label}}</span>
+        <sc-for list="{{fr.opts}}" as="o" hint-placeholder-count="7">
+          <button type="button" onClick="{{o.onPick}}" style="{{o.style}}">{{o.label}}</button>
+        </sc-for>
+      </div>
+    </sc-for>
+    <div style="display: flex; align-items: center; gap: 10px; padding-top: 2px; border-top: 1px solid #f0eee8;">
+      <span style="width: 92px; flex-shrink: 0; font-size: 10px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: #8a8c90;">Break down by</span>
+      <sc-for list="{{dims}}" as="d" hint-placeholder-count="5">
+        <button type="button" onClick="{{d.onPick}}" style="{{d.style}}">{{d.label}}</button>
+      </sc-for>
+      <div style="flex-grow: 1;"></div>
+      <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #56585c;">{{sliceLine}}</span>
+      <button type="button" onClick="{{onClear}}" style="appearance: none; height: 28px; padding: 0 12px; border: 1px solid #e3e1da; border-radius: 3px; background: #ffffff; font: inherit; font-size: 11.5px; color: #56585c; cursor: pointer;">Clear all</button>
+    </div>
+  </div>
+
+  <div style="flex-grow: 1; padding: 18px 20px; display: flex; flex-direction: column; gap: 18px; overflow-y: auto;">
+
+    <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px;">
+      <sc-for list="{{kpis}}" as="k" hint-placeholder-count="4">
+        <div style="background: #ffffff; border: 1px solid #e3e1da; border-radius: 5px; padding: 16px 18px; display: flex; flex-direction: column; gap: 5px;">
+          <span style="font-size: 10.5px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #8a8c90;">{{k.label}}</span>
+          <span style="font-family: 'IBM Plex Mono', monospace; font-size: 28px; font-weight: 500; letter-spacing: -0.02em;">{{k.value}}</span>
+          <span style="{{k.noteStyle}}">{{k.note}}</span>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="display: flex; gap: 18px;">
+      <div style="width: 1020px; flex-shrink: 0; background: #ffffff; border: 1px solid #e3e1da; border-radius: 5px; padding: 16px 20px 18px; box-sizing: border-box;">
+        <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 14px;">
+          <span style="font-size: 14px; font-weight: 600;">{{buildTitle}}</span>
+          <span style="flex-grow: 1;"></span>
+          <span style="display: inline-flex; align-items: center; gap: 6px; font-size: 11px; color: #56585c;"><span style="width: 10px; height: 10px; background: #2a78d6; border-radius: 2px;"></span>Regular</span>
+          <span style="display: inline-flex; align-items: center; gap: 6px; font-size: 11px; color: #56585c;"><span style="width: 10px; height: 10px; background: #eb6834; border-radius: 2px;"></span>Impact</span>
+          <span style="display: inline-flex; align-items: center; gap: 6px; font-size: 11px; color: #56585c;"><span style="width: 10px; height: 10px; background: #1baf7a; border-radius: 2px;"></span>Upside</span>
+          <span style="display: inline-flex; align-items: center; gap: 6px; font-size: 11px; color: #56585c;"><span style="width: 2px; height: 13px; background: #15171a;"></span>Budget</span>
+        </div>
+        <sc-for list="{{buildRows}}" as="b" hint-placeholder-count="6">
+          <div style="display: flex; align-items: center; height: 38px;">
+            <span style="{{nameStyle}}" title="{{b.name}}">{{b.name}}</span>
+            <div style="flex-grow: 1; position: relative; height: 22px;">
+              <div style="display: flex; height: 100%; align-items: stretch;">
+                <div style="{{b.s1}}"></div>
+                <div style="{{b.s2}}"></div>
+                <div style="{{b.s3}}"></div>
+              </div>
+              <div style="{{b.tgt}}"></div>
+            </div>
+            <span style="width: 74px; flex-shrink: 0; text-align: right; font-family: 'IBM Plex Mono', monospace; font-size: 12px;">{{b.total}}</span>
+            <span style="width: 68px; flex-shrink: 0; text-align: right; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #56585c;">{{b.budget}}</span>
+            <span style="{{b.attStyle}}">{{b.att}}</span>
+          </div>
+        </sc-for>
+        <div style="display: flex; margin-top: 8px; padding-top: 8px; border-top: 1px solid #f0eee8;">
+          <span style="{{nameFootStyle}}">₹ Cr</span>
+          <span style="flex-grow: 1; font-size: 10.5px; color: #8a8c90;">bar past the rule means ahead of budget</span>
+          <span style="width: 74px; text-align: right; font-size: 10px; color: #8a8c90;">proj</span>
+          <span style="width: 68px; text-align: right; font-size: 10px; color: #8a8c90;">budget</span>
+          <span style="width: 74px; text-align: right; font-size: 10px; color: #8a8c90;">attain</span>
+        </div>
+      </div>
+
+      <div style="flex-grow: 1; background: #ffffff; border: 1px solid #e3e1da; border-radius: 5px; padding: 16px 20px 18px; box-sizing: border-box;">
+        <div style="font-size: 14px; font-weight: 600; margin-bottom: 2px;">Against last year, same month</div>
+        <div style="font-size: 11.5px; color: #56585c; margin-bottom: 14px;">{{lysmNote}}</div>
+        <sc-for list="{{lysmRows}}" as="l" hint-placeholder-count="6">
+          <div style="display: flex; align-items: center; height: 38px;">
+            <span style="width: 118px; flex-shrink: 0; font-size: 12.5px; padding-right: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{l.name}}</span>
+            <div style="flex-grow: 1; position: relative; height: 22px;">
+              <div style="position: absolute; left: 50%; top: -4px; bottom: -4px; width: 1px; background: #c3c2b7;"></div>
+              <div style="{{l.bar}}"></div>
+            </div>
+            <span style="{{l.valStyle}}">{{l.val}}</span>
+          </div>
+        </sc-for>
+        <div style="margin-top: 8px; padding-top: 8px; border-top: 1px solid #f0eee8; font-size: 10.5px; color: #8a8c90;">change vs Sep-25 · scale ±{{lysmScale}}%</div>
+      </div>
+    </div>
+
+    <div style="display: flex; gap: 18px;">
+      <div style="width: 820px; flex-shrink: 0; background: #ffffff; border: 1px solid #e3e1da; border-radius: 5px; padding: 16px 20px 18px; box-sizing: border-box;">
+        <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 14px;">
+          <div>
+            <div style="font-size: 14px; font-weight: 600;">Our share of declared spend</div>
+            <div style="font-size: 11.5px; color: #56585c; margin-top: 2px;">From the CC columns reps fill beside our own numbers</div>
+          </div>
+          <span style="flex-grow: 1;"></span>
+          <span style="display: inline-flex; align-items: center; gap: 6px; font-size: 11px; color: #56585c;"><span style="width: 10px; height: 10px; background: #2a78d6; border-radius: 2px;"></span>SPNI</span>
+          <span style="display: inline-flex; align-items: center; gap: 6px; font-size: 11px; color: #56585c;"><span style="width: 10px; height: 10px; background: #d9d7d0; border-radius: 2px;"></span>Everyone else</span>
+        </div>
+        <sc-for list="{{shareRows}}" as="s" hint-placeholder-count="6">
+          <div style="display: flex; align-items: center; height: 38px;">
+            <span style="{{nameStyle}}" title="{{s.name}}">{{s.name}}</span>
+            <div style="flex-grow: 1; display: flex; height: 22px; align-items: stretch;">
+              <div style="{{s.own}}"><span style="{{s.ownLabel}}">{{s.pct}}</span></div>
+              <div style="{{s.rest}}"></div>
+            </div>
+            <span style="width: 44px; flex-shrink: 0; text-align: right; font-family: 'IBM Plex Mono', monospace; font-size: 12px;">{{s.pctOut}}</span>
+          </div>
+        </sc-for>
+        <div style="margin-top: 8px; padding-top: 8px; border-top: 1px solid #f0eee8; font-size: 10.5px; color: #8a8c90;">{{shareNote}}</div>
+      </div>
+
+      <div style="flex-grow: 1; background: #ffffff; border: 1px solid #e3e1da; border-radius: 5px; padding: 16px 20px 18px; box-sizing: border-box;">
+        <div style="font-size: 14px; font-weight: 600; margin-bottom: 2px;">Attainment by exec</div>
+        <div style="font-size: 11.5px; color: #56585c; margin-bottom: 14px;">Within the current slice</div>
+        <sc-for list="{{execRows}}" as="e" hint-placeholder-count="6">
+          <div style="display: flex; align-items: center; height: 36px;">
+            <span style="width: 96px; flex-shrink: 0; font-size: 12.5px;">{{e.name}}</span>
+            <div style="flex-grow: 1; position: relative; height: 20px;">
+              <div style="position: absolute; left: 0; right: 0; top: 9px; height: 1px; background: #efedE6;"></div>
+              <div style="position: absolute; left: 72%; top: -3px; bottom: -3px; width: 1px; background: #15171a;"></div>
+              <div style="{{e.dot}}"></div>
+            </div>
+            <span style="{{e.valStyle}}">{{e.val}}</span>
+          </div>
+        </sc-for>
+        <div style="margin-top: 8px; padding-top: 8px; border-top: 1px solid #f0eee8; font-size: 10.5px; color: #8a8c90;">line marks 100% of budget</div>
+      </div>
+    </div>
+
+    <div style="background: #ffffff; border: 1px solid #e3e1da; border-radius: 5px; padding: 16px 20px 18px;">
+      <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 12px;">
+        <span style="font-size: 14px; font-weight: 600;">Advertisers in this slice</span>
+        <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #8a8c90;">{{tableNote}}</span>
+      </div>
+      <div style="display: flex; align-items: center; height: 28px; border-bottom: 1px solid #c7c4ba;">
+        <span style="width: 200px; font-size: 10px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #8a8c90;">Advertiser</span>
+        <span style="width: 116px; font-size: 10px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #8a8c90;">Genre</span>
+        <span style="width: 86px; font-size: 10px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #8a8c90;">Region</span>
+        <span style="width: 106px; font-size: 10px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #8a8c90;">Exec</span>
+        <span style="width: 106px; font-size: 10px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #8a8c90;">Group head</span>
+        <span style="width: 96px; text-align: right; font-size: 10px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #8a8c90;">Projected</span>
+        <span style="width: 90px; text-align: right; font-size: 10px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #8a8c90;">Budget</span>
+        <span style="width: 86px; text-align: right; font-size: 10px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #8a8c90;">vs LYSM</span>
+        <span style="flex-grow: 1; text-align: right; font-size: 10px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #8a8c90;">Status</span>
+      </div>
+      <sc-for list="{{tableRows}}" as="t" hint-placeholder-count="10">
+        <div style="display: flex; align-items: center; height: 32px; border-bottom: 1px solid #f4f2ec;">
+          <span style="width: 200px; font-size: 12.5px; font-weight: 500;">{{t.adv}}</span>
+          <span style="width: 116px; font-size: 12px; color: #56585c;">{{t.genre}}</span>
+          <span style="width: 86px; font-size: 12px; color: #56585c;">{{t.region}}</span>
+          <span style="width: 106px; font-size: 12px; color: #56585c;">{{t.exec}}</span>
+          <span style="width: 106px; font-size: 12px; color: #56585c;">{{t.gh}}</span>
+          <span style="width: 96px; text-align: right; font-family: 'IBM Plex Mono', monospace; font-size: 12px;">{{t.proj}}</span>
+          <span style="width: 90px; text-align: right; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #56585c;">{{t.budget}}</span>
+          <span style="{{t.deltaStyle}}">{{t.delta}}</span>
+          <span style="flex-grow: 1; text-align: right;"><span style="{{t.statusStyle}}">{{t.status}}</span></span>
+        </div>
+      </sc-for>
+      <div style="margin-top: 10px; font-size: 12px; color: #56585c;">{{tableMore}}</div>
+    </div>
+  </div>
+</div></template>
+
+<div class="foot">Wireframe. Figures are sample data from the current working file, shown so the layout can be judged — not a production system.</div>
+<script src="assets/dc-lite.js"></script>
+<script>window.__DC0 = (function () {
+
+var CTL = {
+  s: 'Active on SET / SAB',
+  p: 'Active on PHGEC Missing on SET/SAB',
+  o: 'Active on Other Entertainment (Sports / Marathi / HMOV) Missed on PHGEC',
+  n: 'Potential Clients from News',
+  d: 'Potential Clients from Digital, Outdoor & Other Platforms',
+  u: 'Upcountry'
+};
+
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { genre: 'All', region: 'All', status: 'All', ctype: 'All', dim: 'genre' };
+  }
+
+  ratios() {
+    return {
+      'HGEC':        { r: 0.55, i: 0.24, u: 0.11, b: 0.96, l: 0.82, c: 2.40 },
+      'HFF':         { r: 0.62, i: 0.21, u: 0.09, b: 0.86, l: 0.88, c: 1.80 },
+      'FTA':         { r: 0.78, i: 0.10, u: 0.07, b: 1.06, l: 1.02, c: 3.20 },
+      'Marathi GEC': { r: 0.64, i: 0.21, u: 0.11, b: 0.88, l: 0.78, c: 4.00 },
+      'Bengali GEC': { r: 0.66, i: 0.19, u: 0.08, b: 1.10, l: 1.04, c: 6.80 },
+      'Kids':        { r: 0.76, i: 0.09, u: 0.08, b: 0.93, l: 0.84, c: 2.60 }
+    };
+  }
+
+  ghOf(exec) {
+    return { 'R. Menon': 'V. Suresh', 'A. Khanna': 'V. Suresh', 'D. Sharma': 'V. Suresh', 'S. Iyer': 'M. Bhatia', 'P. Desai': 'M. Bhatia', 'N. Rao': 'M. Bhatia' }[exec];
+  }
+
+  rows() {
+    // advertiser, genre, region, exec, client status, size, client type
+    var CT = CTL;
+    var C = 'Deal Closed', I = 'In Discussions', P = 'Not in Plan', X = 'Not active on TV';
+    var raw = [
+      ['Sunveda Consumer', 'HGEC', 'West', 'R. Menon', I, 6.2, CT.s], ['Trimurti Motors', 'HGEC', 'West', 'R. Menon', I, 8.6, CT.s],
+      ['Zorix Beverages', 'HGEC', 'West', 'R. Menon', C, 11.4, CT.s], ['Vayu Airlines', 'HGEC', 'West', 'R. Menon', P, 1.9, CT.d],
+      ['Adhira Jewels', 'HGEC', 'West', 'S. Iyer', C, 7.4, CT.s], ['Meridian Paints', 'HGEC', 'North', 'A. Khanna', I, 3.9, CT.s],
+      ['Sankalp Finance', 'HGEC', 'North', 'A. Khanna', C, 3.7, CT.p], ['Anantam Foods', 'HGEC', 'North', 'A. Khanna', P, 3.4, CT.p],
+      ['Indus Cement', 'HGEC', 'North', 'D. Sharma', C, 2.8, CT.u], ['Orbit Mobility', 'HGEC', 'South', 'P. Desai', I, 4.6, CT.d],
+      ['Kaveri Textiles', 'HGEC', 'South', 'P. Desai', I, 2.1, CT.u], ['Rasa Foods', 'HGEC', 'East', 'N. Rao', C, 4.1, CT.s],
+      ['Zorix Beverages', 'HFF', 'West', 'R. Menon', C, 7.8, CT.s], ['Trimurti Motors', 'HFF', 'West', 'R. Menon', I, 5.4, CT.s],
+      ['Adhira Jewels', 'HFF', 'West', 'S. Iyer', C, 6.2, CT.s], ['Nirvaan Wellness', 'HFF', 'South', 'S. Iyer', I, 2.9, CT.o],
+      ['Meridian Paints', 'HFF', 'North', 'A. Khanna', I, 3.1, CT.s], ['Indus Cement', 'HFF', 'North', 'D. Sharma', C, 2.4, CT.u],
+      ['Orbit Mobility', 'HFF', 'South', 'P. Desai', I, 3.8, CT.d], ['Rasa Foods', 'HFF', 'East', 'N. Rao', C, 3.3, CT.s],
+      ['Sunveda Consumer', 'FTA', 'West', 'R. Menon', C, 3.4, CT.s], ['Anantam Foods', 'FTA', 'North', 'A. Khanna', P, 2.6, CT.p],
+      ['BrightLeaf Tea', 'FTA', 'East', 'S. Iyer', X, 1.4, CT.n], ['Indus Cement', 'FTA', 'North', 'D. Sharma', C, 2.9, CT.u],
+      ['Kaveri Textiles', 'FTA', 'South', 'P. Desai', I, 1.8, CT.u], ['Rasa Foods', 'FTA', 'East', 'N. Rao', C, 2.7, CT.s],
+      ['Greenline Agro', 'FTA', 'East', 'N. Rao', X, 1.6, CT.n],
+      ['Trimurti Motors', 'Marathi GEC', 'West', 'R. Menon', C, 4.2, CT.s], ['Zorix Beverages', 'Marathi GEC', 'West', 'R. Menon', C, 3.6, CT.s],
+      ['Adhira Jewels', 'Marathi GEC', 'West', 'S. Iyer', I, 2.8, CT.s], ['Sunveda Consumer', 'Marathi GEC', 'West', 'R. Menon', I, 2.4, CT.s],
+      ['Meridian Paints', 'Marathi GEC', 'North', 'A. Khanna', P, 1.6, CT.s],
+      ['Rasa Foods', 'Bengali GEC', 'East', 'N. Rao', C, 2.9, CT.s], ['BrightLeaf Tea', 'Bengali GEC', 'East', 'S. Iyer', X, 1.2, CT.n],
+      ['Greenline Agro', 'Bengali GEC', 'East', 'N. Rao', I, 2.1, CT.n], ['Sunveda Consumer', 'Bengali GEC', 'East', 'N. Rao', C, 2.6, CT.s],
+      ['Kaveri Textiles', 'Bengali GEC', 'South', 'P. Desai', I, 1.4, CT.u],
+      ['Sunveda Consumer', 'Kids', 'West', 'R. Menon', C, 2.2, CT.s], ['Rasa Foods', 'Kids', 'East', 'N. Rao', I, 1.8, CT.s],
+      ['Anantam Foods', 'Kids', 'North', 'A. Khanna', P, 1.5, CT.p], ['Zorix Beverages', 'Kids', 'West', 'R. Menon', C, 2.4, CT.s],
+      ['Orbit Mobility', 'Kids', 'South', 'P. Desai', I, 1.1, CT.d]
+    ];
+    var R = this.ratios(), self = this;
+    return raw.map(function (x, i) {
+      var g = R[x[1]], s = x[5];
+      return {
+        id: i, adv: x[0], genre: x[1], region: x[2], exec: x[3], gh: self.ghOf(x[3]), status: x[4], ctype: x[6],
+        reg: s * g.r, imp: s * g.i, ups: s * g.u, budget: s * g.b, lysm: s * g.l, cc: s * g.c
+      };
+    });
+  }
+
+  renderVals() {
+    var self = this, st = this.state;
+    var all = this.rows();
+
+    var mk = function (kind, label, cur, list) {
+      return {
+        label: label,
+        opts: ['All'].concat(list).map(function (v) {
+          var on = cur === v;
+          return {
+            label: v, style: 'appearance: none; height: 28px; padding: 0 11px; border-radius: 3px; border: 1px solid ' + (on ? '#15171a' : '#e3e1da') + '; background: ' + (on ? '#15171a' : '#ffffff') + '; color: ' + (on ? '#ffffff' : '#56585c') + '; font: inherit; font-size: 11.5px; font-weight: ' + (on ? '600' : '400') + '; cursor: pointer;',
+            onPick: function () { var p = {}; p[kind] = v; self.setState(p); }
+          };
+        })
+      };
+    };
+
+    var filterRows = [
+      mk('genre', 'Genre', st.genre, ['HGEC', 'HFF', 'FTA', 'Marathi GEC', 'Bengali GEC', 'Kids']),
+      mk('region', 'Region', st.region, ['West', 'North', 'South', 'East']),
+      mk('status', 'Client status', st.status, ['In Discussions', 'Deal Closed', 'Not in Plan', 'Not active on TV']),
+      mk('ctype', 'Client type', st.ctype, [CTL.s, CTL.p, CTL.o, CTL.n, CTL.d, CTL.u])
+    ];
+
+    var dimDefs = [['genre', 'Genre'], ['region', 'Region'], ['gh', 'Group head'], ['exec', 'Exec'], ['status', 'Client status'], ['ctype', 'Client type']];
+    var dims = dimDefs.map(function (d) {
+      var on = st.dim === d[0];
+      return { label: d[1], style: 'appearance: none; height: 28px; padding: 0 12px; border-radius: 3px; border: 1px solid ' + (on ? '#23605a' : '#e3e1da') + '; background: ' + (on ? '#23605a' : '#ffffff') + '; color: ' + (on ? '#ffffff' : '#56585c') + '; font: inherit; font-size: 11.5px; font-weight: 500; cursor: pointer;', onPick: function () { self.setState({ dim: d[0] }); } };
+    });
+
+    var rows = all.filter(function (r) {
+      return (st.genre === 'All' || r.genre === st.genre) && (st.region === 'All' || r.region === st.region) && (st.status === 'All' || r.status === st.status) && (st.ctype === 'All' || r.ctype === st.ctype);
+    });
+
+    var sum = function (arr, f) { var t = 0; arr.forEach(function (x) { t = t + f(x); }); return t; };
+    var proj = function (r) { return r.reg + r.imp + r.ups; };
+
+    var tProj = sum(rows, proj), tBud = sum(rows, function (r) { return r.budget; });
+    var tLysm = sum(rows, function (r) { return r.lysm; }), tUps = sum(rows, function (r) { return r.ups; });
+    var tCc = sum(rows, function (r) { return r.cc; });
+    var att = tBud ? (tProj / tBud * 100) : 0;
+    var lysmPct = tLysm ? ((tProj / tLysm - 1) * 100) : 0;
+
+    var f2 = function (v) { return (Math.round(v * 100) / 100).toFixed(2); };
+    var f1 = function (v) { return (Math.round(v * 10) / 10).toFixed(1); };
+
+    var kpis = [
+      { label: 'Projected overall', value: '₹' + f1(tProj) + ' Cr', note: 'against ₹' + f1(tBud) + ' Cr budget', good: null },
+      { label: 'Budget attainment', value: f1(att) + '%', note: (tProj >= tBud ? '▲ ₹' + f1(tProj - tBud) + ' Cr ahead' : '▼ ₹' + f1(tBud - tProj) + ' Cr short'), good: tProj >= tBud },
+      { label: 'Versus LYSM', value: (lysmPct >= 0 ? '+' : '−') + f1(Math.abs(lysmPct)) + '%', note: (lysmPct >= 0 ? '▲' : '▼') + ' against ₹' + f1(tLysm) + ' Cr last year', good: lysmPct >= 0 },
+      { label: 'Riding on upside', value: '₹' + f1(tUps) + ' Cr', note: f1(tProj ? tUps / tProj * 100 : 0) + '% of the projection unconfirmed', good: null }
+    ].map(function (k) {
+      return { label: k.label, value: k.value, note: k.note, noteStyle: 'font-size: 12px; color: ' + (k.good === null ? '#56585c' : (k.good ? '#1d544e' : '#8a5210')) + ';' };
+    });
+
+    // group by the chosen dimension
+    var order = { genre: ['HGEC', 'HFF', 'FTA', 'Marathi GEC', 'Bengali GEC', 'Kids'], region: ['West', 'North', 'South', 'East'], gh: ['V. Suresh', 'M. Bhatia'], exec: ['R. Menon', 'A. Khanna', 'D. Sharma', 'S. Iyer', 'P. Desai', 'N. Rao'], status: ['In Discussions', 'Deal Closed', 'Not in Plan', 'Not active on TV'], ctype: [CTL.s, CTL.p, CTL.o, CTL.n, CTL.d, CTL.u] }[st.dim];
+    var groups = [];
+    order.forEach(function (name) {
+      var g = rows.filter(function (r) { return r[st.dim] === name; });
+      if (g.length) {
+        groups.push({ name: name, n: g.length, reg: sum(g, function (r) { return r.reg; }), imp: sum(g, function (r) { return r.imp; }), ups: sum(g, function (r) { return r.ups; }), budget: sum(g, function (r) { return r.budget; }), lysm: sum(g, function (r) { return r.lysm; }), cc: sum(g, function (r) { return r.cc; }) });
+      }
+    });
+
+    var maxScale = 0;
+    groups.forEach(function (g) { maxScale = Math.max(maxScale, g.reg + g.imp + g.ups, g.budget); });
+    maxScale = maxScale * 1.06 || 1;
+
+    var seg = function (v, color, last) {
+      return 'width: ' + (v / maxScale * 100) + '%; background: ' + color + '; margin-right: 2px; border-radius: ' + (last ? '0 3px 3px 0' : '0') + ';';
+    };
+    var buildRows = groups.map(function (g) {
+      var t = g.reg + g.imp + g.ups, a = g.budget ? t / g.budget * 100 : 0;
+      return {
+        name: g.name, total: f1(t), budget: f1(g.budget), att: f1(a) + '%',
+        s1: seg(g.reg, '#2a78d6'), s2: seg(g.imp, '#eb6834'), s3: seg(g.ups, '#1baf7a', true),
+        tgt: 'position: absolute; left: ' + (g.budget / maxScale * 100) + '%; top: -4px; bottom: -4px; width: 3px; background: #15171a;',
+        attStyle: 'width: 74px; flex-shrink: 0; text-align: right; font-family: "IBM Plex Mono", monospace; font-size: 12px; color: ' + (a >= 100 ? '#1d544e' : (a < 92 ? '#8f2a2a' : '#8a5210')) + ';'
+      };
+    });
+
+    var lysmVals = groups.map(function (g) { return g.lysm ? ((g.reg + g.imp + g.ups) / g.lysm - 1) * 100 : 0; });
+    var maxAbs = 5; lysmVals.forEach(function (v) { maxAbs = Math.max(maxAbs, Math.abs(v)); });
+    maxAbs = Math.ceil(maxAbs / 5) * 5;
+    var lysmRows = groups.map(function (g, i) {
+      var v = lysmVals[i], w = Math.abs(v) / maxAbs * 50;
+      return {
+        name: g.name, val: (v >= 0 ? '▲ ' : '▼ ') + f1(Math.abs(v)) + '%',
+        bar: 'position: absolute; top: 0; height: 100%; background: ' + (v >= 0 ? '#2a78d6' : '#e34948') + '; ' + (v >= 0 ? 'left: 50%; border-radius: 0 3px 3px 0;' : 'right: 50%; border-radius: 3px 0 0 3px;') + ' width: ' + w + '%;',
+        valStyle: 'width: 66px; flex-shrink: 0; text-align: right; font-family: "IBM Plex Mono", monospace; font-size: 11.5px; color: ' + (v >= 0 ? '#1d544e' : '#8f2a2a') + ';'
+      };
+    });
+
+    var shareRows = groups.map(function (g) {
+      var t = g.reg + g.imp + g.ups, tot = t + g.cc, p = tot ? t / tot * 100 : 0;
+      return {
+        name: g.name, pct: f1(p) + '%', pctOut: f1(p) + '%',
+        own: 'width: ' + p + '%; background: #2a78d6; margin-right: 2px; border-radius: 3px 0 0 3px; display: flex; align-items: center; overflow: hidden;',
+        ownLabel: p > 14 ? 'font-family: "IBM Plex Mono", monospace; font-size: 11px; color: #ffffff; padding-left: 8px; white-space: nowrap;' : 'display: none;',
+        rest: 'flex-grow: 1; background: #d9d7d0; border-radius: 0 3px 3px 0;'
+      };
+    });
+    var weakest = null;
+    shareRows.forEach(function (s, i) { var g = groups[i]; var t = g.reg + g.imp + g.ups; var p = t / (t + g.cc) * 100; if (!weakest || p < weakest.p) { weakest = { n: g.name, p: p }; } });
+
+    var execOrder = ['R. Menon', 'A. Khanna', 'D. Sharma', 'S. Iyer', 'P. Desai', 'N. Rao'];
+    var execRows = [];
+    execOrder.forEach(function (name) {
+      var g = rows.filter(function (r) { return r.exec === name; });
+      if (!g.length) { return; }
+      var t = sum(g, proj), b = sum(g, function (r) { return r.budget; }), a = b ? t / b * 100 : 0;
+      execRows.push({
+        name: name, val: f1(a) + '%',
+        dot: 'position: absolute; left: ' + Math.min(a * 0.72, 97) + '%; top: 4px; width: 12px; height: 12px; margin-left: -6px; border-radius: 6px; border: 2px solid #ffffff; background: ' + (a >= 100 ? '#1baf7a' : '#2a78d6') + ';',
+        valStyle: 'width: 58px; flex-shrink: 0; text-align: right; font-family: "IBM Plex Mono", monospace; font-size: 11.5px; color: ' + (a >= 100 ? '#1d544e' : '#15171a') + ';'
+      });
+    });
+
+    var statusStyle = function (s) {
+      var m = { 'Deal Closed': ['#e4edeb', '#1d544e'], 'In Discussions': ['#e6ebf4', '#27477d'], 'Not in Plan': ['#f7ecdc', '#8a5210'], 'Not active on TV': ['#f1efe9', '#5b5d61'] };
+      var p = m[s] || m['In Discussions'];
+      return 'display: inline-flex; align-items: center; height: 19px; padding: 0 9px; border-radius: 10px; background: ' + p[0] + '; color: ' + p[1] + '; font-size: 10.5px; font-weight: 600;';
+    };
+    var sorted = rows.slice().sort(function (a, b) { return proj(b) - proj(a); });
+    var tableRows = sorted.slice(0, 10).map(function (r) {
+      var d = r.lysm ? (proj(r) / r.lysm - 1) * 100 : 0;
+      return {
+        adv: r.adv, genre: r.genre, region: r.region, exec: r.exec, gh: r.gh,
+        proj: f2(proj(r)), budget: f2(r.budget), delta: (d >= 0 ? '▲ ' : '▼ ') + f1(Math.abs(d)) + '%',
+        deltaStyle: 'width: 86px; text-align: right; font-family: "IBM Plex Mono", monospace; font-size: 12px; color: ' + (d >= 0 ? '#1d544e' : '#8f2a2a') + ';',
+        status: r.status, statusStyle: statusStyle(r.status)
+      };
+    });
+
+    var parts = [];
+    if (st.genre !== 'All') { parts.push(st.genre); }
+    if (st.region !== 'All') { parts.push(st.region); }
+    if (st.status !== 'All') { parts.push(st.status); }
+
+    return {
+      nameStyle: 'width: ' + (st.dim === 'ctype' ? 218 : 132) + 'px; flex-shrink: 0; font-size: ' + (st.dim === 'ctype' ? '11.5' : '12.5') + 'px; padding-right: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;',
+      nameFootStyle: 'width: ' + (st.dim === 'ctype' ? 218 : 132) + 'px; flex-shrink: 0; font-size: 10.5px; color: #8a8c90;',
+      filterRows: filterRows, dims: dims,
+      sliceLine: (parts.length ? parts.join(' · ') : 'No filters') + ' — ' + rows.length + ' of ' + all.length + ' rows',
+      onClear: function () { self.setState({ genre: 'All', region: 'All', status: 'All', ctype: 'All' }); },
+      kpis: kpis,
+      buildTitle: 'How the projection is built, by ' + ({ genre: 'genre', region: 'region', gh: 'group head', exec: 'exec', status: 'client status' }[st.dim]),
+      buildRows: buildRows,
+      lysmRows: lysmRows, lysmScale: maxAbs,
+      lysmNote: lysmRows.filter(function (l) { return l.val.charAt(0) === '▼'; }).length + ' of ' + groups.length + ' behind Sep-25',
+      shareRows: shareRows,
+      shareNote: weakest ? (weakest.n + ' is the weakest at ' + f1(weakest.p) + '% of declared spend') : '',
+      execRows: execRows,
+      tableNote: 'top 10 by projection',
+      tableRows: tableRows,
+      tableMore: rows.length > 10 ? (rows.length - 10) + ' further rows in this slice' : 'all rows shown'
+    };
+  }
+}
+
+return Component;
+})();</script>
+<script>
+mountDC('dc-template-0', window.__DC0, 'dc-host-0');
+</script>
+<script src="assets/site.js"></script>
+</body>
+</html>

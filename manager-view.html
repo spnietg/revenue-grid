@@ -1,0 +1,573 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Manager View · Revenue Grid</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+.stage-inner { margin: 0; font-family: "Schibsted Grotesk", system-ui, sans-serif; }
+a { color: #23605a; } a:hover { color: #164039; }
+button:focus-visible { outline: 2px solid #23605a; outline-offset: 1px; }
+.stage-inner { margin: 0; font-family: "Schibsted Grotesk", system-ui, sans-serif; }
+a { color: #23605a; } a:hover { color: #164039; }
+button:focus-visible { outline: 2px solid #23605a; outline-offset: 1px; }
+.stage-inner{margin:0;font-family:"Schibsted Grotesk",system-ui,sans-serif;color:#15171a;}
+.stage-inner a{color:#23605a;}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <span class="brand"><a href="index.html">Revenue Grid</a></span>
+  <span class="sub">SPNI ad sales · wireframes</span>
+  <span class="spacer"></span>
+  <span class="meta">Eight screens to be built</span>
+</header>
+<nav class="nav">
+<a href="entry-grid.html">Entry grid</a>
+<a href="manager-view.html" class="on">Manager View</a>
+<a href="projection-summary.html">Projection summary</a>
+<a href="client-tracking.html">Client tracking</a>
+<a href="coverage-accuracy.html">Coverage &amp; accuracy</a>
+<a href="prs-insights.html">PRS Insights and Masters</a>
+<a href="dashboard.html">Leadership dashboard</a>
+<a href="delegation.html">Delegation</a>
+</nav>
+
+<div class="boardhead">
+  <h1>Manager View</h1>
+  <p>What a sales manager sees: their region and their team, and a daily summary of everything the team changed. Email delivery of that summary is phase 2.</p>
+</div>
+<div class="boardbar">
+  <div class="screen-tabs"><button type="button" data-pane="0" class="on">Region view</button><button type="button" data-pane="1">End-of-day digest</button></div>
+  <div class="zoom">
+    <button type="button" data-mode="fit" class="on">Fit width</button>
+    <button type="button" data-mode="full">100%</button>
+  </div>
+  <span class="hint" data-hint="0">Genre mix against regional budget, every exec across both group heads, and an action list ordered by revenue at stake. Switch region in the top bar.</span><span class="hint" data-hint="1" hidden>A daily summary per manager, rolled up per advertiser rather than per keystroke. Move the materiality threshold to see the list shrink. Sending it by email is phase 2.</span>
+</div>
+<div class="stage">
+<section class="boardpane" data-pane="0"><div class="stage-frame" data-zoom="fit"><div class="stage-scroll"><div class="stage-inner" id="dc-host-0" data-w="1680" data-h="1240" style="width:1680px;height:1240px;"></div></div></div></section>
+<section class="boardpane" data-pane="1" hidden><div class="stage-frame" data-zoom="fit"><div class="stage-scroll"><div class="stage-inner" id="dc-host-1" data-w="980" data-h="1500" style="width:980px;height:1500px;"></div></div></div></section>
+</div>
+<template id="dc-template-0"><div style="width: 1680px; height: 1240px; box-sizing: border-box; background: #f4f3ef; color: #15171a; display: flex; flex-direction: column; overflow: hidden;">
+
+  <div style="height: 52px; flex-shrink: 0; background: #15171a; display: flex; align-items: center; gap: 14px; padding: 0 20px;">
+    <span style="font-size: 14px; font-weight: 700; color: #ffffff;">Revenue Grid</span>
+    <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #9a9c9f;">Region head · Sep-26</span>
+    <div style="width: 1px; height: 20px; background: #35383c;"></div>
+    <div style="display: flex; gap: 2px;">
+      <sc-for list="{{regionTabs}}" as="r" hint-placeholder-count="2">
+        <button type="button" onClick="{{r.onPick}}" style="{{r.style}}">{{r.label}}</button>
+      </sc-for>
+    </div>
+    <div style="flex-grow: 1;"></div>
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <div style="width: 26px; height: 26px; border-radius: 13px; background: #23605a; color: #ffffff; font-size: 10px; font-weight: 600; display: flex; align-items: center; justify-content: center;">KN</div>
+      <span style="font-size: 12px; color: #d6d7d9;">K. Nair · sees West and North only</span>
+    </div>
+  </div>
+
+  <div style="flex-grow: 1; padding: 20px; display: flex; flex-direction: column; gap: 18px; overflow-y: auto;">
+
+    <div style="background: #ffffff; border: 1px solid #e3e1da; border-radius: 5px; padding: 18px 22px;">
+      <p style="margin: 0 0 16px 0; font-size: 15px; line-height: 1.55; max-width: 120ch;">{{lead}}</p>
+      <div style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 16px;">
+        <sc-for list="{{kpis}}" as="k" hint-placeholder-count="5">
+          <div style="display: flex; flex-direction: column; gap: 4px;">
+            <span style="font-size: 10.5px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #8a8c90;">{{k.label}}</span>
+            <span style="{{k.valStyle}}">{{k.value}}</span>
+            <span style="{{k.noteStyle}}">{{k.note}}</span>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="display: flex; gap: 18px;">
+
+      <div style="width: 660px; flex-shrink: 0; background: #ffffff; border: 1px solid #e3e1da; border-radius: 5px; padding: 16px 20px 18px; box-sizing: border-box;">
+        <div style="font-size: 14px; font-weight: 600; margin-bottom: 2px;">Genre mix in {{regionName}}</div>
+        <div style="font-size: 11.5px; color: #56585c; margin-bottom: 14px;">Projection against genre budget</div>
+        <sc-for list="{{genreRows}}" as="g" hint-placeholder-count="6">
+          <div style="display: flex; align-items: center; height: 38px;">
+            <span style="width: 116px; flex-shrink: 0; font-size: 12.5px; padding-right: 8px;">{{g.name}}</span>
+            <div style="flex-grow: 1; position: relative; height: 20px;">
+              <div style="{{g.bar}}"></div>
+              <div style="{{g.tgt}}"></div>
+            </div>
+            <span style="width: 62px; flex-shrink: 0; text-align: right; font-family: 'IBM Plex Mono', monospace; font-size: 12px;">{{g.val}}</span>
+            <span style="{{g.attStyle}}">{{g.att}}</span>
+          </div>
+        </sc-for>
+        <div style="margin-top: 8px; padding-top: 8px; border-top: 1px solid #f0eee8; font-size: 10.5px; color: #8a8c90;">₹ Cr · rule marks the genre budget for this region</div>
+      </div>
+
+      <div style="flex-grow: 1; background: #ffffff; border: 1px solid #e3e1da; border-radius: 5px; padding: 16px 20px 18px; box-sizing: border-box;">
+        <div style="font-size: 14px; font-weight: 600; margin-bottom: 2px;">Your execs</div>
+        <div style="font-size: 11.5px; color: #56585c; margin-bottom: 12px;">Across both group heads in the region</div>
+        <div style="display: flex; align-items: center; height: 26px; border-bottom: 1px solid #c7c4ba;">
+          <span style="width: 124px; font-size: 10px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #8a8c90;">Exec</span>
+          <span style="width: 108px; font-size: 10px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #8a8c90;">Group head</span>
+          <span style="width: 74px; text-align: right; font-size: 10px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #8a8c90;">Advs</span>
+          <span style="width: 74px; text-align: right; font-size: 10px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #8a8c90;">Met</span>
+          <span style="width: 86px; text-align: right; font-size: 10px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #8a8c90;">Projected</span>
+          <span style="width: 82px; text-align: right; font-size: 10px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #8a8c90;">Budget</span>
+          <span style="flex-grow: 1; text-align: right; font-size: 10px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #8a8c90;">Attainment</span>
+        </div>
+        <sc-for list="{{execRows}}" as="e" hint-placeholder-count="5">
+          <div style="{{e.rowStyle}}">
+            <span style="width: 124px; font-size: 12.5px; font-weight: 500; display: flex; align-items: center; gap: 7px;">{{e.name}}<span style="{{e.flagStyle}}">{{e.flag}}</span></span>
+            <span style="width: 108px; font-size: 12px; color: #56585c;">{{e.gh}}</span>
+            <span style="width: 74px; text-align: right; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #56585c;">{{e.advs}}</span>
+            <span style="{{e.metStyle}}">{{e.met}}</span>
+            <span style="width: 86px; text-align: right; font-family: 'IBM Plex Mono', monospace; font-size: 12px;">{{e.proj}}</span>
+            <span style="width: 82px; text-align: right; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #56585c;">{{e.budget}}</span>
+            <div style="flex-grow: 1; display: flex; align-items: center; justify-content: flex-end; gap: 10px;">
+              <div style="width: 84px; height: 7px; background: #efedE6; border-radius: 4px; overflow: hidden;"><div style="{{e.bar}}"></div></div>
+              <span style="{{e.attStyle}}">{{e.att}}</span>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="display: flex; gap: 18px;">
+      <div style="width: 1020px; flex-shrink: 0; background: #ffffff; border: 1px solid #e3e1da; border-radius: 5px; padding: 16px 20px 18px; box-sizing: border-box;">
+        <div style="display: flex; align-items: baseline; gap: 10px; margin-bottom: 12px;">
+          <span style="font-size: 14px; font-weight: 600;">Needs you this week</span>
+          <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #8a8c90;">ranked by rupees at stake, not by date</span>
+        </div>
+        <sc-for list="{{actions}}" as="a" hint-placeholder-count="6">
+          <div style="{{a.rowStyle}}">
+            <span style="{{a.tagStyle}}">{{a.tag}}</span>
+            <div style="width: 196px; flex-shrink: 0; display: flex; flex-direction: column; gap: 1px; padding-right: 10px;">
+              <span style="font-size: 12.5px; font-weight: 600;">{{a.adv}}</span>
+              <span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #8a8c90;">{{a.meta}}</span>
+            </div>
+            <span style="flex-grow: 1; font-size: 12.5px; color: #3e4145; line-height: 1.45; padding-right: 14px;">{{a.why}}</span>
+            <span style="{{a.amtStyle}}">{{a.amt}}</span>
+            <span style="width: 104px; flex-shrink: 0; text-align: right; font-size: 12px; color: #56585c;">{{a.who}}</span>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="flex-grow: 1; display: flex; flex-direction: column; gap: 18px;">
+        <div style="background: #ffffff; border: 1px solid #e3e1da; border-radius: 5px; padding: 16px 20px 18px;">
+          <div style="font-size: 14px; font-weight: 600; margin-bottom: 2px;">Where you sit</div>
+          <div style="font-size: 11.5px; color: #56585c; margin-bottom: 14px;">Attainment across all four regions</div>
+          <sc-for list="{{regionCompare}}" as="r" hint-placeholder-count="4">
+            <div style="display: flex; align-items: center; height: 34px;">
+              <span style="{{r.nameStyle}}">{{r.name}}</span>
+              <div style="flex-grow: 1; position: relative; height: 18px;">
+                <div style="position: absolute; left: 0; right: 0; top: 8px; height: 1px; background: #efedE6;"></div>
+                <div style="position: absolute; left: 82%; top: -2px; bottom: -2px; width: 1px; background: #15171a;"></div>
+                <div style="{{r.dot}}"></div>
+              </div>
+              <span style="{{r.valStyle}}">{{r.val}}</span>
+            </div>
+          </sc-for>
+          <div style="margin-top: 8px; padding-top: 8px; border-top: 1px solid #f0eee8; font-size: 10.5px; color: #8a8c90;">line marks 100% · your regions in teal</div>
+        </div>
+
+        <div style="background: #ffffff; border: 1px solid #e3e1da; border-radius: 5px; padding: 16px 20px 18px;">
+          <div style="font-size: 14px; font-weight: 600; margin-bottom: 12px;">Coverage</div>
+          <sc-for list="{{coverage}}" as="c" hint-placeholder-count="3">
+            <div style="display: flex; align-items: center; gap: 12px; padding-bottom: 12px; margin-bottom: 12px; border-bottom: 1px solid #f4f2ec;">
+              <span style="{{c.valStyle}}">{{c.value}}</span>
+              <span style="font-size: 12.5px; color: #56585c; line-height: 1.45;">{{c.label}}</span>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </div>
+</div></template>
+<template id="dc-template-1"><div style="width: 980px; height: 1500px; box-sizing: border-box; background: #f4f3ef; padding: 24px; display: flex; flex-direction: column;">
+  <div style="flex-grow: 1; background: #ffffff; border: 1px solid #e3e1da; border-radius: 6px; display: flex; flex-direction: column; overflow: hidden;">
+
+    <div style="background: #15171a; padding: 18px 26px; display: flex; align-items: center; gap: 12px;">
+      <div style="display: flex; flex-direction: column; gap: 2px;">
+        <span style="font-size: 15px; font-weight: 700; color: #ffffff;">Your team today</span>
+        <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #9a9c9f;">V. Suresh · Group Head · Thu 17 Sep 2026 · 18:00</span>
+      </div>
+      <div style="flex-grow: 1;"></div>
+      <span style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; color: #9a9c9f;">8 execs · 31 advertisers touched</span>
+    </div>
+
+    <div style="padding: 20px 26px 16px; border-bottom: 1px solid #e3e1da;">
+      <p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.55;">Your team made <strong>184 edits across 31 advertisers</strong> today. Most of it was routine. The part that matters: your projection is <strong>up ₹1.84 Cr net</strong>, but that number hides ₹2.71 Cr of increases against ₹0.87 Cr of reductions — and one advertiser was edited eleven times.</p>
+      <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px;">
+        <sc-for list="{{stats}}" as="s" hint-placeholder-count="4">
+          <div style="background: #faf9f6; border: 1px solid #efedE6; border-radius: 4px; padding: 11px 14px; display: flex; flex-direction: column; gap: 3px;">
+            <span style="{{s.valStyle}}">{{s.value}}</span>
+            <span style="font-size: 11px; color: #56585c;">{{s.label}}</span>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="padding: 16px 26px; border-bottom: 1px solid #e3e1da; background: #faf9f6;">
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+        <span style="font-size: 10.5px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #8a8c90;">Where the 184 edits went</span>
+        <div style="flex-grow: 1;"></div>
+        <span style="font-size: 11px; color: #56585c;">Material threshold</span>
+        <sc-for list="{{thresholds}}" as="t" hint-placeholder-count="3">
+          <button type="button" onClick="{{t.onPick}}" style="{{t.style}}">{{t.label}}</button>
+        </sc-for>
+      </div>
+      <div style="display: flex; height: 26px; align-items: stretch; margin-bottom: 8px;">
+        <div style="{{compMat}}"><span style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; color: #ffffff; padding-left: 9px;">{{matEdits}}</span></div>
+        <div style="{{compRout}}"><span style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; color: #15171a; padding-left: 9px;">{{routEdits}}</span></div>
+        <div style="{{compHyg}}"></div>
+      </div>
+      <div style="display: flex; gap: 18px; font-size: 11.5px; color: #56585c;">
+        <span style="display: inline-flex; align-items: center; gap: 6px;"><span style="width: 9px; height: 9px; background: #2a78d6; border-radius: 2px;"></span>moved the number ({{matCount}} advertisers)</span>
+        <span style="display: inline-flex; align-items: center; gap: 6px;"><span style="width: 9px; height: 9px; background: #d9d7d0; border-radius: 2px;"></span>routine, below threshold ({{routCount}})</span>
+        <span style="display: inline-flex; align-items: center; gap: 6px;"><span style="width: 9px; height: 9px; background: #efedE6; border-radius: 2px;"></span>notes and dates only ({{hygCount}})</span>
+      </div>
+    </div>
+
+    <div style="padding: 18px 26px 16px; border-bottom: 1px solid #e3e1da;">
+      <div style="font-size: 10.5px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #8a8c90; margin-bottom: 12px;">Needs a look · {{flagCount}}</div>
+      <sc-for list="{{flags}}" as="f" hint-placeholder-count="4">
+        <div style="padding: 13px 15px; margin-bottom: 9px; background: #fdf8f1; border: 1px solid #f0e2cd; border-left: 3px solid #b9791f; border-radius: 3px;">
+          <div style="display: flex; align-items: baseline; gap: 8px; margin-bottom: 4px;">
+            <span style="display: inline-flex; align-items: center; height: 18px; padding: 0 7px; border-radius: 3px; background: #f3e4cd; color: #8a5210; font-family: 'IBM Plex Mono', monospace; font-size: 9.5px; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase;">{{f.tag}}</span>
+            <span style="font-size: 13.5px; font-weight: 600;">{{f.title}}</span>
+            <span style="flex-grow: 1;"></span>
+            <span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #8a5210;">{{f.amt}}</span>
+          </div>
+          <div style="font-size: 12.5px; color: #3e4145; line-height: 1.5;">{{f.body}}</div>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="padding: 18px 26px 16px; border-bottom: 1px solid #e3e1da;">
+      <div style="display: flex; align-items: baseline; gap: 10px; margin-bottom: 10px;">
+        <span style="font-size: 10.5px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #8a8c90;">Moved the number</span>
+        <span style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; color: #8a8c90;">{{matNote}}</span>
+      </div>
+      <div style="display: flex; align-items: center; height: 26px; border-bottom: 1px solid #c7c4ba;">
+        <span style="width: 174px; font-size: 10px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #8a8c90;">Advertiser</span>
+        <span style="width: 92px; font-size: 10px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #8a8c90;">Exec</span>
+        <span style="width: 76px; text-align: right; font-size: 10px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #8a8c90;">Net</span>
+        <span style="width: 92px; text-align: right; font-size: 10px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #8a8c90;">Up / down</span>
+        <span style="width: 64px; text-align: right; font-size: 10px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #8a8c90;">Edits</span>
+        <span style="flex-grow: 1; padding-left: 16px; font-size: 10px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #8a8c90;">What changed</span>
+      </div>
+      <sc-for list="{{material}}" as="m" hint-placeholder-count="8">
+        <div style="{{m.rowStyle}}">
+          <span style="width: 174px; font-size: 12.5px; font-weight: 500; padding-right: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{m.adv}}</span>
+          <span style="width: 92px; font-size: 12px; color: #56585c;">{{m.exec}}</span>
+          <span style="{{m.netStyle}}">{{m.net}}</span>
+          <span style="width: 92px; text-align: right; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #8a8c90;">{{m.updown}}</span>
+          <span style="{{m.editStyle}}">{{m.edits}}</span>
+          <span style="flex-grow: 1; padding-left: 16px; font-size: 12px; color: #56585c; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{m.why}}</span>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="padding: 16px 26px; border-bottom: 1px solid #e3e1da; background: #faf9f6;">
+      <div style="font-size: 10.5px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #8a8c90; margin-bottom: 8px;">Everything else</div>
+      <div style="font-size: 13px; color: #3e4145; line-height: 1.6;">{{rollupText}}</div>
+      <div style="margin-top: 8px;"><a href="#full" style="font-size: 12.5px;">Open the full change log for today</a></div>
+    </div>
+
+    <div style="padding: 18px 26px 16px; border-bottom: 1px solid #e3e1da;">
+      <div style="font-size: 10.5px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #8a8c90; margin-bottom: 12px;">By exec</div>
+      <sc-for list="{{execs}}" as="e" hint-placeholder-count="8">
+        <div style="display: flex; align-items: center; height: 34px; border-bottom: 1px solid #f4f2ec;">
+          <span style="width: 132px; font-size: 12.5px; font-weight: 500;">{{e.name}}</span>
+          <span style="width: 70px; font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; color: #56585c;">{{e.edits}}</span>
+          <span style="width: 78px; font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; color: #56585c;">{{e.advs}}</span>
+          <span style="{{e.netStyle}}">{{e.net}}</span>
+          <div style="flex-grow: 1; padding-left: 16px; display: flex; align-items: center; gap: 10px;">
+            <div style="flex-grow: 1; height: 7px; background: #efedE6; border-radius: 4px; overflow: hidden;"><div style="{{e.bar}}"></div></div>
+            <span style="{{e.noteStyle}}">{{e.note}}</span>
+          </div>
+        </div>
+      </sc-for>
+      <div style="display: flex; gap: 0; margin-top: 8px; font-size: 10.5px; color: #8a8c90;">
+        <span style="width: 132px;"></span><span style="width: 70px;">edits</span><span style="width: 78px;">advertisers</span><span style="width: 84px; text-align: right;">net ₹ Cr</span><span style="flex-grow: 1; padding-left: 16px;">attainment</span>
+      </div>
+    </div>
+
+    <div style="padding: 16px 26px; background: #faf9f6; display: flex; align-items: center; gap: 14px;">
+      <span style="font-size: 12px; color: #56585c; line-height: 1.5;">Rolled up per advertiser, not per keystroke — repeated edits to the same cell count once here and show as an edit count. Scoped to execs reporting to you.</span>
+      <span style="flex-grow: 1;"></span>
+      <span style="display: inline-flex; align-items: center; height: 34px; padding: 0 16px; border-radius: 3px; background: #23605a; color: #ffffff; font-size: 13px; font-weight: 500; white-space: nowrap;">Open the grid</span>
+    </div>
+  </div>
+</div></template>
+
+<div class="foot">Wireframe. Figures are sample data from the current working file, shown so the layout can be judged — not a production system.</div>
+<script src="assets/dc-lite.js"></script>
+<script>window.__DC0 = (function () {
+
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { region: 'West' }; }
+
+  regionData() {
+    return {
+      'West': {
+        proj: 41.8, budget: 43.6, lysm: 37.2, met: 46, advs: 67, atRisk: 4.9, upside: 5.1,
+        genres: [['HGEC', 18.4, 19.8], ['HFF', 9.6, 8.9], ['Marathi GEC', 7.8, 7.1], ['FTA', 3.1, 3.9], ['Kids', 2.9, 2.8], ['Bengali GEC', 0.0, 1.1]],
+        execs: [
+          ['R. Menon', 'V. Suresh', 31, 24, 19.4, 20.2, ''],
+          ['T. Joshi', 'self (IC)', 18, 7, 9.8, 11.1, 'no update since 12 Sep'],
+          ['M. Qureshi', 'V. Suresh', 18, 0, 8.1, 9.9, 'on leave, no cover'],
+          ['S. Iyer', 'M. Bhatia', 6, 5, 4.5, 4.2, 'covered by R. Menon']
+        ],
+        actions: [
+          ['Uncovered', 'M. Qureshi book', '18 advertisers · West', 'On leave to 30 Sep with no delegation. Nobody can see or update these rows, and 7 of them have had no meeting logged this month.', '8.1', 'You — create cover'],
+          ['Risk', 'Vayu Airlines', 'HGEC · R. Menon', 'Budget freeze confirmed at the client and status moved to Not in Plan today. Projection still carries the full figure.', '1.71', 'R. Menon'],
+          ['Churn', 'Zorix Beverages', 'HGEC · R. Menon', 'Upside edited four times today, finishing where it started. The number is carrying ₹1.03 Cr of unconfirmed revenue.', '1.03', 'V. Suresh'],
+          ['Not met', 'Adhira Jewels', 'HGEC · T. Joshi', 'No meeting logged since 26 Aug on an account projecting above budget. The plan was presented but never followed up.', '6.66', 'T. Joshi'],
+          ['Gap', 'Bengali GEC', 'West · unassigned', 'Region carries a ₹1.1 Cr Bengali budget with no advertiser rows at all. Either the budget belongs to East or nobody is selling it.', '1.10', 'You — with PRS'],
+          ['Behind', 'FTA in West', '3 execs', 'Projection ₹3.1 Cr against ₹3.9 Cr budget. Dangal has taken share in two of the three accounts that lapsed.', '0.80', 'V. Suresh']
+        ]
+      },
+      'North': {
+        proj: 29.6, budget: 31.4, lysm: 27.9, met: 38, advs: 51, atRisk: 3.2, upside: 3.4,
+        genres: [['HGEC', 13.1, 14.2], ['HFF', 6.8, 6.4], ['FTA', 5.2, 6.1], ['Marathi GEC', 2.1, 2.4], ['Kids', 2.4, 2.3], ['Bengali GEC', 0.0, 0.0]],
+        execs: [
+          ['A. Khanna', 'V. Suresh', 27, 21, 16.2, 15.3, ''],
+          ['D. Sharma', 'V. Suresh', 24, 17, 13.4, 16.1, 'attainment 83%']
+        ],
+        actions: [
+          ['Risk', 'Anantam Foods', 'HGEC · A. Khanna', 'Genre budget cut 17% today, the second cut in nine days, on an account already marked Not in Plan with no meeting since 9 Sep.', '2.92', 'A. Khanna'],
+          ['Behind', 'D. Sharma', '24 advertisers', 'Attainment at 83%, the lowest in your regions. Meetings are being logged, so this is a pipeline problem rather than an activity one.', '2.70', 'V. Suresh'],
+          ['Behind', 'FTA in North', '2 execs', 'Projection ₹5.2 Cr against ₹6.1 Cr budget, and PAL regular has been flat for three months.', '0.90', 'V. Suresh'],
+          ['Not met', 'Indus Cement', 'HFF · D. Sharma', 'Regional split under discussion since 12 Sep with no follow-up logged.', '2.06', 'D. Sharma']
+        ]
+      }
+    };
+  }
+
+  renderVals() {
+    var self = this, st = this.state;
+    var D = this.regionData(), d = D[st.region];
+    var f1 = function (v) { return (Math.round(v * 10) / 10).toFixed(1); };
+
+    var regionTabs = ['West', 'North'].map(function (r) {
+      var on = st.region === r;
+      return { label: r, style: 'appearance: none; height: 30px; padding: 0 14px; border-radius: 3px; border: none; background: ' + (on ? '#ffffff' : 'transparent') + '; color: ' + (on ? '#15171a' : '#b9bbbe') + '; font: inherit; font-size: 12px; font-weight: ' + (on ? '600' : '400') + '; cursor: pointer;', onPick: function () { self.setState({ region: r }); } };
+    });
+
+    var att = d.proj / d.budget * 100, lysmPct = (d.proj / d.lysm - 1) * 100;
+    var metPct = d.met / d.advs * 100;
+
+    var kpis = [
+      { label: 'Projected', value: '₹' + f1(d.proj) + ' Cr', note: 'against ₹' + f1(d.budget) + ' Cr', c: '#15171a', nc: '#56585c' },
+      { label: 'Attainment', value: f1(att) + '%', note: (att >= 100 ? '▲ ahead by ₹' + f1(d.proj - d.budget) : '▼ short by ₹' + f1(d.budget - d.proj)) + ' Cr', c: '#15171a', nc: att >= 100 ? '#1d544e' : '#8a5210' },
+      { label: 'Versus LYSM', value: (lysmPct >= 0 ? '+' : '−') + f1(Math.abs(lysmPct)) + '%', note: (lysmPct >= 0 ? '▲' : '▼') + ' on ₹' + f1(d.lysm) + ' Cr last year', c: '#15171a', nc: lysmPct >= 0 ? '#1d544e' : '#8a5210' },
+      { label: 'Met this month', value: f1(metPct) + '%', note: d.met + ' of ' + d.advs + ' advertisers', c: '#15171a', nc: metPct < 75 ? '#8a5210' : '#56585c' },
+      { label: 'Exposed revenue', value: '₹' + f1(d.atRisk + d.upside) + ' Cr', note: '₹' + f1(d.atRisk) + ' Cr at risk, ₹' + f1(d.upside) + ' Cr unconfirmed', c: '#8a5210', nc: '#56585c' }
+    ].map(function (k) {
+      return { label: k.label, value: k.value, note: k.note, valStyle: 'font-family: "IBM Plex Mono", monospace; font-size: 26px; font-weight: 500; letter-spacing: -0.02em; color: ' + k.c + ';', noteStyle: 'font-size: 12px; color: ' + k.nc + ';' };
+    });
+
+    var maxG = 0;
+    d.genres.forEach(function (g) { maxG = Math.max(maxG, g[1], g[2]); });
+    maxG = maxG * 1.08;
+    var genreRows = d.genres.map(function (g) {
+      var a = g[2] ? g[1] / g[2] * 100 : 0;
+      return {
+        name: g[0], val: f1(g[1]), att: g[2] ? f1(a) + '%' : 'no budget',
+        bar: 'position: absolute; left: 0; top: 0; height: 100%; width: ' + (g[1] / maxG * 100) + '%; background: ' + (g[1] === 0 ? '#e34948' : '#2a78d6') + '; border-radius: 0 3px 3px 0; min-width: ' + (g[1] === 0 ? '3px' : '0') + ';',
+        tgt: 'position: absolute; left: ' + (g[2] / maxG * 100) + '%; top: -4px; bottom: -4px; width: 3px; background: #15171a;',
+        attStyle: 'width: 76px; flex-shrink: 0; text-align: right; font-family: "IBM Plex Mono", monospace; font-size: 11.5px; color: ' + (g[1] === 0 ? '#8f2a2a' : (a >= 100 ? '#1d544e' : (a < 92 ? '#8f2a2a' : '#8a5210'))) + ';'
+      };
+    });
+
+    var execRows = d.execs.map(function (e) {
+      var a = e[5] ? e[4] / e[5] * 100 : 0, metP = e[2] ? e[3] / e[2] * 100 : 0;
+      return {
+        name: e[0], gh: e[1], advs: String(e[2]), met: e[3] + ' / ' + e[2], proj: f1(e[4]), budget: f1(e[5]), att: f1(a) + '%',
+        flag: e[6] ? '!' : '', flagStyle: e[6] ? 'width: 15px; height: 15px; border-radius: 8px; background: #f3e4cd; color: #8a5210; font-size: 10px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center;' : 'display: none;',
+        metStyle: 'width: 74px; text-align: right; font-family: "IBM Plex Mono", monospace; font-size: 12px; color: ' + (metP < 60 ? '#8f2a2a' : '#56585c') + ';',
+        rowStyle: 'display: flex; align-items: center; height: 40px; border-bottom: 1px solid #f4f2ec; background: ' + (e[6] ? '#fdf8f1' : '#ffffff') + ';',
+        bar: 'width: ' + Math.min(a, 100) + '%; height: 100%; background: ' + (a >= 100 ? '#1baf7a' : (a < 90 ? '#b9791f' : '#2a78d6')) + ';',
+        attStyle: 'width: 54px; text-align: right; font-family: "IBM Plex Mono", monospace; font-size: 12px; color: ' + (a >= 100 ? '#1d544e' : '#15171a') + ';'
+      };
+    });
+
+    var tagColor = { 'Uncovered': ['#f4e7e7', '#8f2a2a'], 'Risk': ['#f7ecdc', '#8a5210'], 'Churn': ['#f7ecdc', '#8a5210'], 'Not met': ['#e6ebf4', '#27477d'], 'Gap': ['#f4e7e7', '#8f2a2a'], 'Behind': ['#f2f1ec', '#3e4145'] };
+    var actions = d.actions.map(function (a, i) {
+      var c = tagColor[a[0]];
+      return {
+        tag: a[0], adv: a[1], meta: a[2], why: a[3], amt: '₹' + a[4] + ' Cr', who: a[5],
+        tagStyle: 'width: 92px; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; height: 21px; margin-right: 14px; border-radius: 3px; background: ' + c[0] + '; color: ' + c[1] + '; font-size: 11px; font-weight: 600;',
+        amtStyle: 'width: 92px; flex-shrink: 0; text-align: right; font-family: "IBM Plex Mono", monospace; font-size: 13px; font-weight: 500;',
+        rowStyle: 'display: flex; align-items: center; min-height: 52px; padding: 10px 0; border-bottom: ' + (i === 5 ? 'none' : '1px solid #f4f2ec') + ';'
+      };
+    });
+
+    var allRegions = [['West', 95.9], ['North', 94.3], ['South', 91.2], ['East', 88.6]];
+    var regionCompare = allRegions.map(function (r) {
+      var mine = r[0] === 'West' || r[0] === 'North', cur = r[0] === st.region;
+      return {
+        name: r[0], val: f1(r[1]) + '%',
+        nameStyle: 'width: 70px; flex-shrink: 0; font-size: 12.5px; font-weight: ' + (cur ? '600' : '400') + '; color: ' + (mine ? '#15171a' : '#8a8c90') + ';',
+        dot: 'position: absolute; left: ' + (r[1] * 0.82) + '%; top: 3px; width: 12px; height: 12px; margin-left: -6px; border-radius: 6px; border: 2px solid #ffffff; background: ' + (mine ? '#23605a' : '#c7c4ba') + ';',
+        valStyle: 'width: 54px; flex-shrink: 0; text-align: right; font-family: "IBM Plex Mono", monospace; font-size: 11.5px; color: ' + (mine ? '#15171a' : '#8a8c90') + ';'
+      };
+    });
+
+    var uncovered = st.region === 'West' ? 18 : 0;
+    var coverage = [
+      { value: d.advs - d.met, label: 'advertisers with no meeting logged this month', warn: true },
+      { value: uncovered, label: uncovered ? 'advertisers sitting with no owner who can see them' : 'advertisers without a visible owner', warn: uncovered > 0 },
+      { value: d.execs.filter(function (e) { return e[6]; }).length, label: 'execs flagged for attention this week', warn: true }
+    ].map(function (c) {
+      return { value: String(c.value), label: c.label, valStyle: 'font-family: "IBM Plex Mono", monospace; font-size: 26px; font-weight: 500; min-width: 44px; color: ' + (c.warn && c.value > 0 ? '#8a5210' : '#15171a') + ';' };
+    });
+
+    var lead = st.region === 'West'
+      ? 'West is at ' + f1(att) + '% of budget and ' + f1(lysmPct) + '% ahead of last September, but two things are structural rather than sales problems: eighteen advertisers are sitting behind an exec on leave with no cover, and the region carries a Bengali GEC budget with no rows against it at all.'
+      : 'North is at ' + f1(att) + '% of budget and ' + f1(lysmPct) + '% ahead of last September. Activity is healthy — 38 of 51 advertisers met — so the gap is pipeline, not effort. D. Sharma is the outlier at 83% attainment despite logging 17 meetings.';
+
+    return {
+      regionTabs: regionTabs, regionName: st.region, lead: lead, kpis: kpis,
+      genreRows: genreRows, execRows: execRows, actions: actions,
+      regionCompare: regionCompare, coverage: coverage
+    };
+  }
+}
+
+return Component;
+})();</script>
+<script>window.__DC1 = (function () {
+
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { th: 0.25 }; }
+
+  advertisers() {
+    // adv, exec, edits, cells touched, up, down, why, churn
+    return [
+      ['Zorix Beverages', 'R. Menon', 11, 4, 1.04, 0.52, 'Upside raised, cut, raised again — SET Upside alone edited 4×', true],
+      ['Trimurti Motors', 'R. Menon', 7, 5, 0.68, 0.00, 'Impact 2 and 3 added after the plan presentation', false],
+      ['Adhira Jewels', 'S. Iyer', 6, 4, 0.61, 0.00, 'Impact property 2 confirmed; regular unchanged', false],
+      ['Anantam Foods', 'A. Khanna', 4, 2, 0.00, 0.59, 'Genre Budget cut by the group head, second cut in nine days', false],
+      ['Palladium Realty', 'D. Sharma', 9, 6, 0.44, 0.09, 'Regular rebuilt across SD and HD after re-plan', false],
+      ['Rasa Foods', 'N. Rao', 5, 3, 0.31, 0.00, 'Second brand added to the same deal', false],
+      ['Vayu Airlines', 'R. Menon', 3, 2, 0.00, 0.27, 'Budget freeze confirmed; status moved to Not in Plan', false],
+      ['Orbit Mobility', 'P. Desai', 8, 5, 0.26, 0.00, 'First plan loaded after intro meeting', false],
+      ['Meridian Paints', 'A. Khanna', 4, 3, 0.18, 0.00, 'Upside nudged after reach delivery query', false],
+      ['Sankalp Finance', 'A. Khanna', 3, 2, 0.11, 0.00, 'Steady quarterly review, small raise', false],
+      ['Indus Cement', 'D. Sharma', 5, 3, 0.09, 0.04, 'Regional split reworked, net flat', false],
+      ['Nirvaan Wellness', 'S. Iyer', 6, 3, 0.07, 0.00, 'Remarks rewritten by covering exec, small upside change', false],
+      ['Kaveri Textiles', 'P. Desai', 4, 2, 0.05, 0.00, 'First numbers entered for a new category', false],
+      ['Greenline Agro', 'N. Rao', 2, 1, 0.03, 0.00, 'Capability deck sent, upside opened', false],
+      ['BrightLeaf Tea', 'S. Iyer', 3, 2, 0.00, 0.02, 'Dormant account re-opened, token figure', false],
+      ['Sunveda Consumer', 'R. Menon', 9, 4, 0.00, 0.00, 'Meeting logged, remarks and next date only', false],
+      ['Crestview Hotels', 'P. Desai', 5, 2, 0.00, 0.00, 'Meeting date and personnel met', false],
+      ['Ironwood Furniture', 'D. Sharma', 4, 2, 0.00, 0.00, 'Remarks only', false]
+    ];
+  }
+
+  renderVals() {
+    var self = this, st = this.state;
+    var f2 = function (v) { return (Math.round(v * 100) / 100).toFixed(2); };
+    var TOTAL_EDITS = 184, TOTAL_ADV = 31;
+
+    var advs = this.advertisers().map(function (a) {
+      return { adv: a[0], exec: a[1], edits: a[2], cells: a[3], up: a[4], down: a[5], why: a[6], churn: a[7], net: a[4] - a[5] };
+    });
+
+    var thresholds = [0.10, 0.25, 0.50].map(function (v) {
+      var on = st.th === v;
+      return { label: '₹' + v.toFixed(2) + ' Cr', style: 'appearance: none; height: 26px; padding: 0 10px; border-radius: 3px; border: 1px solid ' + (on ? '#15171a' : '#e3e1da') + '; background: ' + (on ? '#15171a' : '#ffffff') + '; color: ' + (on ? '#ffffff' : '#56585c') + '; font: inherit; font-size: 11px; font-weight: ' + (on ? '600' : '400') + '; cursor: pointer;', onPick: function () { self.setState({ th: v }); } };
+    });
+
+    var material = advs.filter(function (a) { return Math.abs(a.net) >= st.th; }).sort(function (a, b) { return Math.abs(b.net) - Math.abs(a.net); });
+    var hygiene = advs.filter(function (a) { return a.up === 0 && a.down === 0; });
+    var routine = advs.filter(function (a) { return Math.abs(a.net) < st.th && !(a.up === 0 && a.down === 0); });
+
+    var matEdits = 0, routEdits = 0, hygEdits = 0, routNet = 0;
+    material.forEach(function (a) { matEdits = matEdits + a.edits; });
+    routine.forEach(function (a) { routEdits = routEdits + a.edits; routNet = routNet + a.net; });
+    hygiene.forEach(function (a) { hygEdits = hygEdits + a.edits; });
+    // the listed advertisers are a sample of the 31; scale the untracked remainder into routine
+    var listed = matEdits + routEdits + hygEdits;
+    routEdits = routEdits + (TOTAL_EDITS - listed);
+    var routCount = routine.length + (TOTAL_ADV - advs.length);
+
+    var pct = function (v) { return (v / TOTAL_EDITS * 100) + '%'; };
+
+    var netTotal = 0; advs.forEach(function (a) { netTotal = netTotal + a.net; });
+    var upTotal = 0, downTotal = 0;
+    advs.forEach(function (a) { upTotal = upTotal + a.up; downTotal = downTotal + a.down; });
+
+    var stats = [
+      { value: String(TOTAL_EDITS), label: 'edits today', c: '#15171a' },
+      { value: String(TOTAL_ADV), label: 'advertisers touched', c: '#15171a' },
+      { value: '+' + f2(netTotal), label: '₹ Cr net movement', c: '#1d544e' },
+      { value: String(material.length), label: 'moved it materially', c: '#8a5210' }
+    ].map(function (s) { return { value: s.value, label: s.label, valStyle: 'font-family: "IBM Plex Mono", monospace; font-size: 22px; font-weight: 500; color: ' + s.c + ';' }; });
+
+    var flags = [
+      { tag: 'Churn', title: 'Zorix Beverages edited 11 times', amt: 'net +0.52', body: 'SET Upside alone was changed four times — 0.51 → 1.03 → 0.62 → 1.03. The figure finished where it started this morning after two reversals. Nothing in the meeting remarks explains the swing.' },
+      { tag: 'Budget cut', title: 'Anantam Foods genre budget down 17%', amt: '−0.59', body: 'A. Khanna reduced it from ₹3.51 Cr to ₹2.92 Cr, the second cut in nine days. The advertiser is already marked Not in Plan and no meeting has been logged since 9 Sep.' },
+      { tag: 'Status', title: 'Vayu Airlines moved to Not in Plan', amt: '−0.27', body: 'Budget freeze confirmed at the client. ₹1.71 Cr of projection now sits behind an account whose status is now Not in Plan.' },
+      { tag: 'Quiet', title: 'Three execs made no entry today', amt: '—', body: 'T. Joshi and M. Qureshi have not updated since 12 Sep. M. Qureshi is on leave to 30 Sep and their 6 advertisers are not delegated to anyone.' }
+    ];
+
+    var execData = [
+      ['R. Menon', 30, 4, 0.98, 96], ['A. Khanna', 24, 5, -0.30, 106], ['D. Sharma', 31, 6, 0.40, 88],
+      ['S. Iyer', 22, 4, 0.66, 93], ['P. Desai', 26, 5, 0.31, 91], ['N. Rao', 19, 4, 0.34, 91],
+      ['T. Joshi', 0, 0, 0, 88], ['M. Qureshi', 0, 0, 0, 82]
+    ];
+
+    var maxBar = 110;
+    var execs = execData.map(function (e) {
+      var quiet = e[1] === 0;
+      return {
+        name: e[0], edits: quiet ? '—' : String(e[1]), advs: quiet ? '—' : String(e[2]),
+        net: quiet ? '—' : (e[3] >= 0 ? '+' : '−') + f2(Math.abs(e[3])),
+        netStyle: 'width: 84px; text-align: right; font-family: "IBM Plex Mono", monospace; font-size: 11.5px; color: ' + (quiet ? '#8a8c90' : (e[3] >= 0 ? '#1d544e' : '#8f2a2a')) + ';',
+        bar: 'width: ' + (e[4] / maxBar * 100) + '%; height: 100%; background: ' + (e[4] >= 100 ? '#1baf7a' : (e[4] < 90 ? '#b9791f' : '#2a78d6')) + ';',
+        note: quiet ? 'no entry' : e[4] + '%',
+        noteStyle: 'width: 70px; text-align: right; font-family: "IBM Plex Mono", monospace; font-size: 11px; color: ' + (quiet ? '#8a5210' : '#56585c') + ';'
+      };
+    });
+
+    return {
+      stats: stats, thresholds: thresholds,
+      compMat: 'width: ' + pct(matEdits) + '; background: #2a78d6; border-radius: 3px 0 0 3px; display: flex; align-items: center; margin-right: 2px;',
+      compRout: 'width: ' + pct(routEdits) + '; background: #d9d7d0; display: flex; align-items: center; margin-right: 2px;',
+      compHyg: 'flex-grow: 1; background: #efedE6; border-radius: 0 3px 3px 0;',
+      matEdits: matEdits + ' edits', routEdits: routEdits + ' edits',
+      matCount: material.length, routCount: routCount, hygCount: hygiene.length,
+      flagCount: flags.length, flags: flags,
+      matNote: 'net movement of ₹' + st.th.toFixed(2) + ' Cr or more · ' + material.length + ' of ' + TOTAL_ADV,
+      material: material.map(function (a, i) {
+        return {
+          adv: a.adv, exec: a.exec,
+          net: (a.net >= 0 ? '+' : '−') + f2(Math.abs(a.net)),
+          netStyle: 'width: 76px; text-align: right; font-family: "IBM Plex Mono", monospace; font-size: 12px; font-weight: 500; color: ' + (a.net >= 0 ? '#1d544e' : '#8f2a2a') + ';',
+          updown: '+' + f2(a.up) + ' / −' + f2(a.down),
+          edits: a.edits + '×',
+          editStyle: 'width: 64px; text-align: right; font-family: "IBM Plex Mono", monospace; font-size: 11.5px; color: ' + (a.churn ? '#8a5210' : '#56585c') + '; font-weight: ' + (a.churn ? '600' : '400') + ';',
+          why: a.why,
+          rowStyle: 'display: flex; align-items: center; height: 34px; border-bottom: 1px solid #f4f2ec; background: ' + (a.churn ? '#fdf8f1' : '#ffffff') + ';'
+        };
+      }),
+      rollupText: routCount + ' advertisers moved by less than ₹' + st.th.toFixed(2) + ' Cr — ₹' + f2(Math.abs(routNet)) + ' Cr net between them, spread over ' + routEdits + ' edits. A further ' + hygiene.length + ' had notes, meeting dates and personnel updated with no change to any number. None of these need you tonight.',
+      execs: execs
+    };
+  }
+}
+
+return Component;
+})();</script>
+<script>
+mountDC('dc-template-0', window.__DC0, 'dc-host-0');
+mountDC('dc-template-1', window.__DC1, 'dc-host-1');
+</script>
+<script src="assets/site.js"></script>
+</body>
+</html>

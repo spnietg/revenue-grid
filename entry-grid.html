@@ -1,0 +1,602 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Entry grid · Revenue Grid</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+.stage-inner { margin: 0; font-family: "Schibsted Grotesk", system-ui, sans-serif; }
+a { color: #23605a; } a:hover { color: #164039; }
+button:focus-visible, input:focus-visible { outline: 2px solid #23605a; outline-offset: 1px; }
+.stage-inner{margin:0;font-family:"Schibsted Grotesk",system-ui,sans-serif;color:#15171a;}
+.stage-inner a{color:#23605a;}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <span class="brand"><a href="index.html">Revenue Grid</a></span>
+  <span class="sub">SPNI ad sales · wireframes</span>
+  <span class="spacer"></span>
+  <span class="meta">Eight screens to be built</span>
+</header>
+<nav class="nav">
+<a href="entry-grid.html" class="on">Entry grid</a>
+<a href="manager-view.html">Manager View</a>
+<a href="projection-summary.html">Projection summary</a>
+<a href="client-tracking.html">Client tracking</a>
+<a href="coverage-accuracy.html">Coverage &amp; accuracy</a>
+<a href="prs-insights.html">PRS Insights and Masters</a>
+<a href="dashboard.html">Leadership dashboard</a>
+<a href="delegation.html">Delegation</a>
+</nav>
+
+<div class="boardhead">
+  <h1>Entry grid</h1>
+  <p>Where a sales exec works. Every template column for the selected genre, with the calculated ones view only. Each exec sees their own clients and nothing else.</p>
+</div>
+<div class="boardbar">
+  
+  <div class="zoom">
+    <button type="button" data-mode="fit" class="on">Fit width</button>
+    <button type="button" data-mode="full">100%</button>
+  </div>
+  <span class="hint" data-hint="0">Switch genre, switch the view, click a cell to edit it, click an amber dot for that cell&#x27;s history, open a row chevron for the full record.</span>
+</div>
+<div class="stage">
+<section class="boardpane" data-pane="0"><div class="stage-frame" data-zoom="fit"><div class="stage-scroll"><div class="stage-inner" id="dc-host-0" data-w="1680" data-h="1000" style="width:1680px;height:1000px;"></div></div></div></section>
+</div>
+<template id="dc-template-0"><div style="width: 1680px; height: 1000px; box-sizing: border-box; background: #f4f3ef; color: #15171a; display: flex; flex-direction: column; overflow: hidden;">
+
+  <div style="height: 52px; flex-shrink: 0; background: #15171a; display: flex; align-items: center; gap: 14px; padding: 0 18px;">
+    <span style="font-size: 14px; font-weight: 700; color: #ffffff; letter-spacing: -0.01em;">Revenue Grid</span>
+    <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #9a9c9f;">Sep-26</span>
+    <div style="width: 1px; height: 20px; background: #35383c;"></div>
+    <div style="display: flex; gap: 2px;">
+      <sc-for list="{{genreTabs}}" as="g" hint-placeholder-count="6">
+        <button type="button" onClick="{{g.onPick}}" style="{{g.style}}">{{g.label}}</button>
+      </sc-for>
+    </div>
+    <div style="flex-grow: 1;"></div>
+    <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #9a9c9f;">{{genreNote}}</span>
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <div style="width: 26px; height: 26px; border-radius: 13px; background: #23605a; color: #ffffff; font-size: 10px; font-weight: 600; display: flex; align-items: center; justify-content: center;">RM</div>
+      <span style="font-size: 12px; color: #d6d7d9;">R. Menon · Exec</span>
+    </div>
+  </div>
+
+  <div style="height: 50px; flex-shrink: 0; background: #ffffff; border-bottom: 1px solid #e3e1da; display: flex; align-items: center; gap: 8px; padding: 0 18px;">
+    <sc-for list="{{viewTabs}}" as="v" hint-placeholder-count="4">
+      <button type="button" onClick="{{v.onPick}}" style="{{v.style}}">{{v.label}}</button>
+    </sc-for>
+    <div style="width: 1px; height: 18px; background: #e3e1da; margin: 0 4px;"></div>
+    <sc-for list="{{scopeChips}}" as="c" hint-placeholder-count="3">
+      <button type="button" onClick="{{c.onPick}}" style="{{c.style}}">
+        <span style="{{c.dotStyle}}"></span><span>{{c.label}}</span>
+      </button>
+    </sc-for>
+    <div style="flex-grow: 1;"></div>
+    <sc-if value="{{coveringOn}}" hint-placeholder-val="{{ true }}">
+      <div style="display: flex; align-items: center; gap: 7px; height: 28px; padding: 0 11px; border-radius: 3px; background: #f1ebf2; border: 1px solid #ddcfe0;">
+        <span style="width: 3px; height: 13px; background: #6b4e71;"></span>
+        <span style="font-size: 12px; color: #4e3a53;">Covering S. Iyer to 30 Sep — your edits log as yours</span>
+      </div>
+    </sc-if>
+    <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #56585c;">{{colCount}}</span>
+  </div>
+
+  <div style="flex-grow: 1; display: flex; min-height: 0; background: #ffffff;">
+    <div style="flex-grow: 1; min-width: 0; position: relative; display: flex;">
+
+      <div style="width: 404px; flex-shrink: 0; display: flex; flex-direction: column; border-right: 1px solid #c7c4ba; z-index: 2; background: #ffffff;">
+        <div style="height: 24px; flex-shrink: 0; background: #ebe9e2; border-bottom: 1px solid #e3e1da; display: flex; align-items: center; padding-left: 12px;">
+          <span style="font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: #56585c;">B · E · G · K — frozen</span>
+        </div>
+        <div style="height: 46px; flex-shrink: 0; background: #faf9f6; border-bottom: 1px solid #c7c4ba; display: flex; align-items: center;">
+          <div style="width: 30px; flex-shrink: 0;"></div>
+          <div style="width: 196px; flex-shrink: 0; display: flex; flex-direction: column; gap: 1px;">
+            <span style="font-size: 10px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #56585c;">Advertiser Name</span>
+            <span style="font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: #9a9c90;">Agency Name</span>
+          </div>
+          <div style="width: 82px; flex-shrink: 0; height: 100%; box-sizing: border-box; padding-left: 8px; background: #f1efe9; display: flex; align-items: center;">
+            <span style="font-size: 10px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #56585c;">Exec</span>
+          </div>
+          <div style="flex-grow: 1; padding-left: 8px; display: flex; flex-direction: column; gap: 1px;">
+            <span style="font-size: 10px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #56585c;">Client Status</span>
+            <span style="font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: #9a9c90;">Dropdown</span>
+          </div>
+        </div>
+        <sc-for list="{{rows}}" as="row" hint-placeholder-count="12">
+          <div style="{{row.spineStyle}}">
+            <span style="{{row.stripeStyle}}"></span>
+            <button type="button" onClick="{{row.onOpen}}" aria-label="Open record" style="{{row.chevBtn}}"><span style="{{row.chev}}"></span></button>
+            <div style="width: 196px; flex-shrink: 0; padding-right: 8px; box-sizing: border-box; display: flex; flex-direction: column; gap: 1px; min-width: 0;">
+              <span style="font-size: 12.5px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{row.adv}}</span>
+              <span style="font-family: 'IBM Plex Mono', monospace; font-size: 9.5px; color: #8a8c90; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{row.agency}}</span>
+            </div>
+            <div style="width: 82px; flex-shrink: 0; height: 100%; box-sizing: border-box; padding-left: 8px; background: #faf9f6; display: flex; align-items: center; font-size: 11.5px; color: #56585c;">{{row.exec}}</div>
+            <div style="flex-grow: 1; padding-left: 8px;"><span style="{{row.statusStyle}}">{{row.status}}</span></div>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="flex-grow: 1; min-width: 0; overflow-x: auto; overflow-y: hidden;">
+        <div style="{{trackStyle}}">
+          <div style="height: 24px; display: flex; background: #ebe9e2; border-bottom: 1px solid #e3e1da;">
+            <sc-for list="{{bands}}" as="b" hint-placeholder-count="5">
+              <div style="{{b.style}}"><span style="font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: #4a4c50; white-space: nowrap;">{{b.label}}</span></div>
+            </sc-for>
+          </div>
+          <div style="height: 46px; display: flex; align-items: stretch; background: #faf9f6; border-bottom: 1px solid #c7c4ba;">
+            <sc-for list="{{headers}}" as="h" hint-placeholder-count="10">
+              <div style="{{h.style}}">
+                <div style="display: flex; align-items: center; gap: 4px; justify-content: {{h.just}};">
+                  <span style="{{h.lockStyle}}"></span>
+                  <span style="font-size: 9.5px; font-weight: 600; letter-spacing: 0.03em; text-transform: uppercase; color: #56585c; line-height: 1.15;">{{h.label}}</span>
+                </div>
+                <span style="{{h.subStyle}}">{{h.sub}}</span>
+              </div>
+            </sc-for>
+          </div>
+          <sc-for list="{{rows}}" as="row" hint-placeholder-count="12">
+            <div style="{{row.scrollStyle}}">
+              <sc-for list="{{row.cells}}" as="cell" hint-placeholder-count="10">
+                <div style="{{cell.wrap}}">
+                  <sc-if value="{{cell.editing}}" hint-placeholder-val="{{ false }}">
+                    <input type="text" value="{{cell.text}}" onChange="{{cell.onType}}" aria-label="{{cell.aria}}" style="width: 100%; height: 28px; box-sizing: border-box; padding: 0 5px; border: 2px solid #23605a; border-radius: 2px; background: #ffffff; font: inherit; font-size: 12px; color: #15171a; font-variant-numeric: tabular-nums;">
+                  </sc-if>
+                  <sc-if value="{{cell.resting}}" hint-placeholder-val="{{ true }}">
+                    <button type="button" onClick="{{cell.onPick}}" style="{{cell.btn}}">{{cell.text}}</button>
+                  </sc-if>
+                  <sc-if value="{{cell.hasHistory}}" hint-placeholder-val="{{ false }}">
+                    <button type="button" onClick="{{cell.onHist}}" aria-label="Change history" style="width: 13px; flex-shrink: 0; height: 100%; appearance: none; border: none; background: transparent; cursor: pointer; display: flex; align-items: flex-start; justify-content: center; padding-top: 4px;"><span style="width: 5px; height: 5px; background: #9a5b12;"></span></button>
+                  </sc-if>
+                </div>
+              </sc-for>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <sc-if value="{{ovOpen}}" hint-placeholder-val="{{ false }}">
+        <div style="{{ovStyle}}">
+          <div style="display: flex; align-items: baseline; gap: 8px; margin-bottom: 9px;">
+            <span style="font-size: 12px; font-weight: 600;">{{ovTitle}}</span>
+            <span style="flex-grow: 1;"></span>
+            <button type="button" onClick="{{onCloseOv}}" aria-label="Close" style="appearance: none; border: none; background: transparent; cursor: pointer; font-size: 15px; line-height: 1; color: #56585c;">×</button>
+          </div>
+          <sc-for list="{{ovLines}}" as="l" hint-placeholder-count="3">
+            <div style="{{l.style}}">
+              <div style="font-family: 'IBM Plex Mono', monospace; font-size: 9.5px; color: #56585c; margin-bottom: 2px;">{{l.meta}}</div>
+              <div style="font-size: 12px; line-height: 1.4;">{{l.body}}</div>
+            </div>
+          </sc-for>
+        </div>
+      </sc-if>
+    </div>
+
+    <sc-if value="{{drawerOpen}}" hint-placeholder-val="{{ false }}">
+      <div style="width: 380px; flex-shrink: 0; background: #ffffff; border-left: 1px solid #c7c4ba; display: flex; flex-direction: column;">
+        <div style="flex-shrink: 0; padding: 14px 16px; border-bottom: 1px solid #e3e1da; display: flex; align-items: flex-start; gap: 10px;">
+          <div style="display: flex; flex-direction: column; gap: 2px; min-width: 0;">
+            <span style="font-size: 15px; font-weight: 700;">{{dClient}}</span>
+            <span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #56585c;">{{dMeta}}</span>
+          </div>
+          <div style="flex-grow: 1;"></div>
+          <button type="button" onClick="{{onCloseDrawer}}" aria-label="Close record" style="appearance: none; width: 28px; height: 28px; border: 1px solid #e3e1da; border-radius: 3px; background: #ffffff; cursor: pointer; font-size: 15px; line-height: 1; color: #56585c;">×</button>
+        </div>
+        <div style="flex-shrink: 0; padding: 12px 16px; background: #faf9f6; border-bottom: 1px solid #e3e1da; display: flex; gap: 18px;">
+          <sc-for list="{{dStats}}" as="s" hint-placeholder-count="3">
+            <div style="display: flex; flex-direction: column; gap: 2px;">
+              <span style="font-size: 9.5px; letter-spacing: 0.05em; text-transform: uppercase; color: #8a8c90;">{{s.label}}</span>
+              <span style="{{s.valStyle}}">{{s.value}}</span>
+            </div>
+          </sc-for>
+        </div>
+        <div style="flex-grow: 1; padding: 14px 16px; display: flex; flex-direction: column; gap: 12px; overflow-y: auto;">
+          <span style="font-size: 9.5px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #8a8c90;">Log this meeting</span>
+          <sc-for list="{{dFields}}" as="f" hint-placeholder-count="7">
+            <div style="display: flex; flex-direction: column; gap: 4px;">
+              <label for="{{f.id}}" style="font-size: 11px; color: #56585c;">{{f.label}}</label>
+              <input id="{{f.id}}" type="text" value="{{f.value}}" onChange="{{f.onType}}" style="{{f.style}}">
+              <span style="{{f.hintStyle}}">{{f.hint}}</span>
+            </div>
+          </sc-for>
+        </div>
+        <div style="flex-shrink: 0; padding: 12px 16px; border-top: 1px solid #e3e1da; display: flex; align-items: center; gap: 10px;">
+          <span style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; color: #17683f;">{{dSave}}</span>
+          <div style="flex-grow: 1;"></div>
+          <button type="button" onClick="{{onCloseDrawer}}" style="appearance: none; height: 34px; padding: 0 16px; border: none; border-radius: 3px; background: #23605a; color: #ffffff; font: inherit; font-size: 13px; font-weight: 500; cursor: pointer;">Done</button>
+        </div>
+      </div>
+    </sc-if>
+  </div>
+
+  <div style="height: 34px; flex-shrink: 0; background: #ffffff; border-top: 1px solid #e3e1da; display: flex; align-items: center; gap: 10px; padding: 0 18px;">
+    <span style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; color: #56585c;">{{rowCount}}</span>
+    <span style="width: 1px; height: 13px; background: #e3e1da;"></span>
+    <span style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; color: #56585c;">{{sumLine}}</span>
+    <span style="width: 1px; height: 13px; background: #e3e1da;"></span>
+    <span style="width: 6px; height: 6px; border-radius: 3px; background: #17683f;"></span>
+    <span style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px;">{{saveLabel}}</span>
+    <div style="flex-grow: 1;"></div>
+    <span style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; color: #8a8c90;">Headers exactly as the template · shaded columns are PRS-calculated</span>
+  </div>
+</div></template>
+
+<div class="foot">Wireframe. Figures are sample data from the current working file, shown so the layout can be judged — not a production system.</div>
+<script src="assets/dc-lite.js"></script>
+<script>window.__DC0 = (function () {
+
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { genre: 'HGEC', view: 'meeting', scope: 'all', sel: null, ov: null, drawer: null, draft: {}, touched: false };
+  }
+
+  // ref, key, label (exact template header), sub-row text, family, numeric, formula
+  c(ref, key, lab, sub, fam, num, calc) {
+    return { ref: ref, key: key, lab: lab, sub: sub, fam: fam, num: !!num, calc: calc || null, w: num ? 112 : (key === 'remarks' ? 236 : (key === 'clientType' ? 228 : (key === 'nature' ? 138 : 108))) };
+  }
+
+  head() {
+    var c = this.c.bind(this);
+    return [
+      c('A', 'month', 'Month', 'MMM-YY', 'client'),
+      c('C', 'advCommon', 'Advertiser Common Name', 'to be filled by PRS', 'client', false, 'Matched to the advertiser master by PRS.'),
+      c('D', 'region', 'Region', null, 'client'),
+      c('F', 'agencyCommon', 'Agency Common Name', 'to be filled by PRS', 'client', false, 'Matched to the agency master by PRS.'),
+      c('H', 'groupHead', 'Group Head', 'Dropdown · Salesperson = GH if IC', 'own', false, 'Derived from the reporting hierarchy. Equals the exec when the exec is an IC.'),
+      c('I', 'regionHead', 'Region Head', 'Dropdown', 'own', false, 'Derived from the reporting hierarchy on Region.'),
+      c('J', 'clientType', 'Client Type', 'Dropdown', 'client'),
+      c('L', 'metPerson', 'Client Personnel Met', 'Name', 'meet'),
+      c('M', 'nature', 'Nature of Meeting', 'Dropdown', 'meet'),
+      c('N', 'metDate', 'Meeting Date', 'Dropdown', 'meet'),
+      c('O', 'remarks', 'Meeting Remarks', null, 'meet')
+    ];
+  }
+
+  tail() {
+    var c = this.c.bind(this), g = this.state.genre;
+    var IMP = function (n, from) {
+      var L = ['W', 'X', 'Y', 'Z', 'AA'], H = ['Z', 'AA', 'AB', 'AC', 'AD'];
+      var refs = from === 'HFF' ? H : L, out = [];
+      for (var i = 0; i < n; i++) { out.push(c(refs[i], 'imp' + (i + 1), 'Impact ' + (i + 1) + ' SD+HD (INR cr)', null, 'rev', true)); }
+      return out;
+    };
+    if (g === 'HGEC') {
+      return [
+        c('P', 'campBudget', 'Campaign Budget (INR Cr)', null, 'bud', true),
+        c('Q', 'genreBudget', 'Genre Budget (INR Cr)', null, 'bud', true),
+        c('R', 'lysm', 'SPNI LYSM Rev (INR cr)', null, 'bud', true, 'Loaded monthly from the revenue system.'),
+        c('S', 'lysmA', 'SET LYSM', null, 'bud', true, 'Loaded monthly from the revenue system.'),
+        c('T', 'lysmB', 'SAB LYSM', null, 'bud', true, 'Loaded monthly from the revenue system.'),
+        c('U', 'sdReg', 'SET SD Regular (INR cr)', null, 'rev', true),
+        c('V', 'hdReg', 'SET HD Regular (INR cr)', null, 'rev', true)
+      ].concat(IMP(5)).concat([
+        c('AB', 'impTot', 'SET SD+HD Impact (INR cr)', null, 'rev', true, 'Impact 1 + Impact 2 + Impact 3 + Impact 4 + Impact 5.'),
+        c('AC', 'overall', 'SET Overall (INR cr)', null, 'rev', true, 'SET SD Regular + SET HD Regular + SET SD+HD Impact.'),
+        c('AD', 'upside', 'SET Upside (INR cr)', null, 'rev', true),
+        c('AE', 'overallUp', 'SET Overall with Upside (INR cr)', null, 'rev', true, 'SET Overall + SET Upside.'),
+        c('AF', 'bSdReg', 'SAB SD Regular (INR cr)', null, 'rev', true),
+        c('AG', 'bHdReg', 'SAB HD Regular (INR cr)', null, 'rev', true),
+        c('AH', 'bInteg', 'SAB SD+HD Integrations (INR cr)', null, 'rev', true),
+        c('AI', 'bTrans', 'SAB SET Transfer (INR cr)', null, 'rev', true),
+        c('AJ', 'bOverall', 'SAB Overall (INR cr)', null, 'rev', true, 'SAB SD Regular + SAB HD Regular + Integrations + SET Transfer.'),
+        c('AK', 'bUpside', 'SAB Upside (INR cr)', null, 'rev', true),
+        c('AL', 'bOverallUp', 'SAB Overall with Upside (INR cr)', null, 'rev', true, 'SAB Overall + SAB Upside.'),
+        c('AM', 'cc1', 'CC1 Regular', 'Star Plus Regular', 'cc', true),
+        c('AN', 'cc2', 'CC2 Regular', 'Colors Regular', 'cc', true),
+        c('AO', 'cc3', 'CC3 Regular', 'Zee TV Regular', 'cc', true),
+        c('AP', 'cc1i', 'CC1 Impact1', 'Star Plus OnePercent', 'cc', true),
+        c('AQ', 'cc2i', 'CC2 Impact2', 'Colors KKK', 'cc', true),
+        c('AR', 'cc3i', 'CC3 Impact3', null, 'cc', true),
+        c('AS', 'cc1o', 'CC1 Overall', null, 'cc', true, 'CC1 Regular + CC1 Impact1.'),
+        c('AT', 'cc2o', 'CC2 Overall', null, 'cc', true, 'CC2 Regular + CC2 Impact2.'),
+        c('AU', 'cc3o', 'CC3 Overall', null, 'cc', true, 'CC3 Regular + CC3 Impact3.')
+      ]);
+    }
+    if (g === 'HFF') {
+      return [
+        c('P', 'campBudget', 'Campaign Budget (INR Cr)', null, 'bud', true),
+        c('Q', 'genreBudget', 'Genre Budget (INR Cr)', 'HFF Pay 1 Budget (INR Cr)', 'bud', true),
+        c('R', 'genreBudget2', 'Genre 2 Budget (INR Cr)', 'HFF Pay 2 Budget (INR Cr)', 'bud', true),
+        c('S', 'genreBudget3', 'Genre 3 Budget (INR Cr)', 'HFF Pay 3 Budget (INR Cr)', 'bud', true),
+        c('T', 'lysm', 'SPNI LYSM Rev (INR cr)', null, 'bud', true, 'Loaded monthly from the revenue system.'),
+        c('U', 'lysmA', 'MAX LYSM', null, 'bud', true, 'Loaded monthly from the revenue system.'),
+        c('V', 'lysmB', 'MAX1 LYSM', null, 'bud', true, 'Loaded monthly from the revenue system.'),
+        c('W', 'lysmC', 'MAX2 LYSM', null, 'bud', true, 'Loaded monthly from the revenue system.'),
+        c('X', 'sdReg', 'MAX SD Regular (INR cr)', null, 'rev', true),
+        c('Y', 'hdReg', 'MAX HD Regular (INR cr)', null, 'rev', true)
+      ].concat(IMP(5, 'HFF')).concat([
+        c('AE', 'impTot', 'MAX SD+HD Impact (INR cr)', null, 'rev', true, 'Impact 1 + Impact 2 + Impact 3 + Impact 4 + Impact 5.'),
+        c('AF', 'overall', 'MAX Overall (INR cr)', null, 'rev', true, 'MAX SD Regular + MAX HD Regular + MAX SD+HD Impact.'),
+        c('AG', 'upside', 'MAX Upside (INR cr)', null, 'rev', true),
+        c('AH', 'overallUp', 'MAX Overall with Upside (INR cr)', null, 'rev', true, 'MAX Overall + MAX Upside.'),
+        c('AI', 'bSdReg', 'MAX1 Regular (INR cr)', null, 'rev', true),
+        c('AJ', 'bUpside', 'MAX1 Upside (INR cr)', null, 'rev', true),
+        c('AK', 'bOverallUp', 'MAX1 Overall with Upside (INR cr)', null, 'rev', true, 'MAX1 Regular + MAX1 Upside.'),
+        c('AL', 'cSdReg', 'MAX2 Regular (INR cr)', null, 'rev', true),
+        c('AM', 'cUpside', 'MAX2 Upside (INR cr)', null, 'rev', true),
+        c('AN', 'cOverallUp', 'MAX2 Overall with Upside (INR cr)', null, 'rev', true, 'MAX2 Regular + MAX2 Upside.'),
+        c('AO', 'cc1', 'CC1 Regular', 'Star Gold Regular', 'cc', true),
+        c('AP', 'cc2', 'CC2 Regular', 'Zee Cinema Regular', 'cc', true),
+        c('AQ', 'cc3', 'CC3 Regular', 'Star Gold 2 Regular', 'cc', true),
+        c('AR', 'cc4', 'CC4 Regular', 'Colors Cineplex Regular', 'cc', true),
+        c('AS', 'cc5', 'CC5 Regular', '&amp;Pictures Regular', 'cc', true),
+        c('AT', 'cc6', 'CC6 Regular', 'Star Gold Romance Regular', 'cc', true),
+        c('AU', 'cc7', 'CC7 Regular', 'Zee Classic Regular', 'cc', true),
+        c('AV', 'cc8', 'CC8 Regular', 'Zee Bollywood Regular', 'cc', true),
+        c('AW', 'cc1i', 'CC1 Impact1', 'Star Gold Impact', 'cc', true),
+        c('AX', 'cc2i', 'CC2 Impact2', 'Zee Cinema Impact', 'cc', true),
+        c('AY', 'cc1o', 'CC1 Overall', 'Star Gold Overall', 'cc', true, 'CC1 Regular + CC1 Impact1.'),
+        c('AZ', 'cc2o', 'CC2 Overall', 'Zee Cinema Overall', 'cc', true, 'CC2 Regular + CC2 Impact2.')
+      ]);
+    }
+    if (g === 'FTA') {
+      return [
+        c('P', 'campBudget', 'Campaign Budget (INR Cr)', null, 'bud', true),
+        c('Q', 'genreBudget', 'Genre Budget (INR Cr)', null, 'bud', true),
+        c('R', 'lysm', 'SPNI LYSM Rev (INR cr)', null, 'bud', true, 'Loaded monthly from the revenue system.'),
+        c('S', 'lysmA', 'PAL LYSM', null, 'bud', true, 'Loaded monthly from the revenue system.'),
+        c('T', 'lysmB', 'WAH LYSM', null, 'bud', true, 'Loaded monthly from the revenue system.'),
+        c('U', 'sdReg', 'PAL Regular (INR cr)', null, 'rev', true),
+        c('V', 'upside', 'PAL Upside (INR cr)', null, 'rev', true),
+        c('W', 'overallUp', 'PAL Overall with Upside (INR cr)', null, 'rev', true, 'PAL Regular + PAL Upside.'),
+        c('X', 'bSdReg', 'WAH Regular (INR cr)', null, 'rev', true),
+        c('Y', 'bUpside', 'WAH Upside (INR cr)', null, 'rev', true),
+        c('Z', 'bOverallUp', 'WAH Overall with Upside (INR cr)', null, 'rev', true, 'WAH Regular + WAH Upside.'),
+        c('AA', 'cc1', 'CC1 Regular', 'Dangal Regular', 'cc', true),
+        c('AB', 'cc2', 'CC2 Regular', 'Star Utsav Movies Regular', 'cc', true),
+        c('AC', 'cc3', 'CC3 Regular', 'Zee Anmol Cinema Regular', 'cc', true),
+        c('AD', 'cc4', 'CC4 Regular', 'Colors Cineplex Bollywood Regular', 'cc', true),
+        c('AE', 'cc5', 'CC5 Regular', 'Colors Cineplex Superhits Regular', 'cc', true),
+        c('AF', 'palEr', 'Pal Grid ER', null, 'rev', true),
+        c('AG', 'palFct', 'Pal PT FCT % (1800-2400)', 'sub-row says WAH Grid ER — mismatch', 'rev', true),
+        c('AH', 'wahEr', 'WAH Grid ER', 'sub-row says Pal PT FCT % — mismatch', 'rev', true)
+      ];
+    }
+    if (g === 'Kids') {
+      return [
+        c('P', 'campBudget', 'Campaign Budget (INR Cr)', null, 'bud', true),
+        c('Q', 'genreBudget', 'Genre Budget (INR Cr)', null, 'bud', true),
+        c('R', 'lysm', 'SPNI LYSM Rev (INR cr)', null, 'bud', true, 'Loaded monthly from the revenue system.'),
+        c('S', 'sdReg', 'YAY Regular (INR cr)', null, 'rev', true),
+        c('T', 'upside', 'YAY Upside (INR cr)', null, 'rev', true),
+        c('U', 'overallUp', 'YAY Overall with Upside (INR cr)', null, 'rev', true, 'YAY Regular + YAY Upside.'),
+        c('V', 'cc1', 'CC1 Regular', 'Disney Regular', 'cc', true),
+        c('W', 'cc2', 'CC2 Regular', 'Nickelodeon Regular', 'cc', true)
+      ];
+    }
+    var ch = this.state.genre === 'Marathi GEC' ? 'Marathi' : 'Aath';
+    var ccs = this.state.genre === 'Marathi GEC'
+      ? [['Star Pravah Regular'], ['Zee Marathi Regular'], ['Colors Marathi Regular'], ['Sun Marathi Regular'], ['Zee Yuva Regular'], ['Star Pravah Impact'], ['Colors Marathi Impact — CC2 is Zee Marathi above'], ['Zee Marathi Impact — CC3 is Colors Marathi above'], ['sub-row says Star Pravah Regular'], ['sub-row says Zee Marathi Regular'], ['sub-row says Colors Marathi Regular']]
+      : [['Star Jalsha Regular'], ['Zee Bangla Regular'], ['Sun Bangla Regular'], ['Colors Bangla Regular'], ['Aakash Aath Regular'], ['Star Jalsha Impact'], ['Zee Bangla Impact'], ['Sun Bangla Impact'], ['Star Jalsha Overall'], ['Zee Bangla Overall'], ['Sun Bangla Overall']];
+    var refs = ['X', 'Y', 'Z', 'AA', 'AB', 'AC', 'AD', 'AE', 'AF', 'AG', 'AH'];
+    var labs = ['CC1 Regular', 'CC2 Regular', 'CC3 Regular', 'CC4 Regular', 'CC5 Regular', 'CC1 Impact1', 'CC2 Impact2', 'CC3 Impact3', 'CC1 Overall', 'CC2 Overall', 'CC3 Overall'];
+    var keys = ['cc1', 'cc2', 'cc3', 'cc4', 'cc5', 'cc1i', 'cc2i', 'cc3i', 'cc1o', 'cc2o', 'cc3o'];
+    var ccCols = refs.map(function (r, i) {
+      return c(r, keys[i], labs[i], ccs[i][0], 'cc', true, i >= 8 ? 'CC' + (i - 7) + ' Regular + CC' + (i - 7) + ' Impact.' : null);
+    });
+    return [
+      c('P', 'campBudget', 'Campaign Budget (INR Cr)', null, 'bud', true),
+      c('Q', 'genreBudget', 'Genre Budget (INR Cr)', null, 'bud', true),
+      c('R', 'lysm', 'SPNI LYSM Rev (INR cr)', null, 'bud', true, 'Loaded monthly from the revenue system.'),
+      c('S', 'sdReg', ch + ' Regular (INR cr)', null, 'rev', true),
+      c('T', 'impTot', ch + ' Impact (INR cr)', null, 'rev', true),
+      c('U', 'overall', ch + ' Overall (INR cr)', null, 'rev', true, ch + ' Regular + ' + ch + ' Impact.'),
+      c('V', 'upside', ch + ' Upside (INR cr)', null, 'rev', true),
+      c('W', 'overallUp', ch + ' Overall with Upside (INR cr)', null, 'rev', true, ch + ' Overall + ' + ch + ' Upside.')
+    ].concat(ccCols);
+  }
+
+  schema() { return this.head().concat(this.tail()); }
+
+  views() {
+    var all = this.schema();
+    var keysOf = function (fams) { return all.filter(function (c) { return fams.indexOf(c.fam) !== -1; }).map(function (c) { return c.key; }); };
+    return {
+      meeting: { label: 'Meeting log', keys: ['month', 'region', 'clientType', 'metPerson', 'nature', 'metDate', 'remarks'] },
+      revenue: { label: 'Revenue build', keys: keysOf(['bud', 'rev']) },
+      compete: { label: 'Competition', keys: ['genreBudget'].concat(keysOf(['cc'])) },
+      full: { label: 'Full sheet', keys: all.map(function (c) { return c.key; }) }
+    };
+  }
+
+  famName(f) { return { client: 'Client & agency', own: 'Ownership', meet: 'Meeting', bud: 'Budget & LYSM', rev: this.state.genre + ' revenue', cc: 'Competition' }[f]; }
+  famColor(f) { return { client: '#ebe9e2', own: '#e7e4ea', meet: '#e5ecea', bud: '#efe9de', rev: '#e2e9f2', cc: '#efe6e3' }[f]; }
+
+  data() {
+    return [
+      { id: 'sunveda', adv: 'Sunveda Consumer', agency: 'Northline Media', advCommon: 'SUNVEDA', agencyCommon: 'NORTHLINE', exec: 'R. Menon', scope: 'mine', status: 'In Discussions', region: 'West', clientType: 'Active on SET / SAB', groupHead: 'V. Suresh', regionHead: 'K. Nair', metPerson: 'A. Bhandari', nature: 'Physical', metDate: '15-Sep-26', remarks: 'Wants festive slot pricing before 25 Sep', sz: 6.2 },
+      { id: 'trimurti', adv: 'Trimurti Motors', agency: 'Cardinal Media', advCommon: 'TRIMURTI', agencyCommon: 'CARDINAL', exec: 'R. Menon', scope: 'mine', status: 'In Discussions', region: 'West', clientType: 'Active on SET / SAB', groupHead: 'V. Suresh', regionHead: 'K. Nair', metPerson: 'S. Rane', nature: 'Physical', metDate: '16-Sep-26', remarks: 'Pushing for impact bundle at regular rate', sz: 8.6 },
+      { id: 'kaveri', adv: 'Kaveri Textiles', agency: 'Sixth Sense Media', advCommon: 'KAVERI', agencyCommon: 'SIXTHSENSE', exec: 'R. Menon', scope: 'mine', status: 'In Discussions', region: 'South', clientType: 'Upcountry', groupHead: 'V. Suresh', regionHead: 'K. Nair', metPerson: 'D. Pillai', nature: 'Telephonic', metDate: '12-Sep-26', remarks: 'First brief; category new to television', sz: 2.1 },
+      { id: 'anantam', adv: 'Anantam Foods', agency: 'Pivot House', advCommon: 'ANANTAM', agencyCommon: 'PIVOT', exec: 'R. Menon', scope: 'mine', status: 'Not in Plan', region: 'North', clientType: 'Active on PHGEC Missing on SET/SAB', groupHead: 'V. Suresh', regionHead: 'K. Nair', metPerson: 'R. Chopra', nature: 'Virtual', metDate: '09-Sep-26', remarks: 'Cut TV share after Q1; reviewing return', sz: 3.4 },
+      { id: 'zorix', adv: 'Zorix Beverages', agency: 'Northline Media', advCommon: 'ZORIX', agencyCommon: 'NORTHLINE', exec: 'R. Menon', scope: 'mine', status: 'Deal Closed', region: 'West', clientType: 'Active on SET / SAB', groupHead: 'V. Suresh', regionHead: 'K. Nair', metPerson: 'M. Fernandes', nature: 'Physical', metDate: '17-Sep-26', remarks: 'Renewal signed verbally, paperwork pending', sz: 11.4 },
+      { id: 'meridian', adv: 'Meridian Paints', agency: 'Grand Trunk Media', advCommon: 'MERIDIAN', agencyCommon: 'GRANDTRUNK', exec: 'R. Menon', scope: 'mine', status: 'In Discussions', region: 'North', clientType: 'Active on SET / SAB', groupHead: 'V. Suresh', regionHead: 'K. Nair', metPerson: 'P. Grewal', nature: 'Virtual', metDate: '11-Sep-26', remarks: 'Asked for reach delivery vs last festive', sz: 3.9 },
+      { id: 'nirvaan', adv: 'Nirvaan Wellness', agency: 'Cardinal Media', advCommon: 'NIRVAAN', agencyCommon: 'CARDINAL', exec: 'S. Iyer', scope: 'covering', status: 'In Discussions', region: 'South', clientType: 'Active on Other Entertainment (Sports / Marathi / HMOV) Missed on PHGEC', groupHead: 'M. Bhatia', regionHead: 'K. Nair', metPerson: 'L. Menon', nature: 'Telephonic', metDate: '14-Sep-26', remarks: 'Rate card resistance; needs GH approval', sz: 2.9 },
+      { id: 'brightleaf', adv: 'BrightLeaf Tea', agency: 'Sixth Sense Media', advCommon: 'BRIGHTLEAF', agencyCommon: 'SIXTHSENSE', exec: 'S. Iyer', scope: 'covering', status: 'Not active on TV', region: 'East', clientType: 'Potential Clients from News', groupHead: 'M. Bhatia', regionHead: 'K. Nair', metPerson: 'T. Ghosh', nature: 'Telephonic', metDate: '08-Sep-26', remarks: 'Dormant since Mar-26; re-opening dialogue', sz: 1.4 },
+      { id: 'adhira', adv: 'Adhira Jewels', agency: 'Pivot House', advCommon: 'ADHIRA', agencyCommon: 'PIVOT', exec: 'S. Iyer', scope: 'covering', status: 'Deal Closed', region: 'West', clientType: 'Active on SET / SAB', groupHead: 'M. Bhatia', regionHead: 'K. Nair', metPerson: 'N. Shah', nature: 'Physical', metDate: '16-Sep-26', remarks: 'Festive heavy; wants impact property 2', sz: 7.4 },
+      { id: 'orbit', adv: 'Orbit Mobility', agency: 'Northline Media', advCommon: 'ORBIT', agencyCommon: 'NORTHLINE', exec: 'R. Menon', scope: 'mine', status: 'In Discussions', region: 'South', clientType: 'Potential Clients from Digital, Outdoor & Other Platforms', groupHead: 'V. Suresh', regionHead: 'K. Nair', metPerson: 'A. Varma', nature: 'Virtual', metDate: '13-Sep-26', remarks: 'Launch campaign, decision in Oct', sz: 4.6 },
+      { id: 'sankalp', adv: 'Sankalp Finance', agency: 'Grand Trunk Media', advCommon: 'SANKALP', agencyCommon: 'GRANDTRUNK', exec: 'R. Menon', scope: 'mine', status: 'Deal Closed', region: 'North', clientType: 'Active on PHGEC Missing on SET/SAB', groupHead: 'V. Suresh', regionHead: 'K. Nair', metPerson: 'H. Kapoor', nature: 'Physical', metDate: '10-Sep-26', remarks: 'Quarterly review; steady spend expected', sz: 3.7 },
+      { id: 'vayu', adv: 'Vayu Airlines', agency: 'Cardinal Media', advCommon: 'VAYU', agencyCommon: 'CARDINAL', exec: 'R. Menon', scope: 'mine', status: 'Not in Plan', region: 'West', clientType: 'Potential Clients from Digital, Outdoor & Other Platforms', groupHead: 'V. Suresh', regionHead: 'K. Nair', metPerson: 'J. Dsouza', nature: 'Physical', metDate: '17-Sep-26', remarks: 'Budget freeze signalled; chasing confirmation', sz: 1.9 }
+    ];
+  }
+
+  // every numeric column derives from the row size so calculated columns really equal their formula
+  base(r) {
+    var s = r.sz, n = function (x) { return Math.round(x * 100) / 100; };
+    var b = {
+      campBudget: n(s * 2.05), genreBudget: n(s * 0.86), genreBudget2: n(s * 0.31), genreBudget3: n(s * 0.18),
+      lysm: n(s * 0.74), lysmA: n(s * 0.60), lysmB: n(s * 0.14), lysmC: n(s * 0.09),
+      sdReg: n(s * 0.42), hdReg: n(s * 0.17),
+      imp1: n(s * 0.11), imp2: n(s * 0.07), imp3: n(s * 0.04), imp4: n(s * 0.02), imp5: 0,
+      upside: n(s * 0.09),
+      bSdReg: n(s * 0.09), bHdReg: n(s * 0.03), bInteg: n(s * 0.02), bTrans: n(s * 0.01), bUpside: n(s * 0.02),
+      cSdReg: n(s * 0.06), cUpside: n(s * 0.01),
+      palEr: n(s * 120 + 400), palFct: n(s * 0.9 + 11), wahEr: n(s * 96 + 310),
+      cc1: n(s * 0.55), cc2: n(s * 0.44), cc3: n(s * 0.31), cc4: n(s * 0.22), cc5: n(s * 0.16),
+      cc6: n(s * 0.12), cc7: n(s * 0.09), cc8: n(s * 0.06),
+      cc1i: n(s * 0.12), cc2i: n(s * 0.09), cc3i: n(s * 0.05)
+    };
+    b.impTot = n(b.imp1 + b.imp2 + b.imp3 + b.imp4 + b.imp5);
+    b.overall = n(b.sdReg + b.hdReg + b.impTot);
+    b.overallUp = n(b.overall + b.upside);
+    b.bOverall = n(b.bSdReg + b.bHdReg + b.bInteg + b.bTrans);
+    b.bOverallUp = n(b.bOverall + b.bUpside);
+    b.cOverallUp = n(b.cSdReg + b.cUpside);
+    b.cc1o = n(b.cc1 + b.cc1i); b.cc2o = n(b.cc2 + b.cc2i); b.cc3o = n(b.cc3 + b.cc3i);
+    if (this.state.genre === 'FTA') { b.overallUp = n(b.sdReg + b.upside); b.bOverallUp = n(b.bSdReg + b.bUpside); }
+    if (this.state.genre === 'Kids') { b.overallUp = n(b.sdReg + b.upside); }
+    if (this.state.genre === 'Marathi GEC' || this.state.genre === 'Bengali GEC') {
+      b.impTot = n(s * 0.18); b.overall = n(b.sdReg + b.impTot); b.overallUp = n(b.overall + b.upside);
+    }
+    return b;
+  }
+
+  raw(r, key) {
+    if (key === 'month') { return 'Sep-26'; }
+    if (Object.prototype.hasOwnProperty.call(r, key)) { return r[key]; }
+    var b = this.base(r);
+    if (Object.prototype.hasOwnProperty.call(b, key)) { return b[key].toFixed(2); }
+    return '';
+  }
+
+  val(id, k, fb) { var q = id + '|' + k; return Object.prototype.hasOwnProperty.call(this.state.draft, q) ? this.state.draft[q] : fb; }
+  put(id, k, v) { var n = {}; for (var q in this.state.draft) { n[q] = this.state.draft[q]; } n[id + '|' + k] = v; this.setState({ draft: n, touched: true }); }
+
+  statusStyle(s) {
+    var m = { 'Deal Closed': ['#e4edeb', '#1d544e'], 'In Discussions': ['#e6ebf4', '#27477d'], 'Not in Plan': ['#f7ecdc', '#8a5210'], 'Not active on TV': ['#f1efe9', '#5b5d61'] };
+    var p = m[s] || m['In Discussions'];
+    return 'display: inline-flex; align-items: center; height: 20px; padding: 0 9px; border-radius: 10px; background: ' + p[0] + '; color: ' + p[1] + '; font-size: 10.5px; font-weight: 600; white-space: nowrap;';
+  }
+
+  renderVals() {
+    var self = this, st = this.state, ROW = 36;
+    var SCHEMA = this.schema(), VIEWS = this.views();
+    var COL = {}; SCHEMA.forEach(function (c) { COL[c.key] = c; });
+    var counts = { 'HGEC': 47, 'HFF': 52, 'FTA': 34, 'Marathi GEC': 34, 'Bengali GEC': 34, 'Kids': 23 };
+
+    var HIST = {
+      'trimurti|imp2': { title: 'Trimurti Motors · Impact 2 SD+HD (INR cr)', lines: [{ meta: 'Today 14:12 · R. Menon', body: '0.42 → 0.60' }, { meta: '12 Sep 09:40 · R. Menon', body: '0.30 → 0.42' }] },
+      'zorix|upside': { title: 'Zorix Beverages · Upside', lines: [{ meta: 'Today 11:05 · R. Menon', body: '0.51 → 1.03 — doubled twice this week' }, { meta: '14 Sep 16:20 · R. Menon', body: '0.26 → 0.51' }] },
+      'nirvaan|remarks': { title: 'Nirvaan Wellness · Meeting Remarks', lines: [{ meta: 'Today 09:30 · R. Menon (covering S. Iyer)', body: '"Awaiting plan" → "Rate card resistance; needs GH approval"' }, { meta: '02 Sep 15:20 · S. Iyer', body: 'first entry' }] },
+      'anantam|genreBudget': { title: 'Anantam Foods · Genre Budget (INR Cr)', lines: [{ meta: 'Today 10:48 · A. Khanna (group head)', body: '3.51 → 2.92' }, { meta: '05 Sep 11:15 · R. Menon', body: '3.90 → 3.51' }] }
+    };
+
+    var genreTabs = ['HGEC', 'HFF', 'FTA', 'Marathi GEC', 'Bengali GEC', 'Kids'].map(function (g) {
+      var on = st.genre === g;
+      return { label: g, style: 'appearance: none; height: 30px; padding: 0 11px; border-radius: 3px; border: none; background: ' + (on ? '#ffffff' : 'transparent') + '; color: ' + (on ? '#15171a' : '#b9bbbe') + '; font: inherit; font-size: 12px; font-weight: ' + (on ? '600' : '400') + '; cursor: pointer;', onPick: function () { self.setState({ genre: g, sel: null, ov: null, drawer: null }); } };
+    });
+
+    var viewTabs = ['meeting', 'revenue', 'compete', 'full'].map(function (v) {
+      var on = st.view === v;
+      return { label: VIEWS[v].label, style: 'appearance: none; height: 32px; padding: 0 13px; border-radius: 3px; border: 1px solid ' + (on ? '#23605a' : '#e3e1da') + '; background: ' + (on ? '#23605a' : '#ffffff') + '; color: ' + (on ? '#ffffff' : '#56585c') + '; font: inherit; font-size: 12px; font-weight: 500; cursor: pointer;', onPick: function () { self.setState({ view: v, sel: null, ov: null }); } };
+    });
+
+    var all = this.data();
+    var cnt = { mine: 0, covering: 0, all: all.length };
+    all.forEach(function (r) { cnt[r.scope] = cnt[r.scope] + 1; });
+    var scopeChips = [{ k: 'mine', l: 'Mine · ' + cnt.mine, d: '#23605a' }, { k: 'covering', l: 'Covering · ' + cnt.covering, d: '#6b4e71' }, { k: 'all', l: 'All · ' + cnt.all, d: '' }].map(function (s) {
+      var on = st.scope === s.k;
+      return { label: s.l, style: 'appearance: none; display: inline-flex; align-items: center; gap: 6px; height: 28px; padding: 0 11px; border-radius: 3px; border: 1px solid ' + (on ? '#15171a' : '#e3e1da') + '; background: #ffffff; color: ' + (on ? '#15171a' : '#56585c') + '; font: inherit; font-size: 11.5px; font-weight: ' + (on ? '600' : '400') + '; cursor: pointer;', dotStyle: s.d ? 'width: 6px; height: 6px; border-radius: 3px; background: ' + s.d + ';' : 'display: none;', onPick: function () { self.setState({ scope: s.k, sel: null, ov: null, drawer: null }); } };
+    });
+
+    var keys = VIEWS[st.view].keys.filter(function (k) { return !!COL[k]; });
+    var visible = all.filter(function (r) { return st.scope === 'all' || r.scope === st.scope; });
+    var track = keys.reduce(function (s, k) { return s + COL[k].w; }, 0);
+
+    var bands = [], cur = null;
+    keys.forEach(function (k) {
+      var f = COL[k].fam;
+      if (cur && cur.f === f) { cur.w = cur.w + COL[k].w; } else { cur = { f: f, w: COL[k].w }; bands.push(cur); }
+    });
+
+    var headers = keys.map(function (k) {
+      var c = COL[k];
+      return {
+        label: c.lab, sub: c.sub || '', just: c.num ? 'flex-end' : 'flex-start',
+        style: 'width: ' + c.w + 'px; flex-shrink: 0; box-sizing: border-box; padding: 5px 8px; display: flex; flex-direction: column; gap: 2px; justify-content: center; border-right: 1px solid #e3e1da; background: ' + (c.calc ? '#f1efe9' : 'transparent') + '; align-items: ' + (c.num ? 'flex-end' : 'flex-start') + ';',
+        lockStyle: c.calc ? 'width: 7px; height: 9px; flex-shrink: 0; border: 1.5px solid #8a8c90; border-radius: 2px;' : 'display: none;',
+        subStyle: c.sub ? 'font-family: "IBM Plex Mono", monospace; font-size: 8.5px; color: #9a9c90; line-height: 1.15; text-align: ' + (c.num ? 'right' : 'left') + '; overflow: hidden;' : 'display: none;'
+      };
+    });
+
+    var rows = visible.map(function (r, idx) {
+      var cov = r.scope === 'covering', open = st.drawer === r.id;
+      var base = 'height: ' + ROW + 'px; flex-shrink: 0; box-sizing: border-box; border-bottom: 1px solid #f0eee8; display: flex; align-items: center; background: ' + (open ? '#eef3f2' : '#ffffff') + ';';
+      return {
+        adv: r.adv, agency: r.agency, exec: r.exec,
+        status: self.val(r.id, 'status', r.status), statusStyle: self.statusStyle(self.val(r.id, 'status', r.status)),
+        spineStyle: base + ' position: relative;',
+        scrollStyle: base + ' width: ' + track + 'px;',
+        stripeStyle: cov ? 'position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: #6b4e71;' : 'display: none;',
+        chevBtn: 'width: 30px; flex-shrink: 0; height: 100%; appearance: none; border: none; background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center;',
+        chev: 'width: 0; height: 0; border-top: 4px solid transparent; border-bottom: 4px solid transparent; border-left: 6px solid ' + (open ? '#23605a' : '#bcbeb8') + ';',
+        onOpen: function () { self.setState({ drawer: open ? null : r.id, ov: null, sel: null }); },
+        cells: keys.map(function (k) {
+          var c = COL[k], q = r.id + '|' + k, h = !!HIST[q], edit = !c.calc && st.sel === q;
+          return {
+            text: self.val(r.id, k, self.raw(r, k)), aria: r.adv + ' ' + c.lab, editing: edit, resting: !edit, hasHistory: h,
+            wrap: 'width: ' + c.w + 'px; flex-shrink: 0; height: 100%; box-sizing: border-box; padding: 0 3px; display: flex; align-items: center; border-right: 1px solid #f4f2ec; background: ' + (c.calc ? '#faf9f6' : 'transparent') + ';',
+            btn: 'flex-grow: 1; min-width: 0; height: 30px; appearance: none; border: none; border-radius: 2px; background: transparent; font: inherit; font-size: 12px; color: ' + (c.calc ? '#56585c' : '#15171a') + '; text-align: ' + (c.num ? 'right' : 'left') + '; padding: 0 5px; cursor: ' + (c.calc ? 'default' : 'text') + '; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-variant-numeric: tabular-nums; font-family: ' + (c.num ? '"IBM Plex Mono", monospace' : 'inherit') + ';',
+            onPick: function () { if (c.calc) { self.setState({ ov: { t: 'Column ' + c.ref + ' — ' + c.lab, l: [{ meta: 'Calculated, owned by PRS', body: c.calc }], row: idx }, sel: null }); } else { self.setState({ sel: q, ov: null }); } },
+            onType: function (e) { self.put(r.id, k, e.target.value); },
+            onHist: function () { var x = HIST[q]; self.setState({ ov: { t: x.title, l: x.lines, row: idx }, sel: null }); }
+          };
+        })
+      };
+    });
+
+    var ov = st.ov, dRow = null;
+    all.forEach(function (r) { if (r.id === st.drawer) { dRow = r; } });
+    var headline = COL['overallUp'] ? 'overallUp' : 'overall';
+    var dDefs = [['metDate', 'Meeting Date'], ['metPerson', 'Client Personnel Met'], ['nature', 'Nature of Meeting'], ['remarks', 'Meeting Remarks'], ['sdReg', COL['sdReg'] ? COL['sdReg'].lab : 'Regular'], ['upside', COL['upside'] ? COL['upside'].lab : 'Upside'], [headline, COL[headline] ? COL[headline].lab : 'Overall']];
+
+    var tot = 0, bud = 0;
+    visible.forEach(function (r) { tot = tot + parseFloat(self.val(r.id, headline, self.raw(r, headline)) || 0); bud = bud + parseFloat(self.raw(r, 'genreBudget') || 0); });
+
+    return {
+      genreTabs: genreTabs, viewTabs: viewTabs, scopeChips: scopeChips,
+      genreNote: st.genre + ' · ' + counts[st.genre] + ' columns, A–' + SCHEMA[SCHEMA.length - 1].ref,
+      colCount: keys.length + 4 + ' shown',
+      bands: bands.map(function (b) { return { label: self.famName(b.f), style: 'width: ' + b.w + 'px; flex-shrink: 0; box-sizing: border-box; background: ' + self.famColor(b.f) + '; border-right: 1px solid #ffffff; display: flex; align-items: center; padding-left: 10px; overflow: hidden;' }; }),
+      headers: headers, rows: rows,
+      trackStyle: 'width: ' + track + 'px; min-width: 100%;',
+      coveringOn: visible.filter(function (r) { return r.scope === 'covering'; }).length > 0,
+      rowCount: visible.length + ' of ' + all.length + ' advertisers',
+      sumLine: (COL[headline] ? COL[headline].lab.replace(' (INR cr)', '') : 'Overall') + ' ₹' + tot.toFixed(2) + ' Cr vs Genre Budget ₹' + bud.toFixed(2) + ' Cr',
+      saveLabel: st.touched ? 'All changes saved · just now' : 'All changes saved · 14:32',
+      ovOpen: !!ov, ovTitle: ov ? ov.t : '',
+      ovLines: ov ? ov.l.map(function (l, i) { return { meta: l.meta, body: l.body, style: 'padding: 7px 0; border-top: ' + (i === 0 ? 'none' : '1px solid #f0eee8') + ';' }; }) : [],
+      ovStyle: 'position: absolute; right: 20px; top: ' + (ov ? Math.min(70 + ov.row * ROW + 40, 600) : 0) + 'px; width: 340px; box-sizing: border-box; padding: 12px 14px; background: #ffffff; border: 1px solid #c7c4ba; border-radius: 4px; box-shadow: 0 10px 26px rgba(21, 23, 26, 0.14); z-index: 5;',
+      onCloseOv: function () { self.setState({ ov: null }); },
+      drawerOpen: !!dRow,
+      dClient: dRow ? dRow.adv : '',
+      dMeta: dRow ? (dRow.agency + ' · ' + dRow.region + ' · ' + dRow.exec + ' · ' + st.genre) : '',
+      dStats: dRow ? [
+        { label: 'Genre Budget', value: '₹' + self.raw(dRow, 'genreBudget'), valStyle: 'font-family: "IBM Plex Mono", monospace; font-size: 15px; font-weight: 500;' },
+        { label: 'Overall w/ upside', value: '₹' + self.val(dRow.id, headline, self.raw(dRow, headline)), valStyle: 'font-family: "IBM Plex Mono", monospace; font-size: 15px; font-weight: 500; color: #23605a;' },
+        { label: 'SPNI LYSM', value: '₹' + self.raw(dRow, 'lysm'), valStyle: 'font-family: "IBM Plex Mono", monospace; font-size: 15px; font-weight: 500; color: #56585c;' }
+      ] : [],
+      dFields: dRow ? dDefs.map(function (d) {
+        var col = COL[d[0]], locked = !!(col && col.calc);
+        return { id: 'f-' + d[0], label: d[1], value: self.val(dRow.id, d[0], self.raw(dRow, d[0])), hint: locked && col ? col.calc : '', hintStyle: locked ? 'font-size: 10px; color: #8a8c90;' : 'display: none;', style: 'height: 34px; box-sizing: border-box; padding: 0 9px; border: 1px solid ' + (locked ? '#e3e1da' : '#d6d3cb') + '; border-radius: 3px; background: ' + (locked ? '#f4f2ec' : '#ffffff') + '; font: inherit; font-size: 13px; color: ' + (locked ? '#56585c' : '#15171a') + ';', onType: function (e) { if (!locked) { self.put(dRow.id, d[0], e.target.value); } } };
+      }) : [],
+      dSave: st.touched ? 'Saved just now' : 'No changes yet',
+      onCloseDrawer: function () { self.setState({ drawer: null }); }
+    };
+  }
+}
+
+return Component;
+})();</script>
+<script>
+mountDC('dc-template-0', window.__DC0, 'dc-host-0');
+</script>
+<script src="assets/site.js"></script>
+</body>
+</html>

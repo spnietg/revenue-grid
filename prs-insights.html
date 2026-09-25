@@ -1,0 +1,1079 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PRS Insights and Masters · Revenue Grid</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+.stage-inner { margin: 0; font-family: "Schibsted Grotesk", system-ui, sans-serif; }
+button:focus-visible { outline: 2px solid #23605a; outline-offset: 1px; }
+.stage-inner { margin: 0; font-family: "Schibsted Grotesk", system-ui, sans-serif; }
+a { color: #23605a; } a:hover { color: #164039; }
+button:focus-visible, input:focus-visible { outline: 2px solid #23605a; outline-offset: 1px; }
+.stage-inner{margin:0;font-family:"Schibsted Grotesk",system-ui,sans-serif;color:#15171a;}
+.stage-inner a{color:#23605a;}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <span class="brand"><a href="index.html">Revenue Grid</a></span>
+  <span class="sub">SPNI ad sales · wireframes</span>
+  <span class="spacer"></span>
+  <span class="meta">Eight screens to be built</span>
+</header>
+<nav class="nav">
+<a href="entry-grid.html">Entry grid</a>
+<a href="manager-view.html">Manager View</a>
+<a href="projection-summary.html">Projection summary</a>
+<a href="client-tracking.html">Client tracking</a>
+<a href="coverage-accuracy.html">Coverage &amp; accuracy</a>
+<a href="prs-insights.html" class="on">PRS Insights and Masters</a>
+<a href="dashboard.html">Leadership dashboard</a>
+<a href="delegation.html">Delegation</a>
+</nav>
+
+<div class="boardhead">
+  <h1>PRS Insights and Masters</h1>
+  <p>Everything PRS controls in one place: the entries that look off, and the lists, hierarchy and masters behind every dropdown.</p>
+</div>
+<div class="boardbar">
+  <div class="screen-tabs"><button type="button" data-pane="0" class="on">Insights</button><button type="button" data-pane="1">Masters &amp; lists</button></div>
+  <div class="zoom">
+    <button type="button" data-mode="fit" class="on">Fit width</button>
+    <button type="button" data-mode="full">100%</button>
+  </div>
+  <span class="hint" data-hint="0">Pick a category to see the rows it caught and who can fix them. The checks themselves are written with PRS — these five are the shapes a check can take.</span><span class="hint" data-hint="1" hidden>Dropdown lists, the reporting hierarchy and the masters. Retire versus delete is decided by usage; deactivate is blocked while someone still owns rows.</span>
+</div>
+<div class="stage">
+<section class="boardpane" data-pane="0"><div class="stage-frame" data-zoom="fit"><div class="stage-scroll"><div class="stage-inner" id="dc-host-0" data-w="1680" data-h="960" style="width:1680px;height:960px;"></div></div></div></section>
+<section class="boardpane" data-pane="1" hidden><div class="stage-frame" data-zoom="fit"><div class="stage-scroll"><div class="stage-inner" id="dc-host-1" data-w="1680" data-h="1100" style="width:1680px;height:1100px;"></div></div></div></section>
+</div>
+<template id="dc-template-0"><div style="width: 1680px; height: 960px; box-sizing: border-box; background: #f4f3ef; color: #15171a; display: flex; flex-direction: column; overflow: hidden;">
+
+  <div style="height: 52px; flex-shrink: 0; background: #15171a; display: flex; align-items: center; gap: 14px; padding: 0 20px;">
+    <span style="font-size: 14px; font-weight: 700; color: #ffffff;">Revenue Grid</span>
+    <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #9a9c9f;">Insights &middot; HGEC</span>
+    <div style="flex-grow: 1;"></div>
+    <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #9a9c9f;">The system flags. PRS and sales fix. Nothing is corrected automatically.</span>
+  </div>
+
+  <div style="flex-shrink: 0; background: #fdf7f0; border-bottom: 1px solid #edd9bd; padding: 11px 20px; display: flex; align-items: center; gap: 10px;">
+    <span style="width: 7px; height: 7px; border-radius: 4px; background: #b3540f; flex-shrink: 0;"></span>
+    <span style="font-size: 12.5px; color: #6b5535;"><span style="font-weight: 600; color: #15171a;">The checks themselves are still to be agreed with PRS.</span> What is shown below is how any check behaves once it exists &mdash; the five categories are the shapes a check can take, not a proposed list.</span>
+  </div>
+
+  <div style="flex-grow: 1; min-height: 0; padding: 16px 20px; display: flex; flex-direction: column; gap: 14px; overflow: hidden;">
+
+    <div style="display: flex; gap: 12px; flex-shrink: 0;">
+      <sc-for list="{{kpis}}" as="k" hint-placeholder-count="4">
+        <div style="flex: 1 1 0; background: #ffffff; border: 1px solid #e3e1da; border-radius: 5px; padding: 12px 16px 14px; display: flex; flex-direction: column; gap: 3px;">
+          <span style="font-size: 10px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: #8a8c90;">{{k.label}}</span>
+          <span style="{{k.valStyle}}">{{k.value}}</span>
+          <span style="font-size: 11.5px; color: #56585c;">{{k.note}}</span>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="display: flex; gap: 14px; flex-grow: 1; min-height: 0;">
+
+      <div style="width: 400px; flex-shrink: 0; background: #ffffff; border: 1px solid #e3e1da; border-radius: 5px; display: flex; flex-direction: column; min-height: 0;">
+        <div style="padding: 14px 18px 10px; border-bottom: 1px solid #e3e1da;">
+          <div style="font-size: 14px; font-weight: 600;">Check categories</div>
+          <div style="font-size: 11.5px; color: #56585c;">Every check PRS writes will be one of these shapes.</div>
+        </div>
+        <div style="flex-grow: 1; min-height: 0; overflow-y: auto;">
+          <sc-for list="{{rules}}" as="r" hint-placeholder-count="5">
+            <button type="button" onClick="{{r.onPick}}" style="{{r.style}}">
+              <span style="display: flex; flex-direction: column; gap: 2px; min-width: 0; flex-grow: 1; text-align: left;">
+                <span style="{{r.titleStyle}}">{{r.title}}</span>
+                <span style="font-size: 11px; color: #8a8c90;">{{r.ownerLabel}}</span>
+              </span>
+              <span style="{{r.countStyle}}">{{r.count}}</span>
+            </button>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="flex-grow: 1; min-width: 0; background: #ffffff; border: 1px solid #e3e1da; border-radius: 5px; display: flex; flex-direction: column; min-height: 0;">
+        <div style="padding: 14px 20px 12px; border-bottom: 1px solid #e3e1da;">
+          <div style="font-size: 15px; font-weight: 600;">{{detailTitle}}</div>
+          <div style="font-size: 12.5px; color: #3e4145; line-height: 1.55; margin-top: 5px; max-width: 106ch;">{{detailWhat}}</div>
+          <div style="display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap;">
+            <span style="{{chipStyle}}">Owner of the fix: {{detailOwner}}</span>
+            <span style="{{chipStyle}}">Rows caught: {{detailCount}}</span>
+            <span style="{{chipStyle}}">Clears when the row changes</span>
+          </div>
+        </div>
+        <div style="display: flex; align-items: center; height: 30px; padding: 0 20px; background: #faf9f6; border-bottom: 1px solid #e3e1da;">
+          <sc-for list="{{detHead}}" as="h" hint-placeholder-count="6">
+            <span style="{{h.style}}">{{h.label}}</span>
+          </sc-for>
+        </div>
+        <div style="flex-grow: 1; min-height: 0; overflow-y: auto;">
+          <sc-for list="{{detRows}}" as="d" hint-placeholder-count="7">
+            <div style="display: flex; align-items: center; height: 38px; padding: 0 20px; border-bottom: 1px solid #f4f2ec;">
+              <sc-for list="{{d.cells}}" as="c" hint-placeholder-count="6">
+                <span style="{{c.style}}">{{c.v}}</span>
+              </sc-for>
+            </div>
+          </sc-for>
+        </div>
+        <div style="padding: 10px 20px; border-top: 1px solid #f0eee8; font-size: 11.5px; color: #56585c;">{{detailFoot}}</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="height: 34px; flex-shrink: 0; background: #ebe9e2; border-top: 1px solid #c7c4ba; display: flex; align-items: center; gap: 10px; padding: 0 20px;">
+    <span style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; color: #56585c;">A flag never blocks an entry</span>
+    <div style="flex-grow: 1;"></div>
+    <span style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; color: #8a8c90;">A missing value stays missing. The system reports it; it never guesses one.</span>
+  </div>
+</div></template>
+<template id="dc-template-1"><div style="width: 1680px; height: 1100px; box-sizing: border-box; background: #f4f3ef; color: #15171a; display: flex; flex-direction: column; overflow: hidden; position: relative;">
+
+  <div style="height: 52px; flex-shrink: 0; background: #15171a; display: flex; align-items: center; gap: 14px; padding: 0 20px;">
+    <span style="font-size: 14px; font-weight: 700; color: #ffffff;">Revenue Grid</span>
+    <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #9a9c9f;">Shared setup</span>
+    <div style="width: 1px; height: 20px; background: #35383c;"></div>
+    <div style="display: flex; gap: 2px;">
+      <sc-for list="{{tabs}}" as="t" hint-placeholder-count="4">
+        <button type="button" onClick="{{t.onPick}}" style="{{t.style}}">{{t.label}}<span style="{{t.badgeStyle}}">{{t.badge}}</span></button>
+      </sc-for>
+    </div>
+    <div style="flex-grow: 1;"></div>
+    <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #9a9c9f;">N. Deshpande · PRS · full write access</span>
+  </div>
+
+  <div style="flex-grow: 1; display: flex; min-height: 0;">
+
+    <!-- ============ LISTS ============ -->
+    <sc-if value="{{isLists}}" hint-placeholder-val="{{ true }}">
+      <div style="width: 300px; flex-shrink: 0; background: #ffffff; border-right: 1px solid #e3e1da; display: flex; flex-direction: column;">
+        <div style="padding: 14px 16px 12px; border-bottom: 1px solid #e3e1da; display: flex; flex-direction: column; gap: 10px;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #8a8c90;">Lists</span>
+            <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #8a8c90;">{{listCount}}</span>
+            <div style="flex-grow: 1;"></div>
+            <button type="button" onClick="{{onNewList}}" style="appearance: none; height: 26px; padding: 0 10px; border: 1px solid #23605a; border-radius: 3px; background: #ffffff; color: #23605a; font: inherit; font-size: 11.5px; font-weight: 600; cursor: pointer;">+ New</button>
+          </div>
+          <input type="search" placeholder="Search lists…" value="{{listQ}}" onChange="{{onListQ}}" aria-label="Search lists" style="height: 32px; box-sizing: border-box; padding: 0 10px; border: 1px solid #d6d3cb; border-radius: 3px; background: #faf9f6; font: inherit; font-size: 12.5px;">
+        </div>
+        <div style="flex-grow: 1; overflow-y: auto;">
+          <sc-for list="{{listRail}}" as="l" hint-placeholder-count="8">
+            <button type="button" onClick="{{l.onPick}}" style="{{l.style}}">
+              <span style="display: flex; flex-direction: column; gap: 2px; align-items: flex-start; min-width: 0;">
+                <span style="font-size: 13px; font-weight: {{l.weight}};">{{l.name}}</span>
+                <span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #8a8c90;">{{l.meta}}</span>
+              </span>
+              <span style="flex-grow: 1;"></span>
+              <span style="{{l.dotStyle}}"></span>
+            </button>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="flex-grow: 1; min-width: 0; background: #ffffff; display: flex; flex-direction: column;">
+        <div style="padding: 16px 22px 14px; border-bottom: 1px solid #e3e1da;">
+          <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 14px;">
+            <div style="display: flex; flex-direction: column; gap: 3px;">
+              <span style="font-size: 17px; font-weight: 700;">{{listTitle}}</span>
+              <span style="font-size: 12.5px; color: #56585c;">{{listSub}}</span>
+            </div>
+            <div style="flex-grow: 1;"></div>
+            <button type="button" onClick="{{onAddValue}}" style="appearance: none; height: 34px; padding: 0 15px; border: none; border-radius: 3px; background: #23605a; color: #ffffff; font: inherit; font-size: 12.5px; font-weight: 500; cursor: pointer;">+ Add value</button>
+          </div>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <input type="search" placeholder="Search values…" value="{{valQ}}" onChange="{{onValQ}}" aria-label="Search values" style="width: 240px; height: 30px; box-sizing: border-box; padding: 0 10px; border: 1px solid #d6d3cb; border-radius: 3px; background: #faf9f6; font: inherit; font-size: 12.5px;">
+            <sc-for list="{{valFilters}}" as="f" hint-placeholder-count="3">
+              <button type="button" onClick="{{f.onPick}}" style="{{f.style}}">{{f.label}}</button>
+            </sc-for>
+            <div style="flex-grow: 1;"></div>
+            <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #8a8c90;">{{valCountLine}}</span>
+          </div>
+        </div>
+
+        <sc-if value="{{anyChecked}}" hint-placeholder-val="{{ false }}">
+          <div style="padding: 10px 22px; background: #eef3f2; border-bottom: 1px solid #cfe0dd; display: flex; align-items: center; gap: 12px;">
+            <span style="font-size: 12.5px; font-weight: 600; color: #1d544e;">{{checkedCount}} selected</span>
+            <button type="button" onClick="{{onBulkRetire}}" style="appearance: none; height: 28px; padding: 0 12px; border: 1px solid #23605a; border-radius: 3px; background: #ffffff; color: #23605a; font: inherit; font-size: 12px; cursor: pointer;">Retire selected</button>
+            <div style="flex-grow: 1;"></div>
+            <button type="button" onClick="{{onClearChecked}}" style="appearance: none; height: 28px; padding: 0 10px; border: none; background: transparent; color: #56585c; font: inherit; font-size: 12px; cursor: pointer;">Clear</button>
+          </div>
+        </sc-if>
+
+        <div style="flex-shrink: 0; height: 32px; display: flex; align-items: center; background: #faf9f6; border-bottom: 1px solid #c7c4ba; padding: 0 22px;">
+          <span style="width: 30px;"></span>
+          <span style="width: 300px; font-size: 10px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #8a8c90;">Value</span>
+          <span style="width: 150px; text-align: right; font-size: 10px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #8a8c90;">Used by</span>
+          <span style="width: 130px; padding-left: 28px; font-size: 10px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #8a8c90;">State</span>
+          <span style="width: 160px; font-size: 10px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #8a8c90;">Last changed</span>
+          <span style="flex-grow: 1; text-align: right; font-size: 10px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #8a8c90;">Actions</span>
+        </div>
+
+        <div style="flex-grow: 1; overflow-y: auto;">
+          <sc-for list="{{values}}" as="v" hint-placeholder-count="10">
+            <div style="{{v.rowStyle}}">
+              <span style="width: 30px;">
+                <button type="button" onClick="{{v.onCheck}}" aria-label="Select value" style="{{v.checkStyle}}">{{v.checkMark}}</button>
+              </span>
+              <span style="{{v.textStyle}}">{{v.text}}</span>
+              <span style="width: 150px; text-align: right; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #56585c;">{{v.used}}</span>
+              <span style="width: 130px; padding-left: 28px;"><span style="{{v.stateStyle}}">{{v.state}}</span></span>
+              <span style="width: 160px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #8a8c90;">{{v.changed}}</span>
+              <span style="flex-grow: 1; display: flex; justify-content: flex-end; gap: 6px;">
+                <button type="button" onClick="{{v.onRename}}" style="appearance: none; height: 26px; padding: 0 10px; border: 1px solid #e3e1da; border-radius: 3px; background: #ffffff; font: inherit; font-size: 11.5px; color: #56585c; cursor: pointer;">Rename</button>
+                <button type="button" onClick="{{v.onToggle}}" style="{{v.toggleStyle}}">{{v.toggleLabel}}</button>
+              </span>
+            </div>
+          </sc-for>
+          <sc-if value="{{valuesEmpty}}" hint-placeholder-val="{{ false }}">
+            <div style="padding: 40px 22px; text-align: center; color: #8a8c90; font-size: 13px;">No values match that search.</div>
+          </sc-if>
+        </div>
+
+        <div style="flex-shrink: 0; padding: 12px 22px; border-top: 1px solid #e3e1da; background: #faf9f6; font-size: 12px; color: #56585c; line-height: 1.5;">A value in use is never deleted — retiring it hides it from new entries and leaves every historical row intact. Only values with zero rows behind them can be removed outright.</div>
+      </div>
+    </sc-if>
+
+    <!-- ============ HIERARCHY ============ -->
+    <sc-if value="{{isTree}}" hint-placeholder-val="{{ false }}">
+      <div style="width: 560px; flex-shrink: 0; background: #ffffff; border-right: 1px solid #e3e1da; display: flex; flex-direction: column;">
+        <div style="padding: 14px 16px 12px; border-bottom: 1px solid #e3e1da; display: flex; flex-direction: column; gap: 10px;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #8a8c90;">People</span>
+            <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #8a8c90;">{{peopleCount}}</span>
+            <div style="flex-grow: 1;"></div>
+            <button type="button" onClick="{{onAddPerson}}" style="appearance: none; height: 28px; padding: 0 11px; border: none; border-radius: 3px; background: #23605a; color: #ffffff; font: inherit; font-size: 12px; font-weight: 500; cursor: pointer;">+ Add person</button>
+          </div>
+          <div style="display: flex; gap: 8px;">
+            <input type="search" placeholder="Search people…" value="{{treeQ}}" onChange="{{onTreeQ}}" aria-label="Search people" style="flex-grow: 1; height: 30px; box-sizing: border-box; padding: 0 10px; border: 1px solid #d6d3cb; border-radius: 3px; background: #faf9f6; font: inherit; font-size: 12.5px;">
+            <sc-for list="{{roleFilters}}" as="r" hint-placeholder-count="4">
+              <button type="button" onClick="{{r.onPick}}" style="{{r.style}}">{{r.label}}</button>
+            </sc-for>
+          </div>
+        </div>
+        <div style="flex-grow: 1; overflow-y: auto;">
+          <sc-for list="{{tree}}" as="n" hint-placeholder-count="12">
+            <div style="{{n.rowStyle}}">
+              <button type="button" onClick="{{n.onToggle}}" aria-label="Expand" style="{{n.twistyStyle}}">{{n.twisty}}</button>
+              <button type="button" onClick="{{n.onSelect}}" style="{{n.btnStyle}}">
+                <span style="font-size: 13px; font-weight: {{n.weight}}; white-space: nowrap;">{{n.name}}</span>
+                <span style="{{n.roleStyle}}">{{n.role}}</span>
+                <span style="flex-grow: 1;"></span>
+                <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #8a8c90;">{{n.advs}}</span>
+                <span style="{{n.flagStyle}}">{{n.flag}}</span>
+              </span>
+            </div>
+          </sc-for>
+        </div>
+        <div style="flex-shrink: 0; padding: 10px 16px; border-top: 1px solid #e3e1da; background: #faf9f6; font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; color: #8a8c90;">{{treeFooter}}</div>
+      </div>
+
+      <div style="flex-grow: 1; min-width: 0; background: #faf9f6; padding: 20px; overflow-y: auto;">
+        <div style="background: #ffffff; border: 1px solid #e3e1da; border-radius: 5px; padding: 20px 22px; margin-bottom: 18px;">
+          <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 18px;">
+            <div style="width: 44px; height: 44px; border-radius: 22px; background: #23605a; color: #ffffff; font-size: 14px; font-weight: 600; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">{{personInitials}}</div>
+            <div style="display: flex; flex-direction: column; gap: 4px;">
+              <span style="font-size: 19px; font-weight: 700;">{{personName}}</span>
+              <span style="font-size: 12.5px; color: #56585c;">{{personMeta}}</span>
+            </div>
+            <div style="flex-grow: 1;"></div>
+            <button type="button" onClick="{{onMovePerson}}" style="appearance: none; height: 34px; padding: 0 14px; border: 1px solid #e3e1da; border-radius: 3px; background: #ffffff; font: inherit; font-size: 12.5px; color: #15171a; cursor: pointer;">Move under…</button>
+            <button type="button" onClick="{{onDeactivate}}" style="appearance: none; height: 34px; padding: 0 14px; border: 1px solid #e6cfcf; border-radius: 3px; background: #ffffff; font: inherit; font-size: 12.5px; color: #8f2a2a; cursor: pointer;">Deactivate</button>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px;">
+            <sc-for list="{{personStats}}" as="s" hint-placeholder-count="4">
+              <div style="display: flex; flex-direction: column; gap: 3px;">
+                <span style="font-size: 10.5px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #8a8c90;">{{s.label}}</span>
+                <span style="{{s.valStyle}}">{{s.value}}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="background: #ffffff; border: 1px solid #e3e1da; border-radius: 5px; padding: 18px 22px; margin-bottom: 18px;">
+          <div style="font-size: 13.5px; font-weight: 600; margin-bottom: 12px;">What this person's position controls</div>
+          <sc-for list="{{personEffects}}" as="e" hint-placeholder-count="3">
+            <div style="display: flex; align-items: flex-start; gap: 12px; padding: 10px 0; border-bottom: 1px solid #f4f2ec;">
+              <span style="width: 128px; flex-shrink: 0; font-size: 12px; font-weight: 600; color: #56585c;">{{e.k}}</span>
+              <span style="font-size: 12.5px; color: #3e4145; line-height: 1.5;">{{e.v}}</span>
+            </div>
+          </sc-for>
+        </div>
+
+        <sc-if value="{{personWarn}}" hint-placeholder-val="{{ false }}">
+          <div style="background: #fdf8f1; border: 1px solid #f0e2cd; border-left: 3px solid #b9791f; border-radius: 4px; padding: 16px 18px;">
+            <div style="font-size: 13px; font-weight: 600; margin-bottom: 6px;">{{personWarnTitle}}</div>
+            <div style="font-size: 12.5px; color: #56585c; line-height: 1.6;">{{personWarnBody}}</div>
+          </div>
+        </sc-if>
+      </div>
+    </sc-if>
+
+    <!-- ============ DELEGATIONS ============ -->
+    <sc-if value="{{isDeleg}}" hint-placeholder-val="{{ false }}">
+      <div style="flex-grow: 1; min-width: 0; background: #ffffff; display: flex; flex-direction: column;">
+        <div style="padding: 16px 22px 14px; border-bottom: 1px solid #e3e1da;">
+          <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 14px;">
+            <div style="display: flex; flex-direction: column; gap: 3px;">
+              <span style="font-size: 17px; font-weight: 700;">Delegations and transfers</span>
+              <span style="font-size: 12.5px; color: #56585c;">Created by a group head, region head or PRS — never by the exec themselves</span>
+            </div>
+            <div style="flex-grow: 1;"></div>
+            <button type="button" onClick="{{onNewDeleg}}" style="appearance: none; height: 34px; padding: 0 15px; border: none; border-radius: 3px; background: #23605a; color: #ffffff; font: inherit; font-size: 12.5px; font-weight: 500; cursor: pointer;">+ New delegation</button>
+          </div>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <input type="search" placeholder="Search by person or scope…" value="{{delegQ}}" onChange="{{onDelegQ}}" aria-label="Search delegations" style="width: 280px; height: 30px; box-sizing: border-box; padding: 0 10px; border: 1px solid #d6d3cb; border-radius: 3px; background: #faf9f6; font: inherit; font-size: 12.5px;">
+            <sc-for list="{{delegFilters}}" as="f" hint-placeholder-count="5">
+              <button type="button" onClick="{{f.onPick}}" style="{{f.style}}">{{f.label}}<span style="{{f.cntStyle}}">{{f.cnt}}</span></button>
+            </sc-for>
+            <div style="flex-grow: 1;"></div>
+            <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #8a8c90;">{{delegCountLine}}</span>
+          </div>
+        </div>
+
+        <div style="flex-shrink: 0; height: 32px; display: flex; align-items: center; background: #faf9f6; border-bottom: 1px solid #c7c4ba; padding: 0 22px;">
+          <span style="width: 104px; font-size: 10px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #8a8c90;">State</span>
+          <span style="width: 148px; font-size: 10px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #8a8c90;">Kind</span>
+          <span style="width: 260px; font-size: 10px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #8a8c90;">Who covers whom</span>
+          <span style="width: 250px; font-size: 10px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #8a8c90;">Scope</span>
+          <span style="width: 180px; font-size: 10px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #8a8c90;">Window</span>
+          <span style="width: 170px; font-size: 10px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #8a8c90;">Credit</span>
+          <span style="flex-grow: 1; text-align: right; font-size: 10px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #8a8c90;">Actions</span>
+        </div>
+
+        <div style="flex-grow: 1; overflow-y: auto;">
+          <sc-for list="{{delegs}}" as="d" hint-placeholder-count="8">
+            <div style="{{d.rowStyle}}">
+              <span style="width: 104px;"><span style="{{d.stateStyle}}">{{d.state}}</span></span>
+              <span style="width: 148px; font-size: 12px; color: #56585c;">{{d.kind}}</span>
+              <span style="width: 260px; display: flex; align-items: center; gap: 7px; font-size: 12.5px;">
+                <span style="font-weight: 600;">{{d.to}}</span>
+                <span style="color: #8a8c90;">covers</span>
+                <span style="font-weight: 600;">{{d.from}}</span>
+              </span>
+              <span style="width: 250px; font-size: 12px; color: #56585c; padding-right: 12px;">{{d.scope}}</span>
+              <span style="width: 180px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #56585c;">{{d.window}}</span>
+              <span style="width: 170px; font-size: 12px; color: #56585c;">{{d.credit}}</span>
+              <span style="flex-grow: 1; display: flex; justify-content: flex-end; gap: 6px;">
+                <sc-if value="{{d.canEnd}}" hint-placeholder-val="{{ true }}">
+                  <button type="button" onClick="{{d.onEnd}}" style="appearance: none; height: 26px; padding: 0 10px; border: 1px solid #e3e1da; border-radius: 3px; background: #ffffff; font: inherit; font-size: 11.5px; color: #56585c; cursor: pointer;">End now</button>
+                </sc-if>
+                <sc-if value="{{d.canDelete}}" hint-placeholder-val="{{ false }}">
+                  <button type="button" onClick="{{d.onDelete}}" style="appearance: none; height: 26px; padding: 0 10px; border: 1px solid #e6cfcf; border-radius: 3px; background: #ffffff; font: inherit; font-size: 11.5px; color: #8f2a2a; cursor: pointer;">Delete</button>
+                </sc-if>
+                <sc-if value="{{d.isGap}}" hint-placeholder-val="{{ false }}">
+                  <button type="button" onClick="{{d.onFix}}" style="appearance: none; height: 26px; padding: 0 11px; border: none; border-radius: 3px; background: #b9791f; color: #ffffff; font: inherit; font-size: 11.5px; font-weight: 500; cursor: pointer;">Create cover</button>
+                </sc-if>
+              </span>
+            </div>
+          </sc-for>
+        </div>
+
+        <div style="flex-shrink: 0; padding: 12px 22px; border-top: 1px solid #e3e1da; background: #faf9f6; font-size: 12px; color: #56585c; line-height: 1.5;">Cover leaves the owner field alone, so credit stays with the absent exec while the audit names the delegate. A transfer changes the owner and moves credit from its effective date. Only a delegation that has not started yet can be deleted; an active one is ended, never removed.</div>
+      </div>
+    </sc-if>
+
+    <!-- ============ LOG ============ -->
+    <sc-if value="{{isLog}}" hint-placeholder-val="{{ false }}">
+      <div style="flex-grow: 1; min-width: 0; background: #ffffff; display: flex; flex-direction: column;">
+        <div style="padding: 16px 22px 14px; border-bottom: 1px solid #e3e1da; display: flex; align-items: center; gap: 10px;">
+          <div style="display: flex; flex-direction: column; gap: 3px;">
+            <span style="font-size: 17px; font-weight: 700;">Change log</span>
+            <span style="font-size: 12.5px; color: #56585c;">Setup changes only — cell edits live in the grid's own history. Read-only by design.</span>
+          </div>
+          <div style="flex-grow: 1;"></div>
+          <sc-for list="{{logFilters}}" as="f" hint-placeholder-count="6">
+            <button type="button" onClick="{{f.onPick}}" style="{{f.style}}">{{f.label}}</button>
+          </sc-for>
+        </div>
+        <div style="flex-shrink: 0; height: 32px; display: flex; align-items: center; background: #faf9f6; border-bottom: 1px solid #c7c4ba; padding: 0 22px;">
+          <span style="width: 150px; font-size: 10px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #8a8c90;">When</span>
+          <span style="width: 124px; font-size: 10px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #8a8c90;">Area</span>
+          <span style="width: 560px; font-size: 10px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #8a8c90;">What changed</span>
+          <span style="width: 160px; font-size: 10px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #8a8c90;">By</span>
+          <span style="flex-grow: 1; font-size: 10px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #8a8c90;">Reach</span>
+        </div>
+        <div style="flex-grow: 1; overflow-y: auto;">
+          <sc-for list="{{log}}" as="l" hint-placeholder-count="12">
+            <div style="display: flex; align-items: center; height: 40px; border-bottom: 1px solid #f4f2ec; padding: 0 22px;">
+              <span style="width: 150px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #56585c;">{{l.when}}</span>
+              <span style="width: 124px;"><span style="{{l.areaStyle}}">{{l.area}}</span></span>
+              <span style="width: 560px; font-size: 12.5px; padding-right: 16px;">{{l.what}}</span>
+              <span style="width: 160px; font-size: 12px; color: #56585c;">{{l.by}}</span>
+              <span style="flex-grow: 1; font-size: 11.5px; color: #8a8c90;">{{l.reach}}</span>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+  </div>
+
+  <!-- ============ MODAL ============ -->
+  <sc-if value="{{modalOpen}}" hint-placeholder-val="{{ false }}">
+    <div style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; background: rgba(21, 23, 26, 0.36); display: flex; align-items: center; justify-content: center; z-index: 20;">
+      <div style="{{modalStyle}}">
+        <div style="padding: 20px 24px 16px; border-bottom: 1px solid #e3e1da; display: flex; align-items: flex-start; gap: 12px;">
+          <div style="display: flex; flex-direction: column; gap: 4px;">
+            <span style="font-size: 17px; font-weight: 700;">{{modalTitle}}</span>
+            <span style="font-size: 12.5px; color: #56585c; line-height: 1.5;">{{modalSub}}</span>
+          </div>
+          <div style="flex-grow: 1;"></div>
+          <button type="button" onClick="{{onCloseModal}}" aria-label="Close" style="appearance: none; width: 30px; height: 30px; border: 1px solid #e3e1da; border-radius: 3px; background: #ffffff; cursor: pointer; font-size: 16px; line-height: 1; color: #56585c;">×</button>
+        </div>
+
+        <sc-if value="{{modalHasSteps}}" hint-placeholder-val="{{ false }}">
+          <div style="padding: 12px 24px; background: #faf9f6; border-bottom: 1px solid #e3e1da; display: flex; align-items: center; gap: 8px;">
+            <sc-for list="{{modalSteps}}" as="s" hint-placeholder-count="3">
+              <span style="{{s.style}}">{{s.label}}</span>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <div style="padding: 20px 24px; display: flex; flex-direction: column; gap: 16px; max-height: 520px; overflow-y: auto;">
+          <sc-for list="{{modalFields}}" as="f" hint-placeholder-count="3">
+            <div style="display: flex; flex-direction: column; gap: 6px;">
+              <label for="{{f.id}}" style="font-size: 11.5px; font-weight: 600; color: #56585c;">{{f.label}}</label>
+              <sc-if value="{{f.isText}}" hint-placeholder-val="{{ true }}">
+                <input id="{{f.id}}" type="text" value="{{f.value}}" onChange="{{f.onChange}}" placeholder="{{f.ph}}" style="height: 38px; box-sizing: border-box; padding: 0 11px; border: 1px solid #d6d3cb; border-radius: 3px; background: #ffffff; font: inherit; font-size: 13.5px;">
+              </sc-if>
+              <sc-if value="{{f.isPick}}" hint-placeholder-val="{{ false }}">
+                <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+                  <sc-for list="{{f.options}}" as="o" hint-placeholder-count="4">
+                    <button type="button" onClick="{{o.onPick}}" style="{{o.style}}">{{o.label}}</button>
+                  </sc-for>
+                </div>
+              </sc-if>
+              <span style="{{f.hintStyle}}">{{f.hint}}</span>
+            </div>
+          </sc-for>
+
+          <sc-if value="{{modalHasImpact}}" hint-placeholder-val="{{ false }}">
+            <div style="{{impactStyle}}">
+              <div style="font-size: 11.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #8a8c90; margin-bottom: 10px;">{{impactTitle}}</div>
+              <sc-for list="{{modalImpact}}" as="i" hint-placeholder-count="3">
+                <div style="display: flex; align-items: flex-start; gap: 10px; padding: 5px 0;">
+                  <span style="{{i.iconStyle}}">{{i.icon}}</span>
+                  <span style="font-size: 12.5px; color: #3e4145; line-height: 1.5;">{{i.text}}</span>
+                </div>
+              </sc-for>
+            </div>
+          </sc-if>
+        </div>
+
+        <div style="padding: 16px 24px; border-top: 1px solid #e3e1da; background: #faf9f6; display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 11.5px; color: #8a8c90;">{{modalFoot}}</span>
+          <div style="flex-grow: 1;"></div>
+          <sc-if value="{{modalCanBack}}" hint-placeholder-val="{{ false }}">
+            <button type="button" onClick="{{onBack}}" style="appearance: none; height: 36px; padding: 0 14px; border: 1px solid #e3e1da; border-radius: 3px; background: #ffffff; font: inherit; font-size: 13px; color: #56585c; cursor: pointer;">Back</button>
+          </sc-if>
+          <button type="button" onClick="{{onCloseModal}}" style="appearance: none; height: 36px; padding: 0 14px; border: 1px solid #e3e1da; border-radius: 3px; background: #ffffff; font: inherit; font-size: 13px; color: #56585c; cursor: pointer;">Cancel</button>
+          <button type="button" onClick="{{onConfirm}}" style="{{confirmStyle}}">{{modalConfirm}}</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{toastOpen}}" hint-placeholder-val="{{ false }}">
+    <div style="position: absolute; left: 50%; bottom: 26px; transform: translateX(-50%); background: #15171a; color: #ffffff; padding: 12px 18px; border-radius: 4px; display: flex; align-items: center; gap: 10px; z-index: 30; box-shadow: 0 8px 24px rgba(21,23,26,0.22);">
+      <span style="width: 7px; height: 7px; border-radius: 4px; background: #1baf7a;"></span>
+      <span style="font-size: 13px;">{{toast}}</span>
+    </div>
+  </sc-if>
+</div></template>
+
+<div class="foot">Wireframe. Figures are sample data from the current working file, shown so the layout can be judged — not a production system.</div>
+<script src="assets/dc-lite.js"></script>
+<script>window.__DC0 = (function () {
+
+// Five shapes a check can take. The checks themselves are written with PRS;
+// these exist to show what the screen does with one once it is written.
+var SHAPES = [
+  { id: 'c1', n: 34, title: 'A required value is missing', owner: 'Sales',
+    what: 'A field is blank where the rest of the row says it should be filled. The check names the field and the row; it never supplies a value, and the row stays exactly as the exec left it.',
+    head: ['Advertiser', 'Exec', 'Region', 'Field', 'Value', 'What the row says'],
+    rows: [
+      ['Advertiser A', 'Akshaya Iyer', 'West', 'Client Type', '— blank —', 'Marked as advertising this month'],
+      ['Advertiser B', 'Akshaya Iyer', 'West', 'Client Type', '— blank —', 'Marked as advertising this month'],
+      ['Advertiser C', 'Deepali Shresta', 'North', 'Meeting Date', '— blank —', 'Revenue projected against it'],
+      ['Advertiser D', 'Harsh Malviya', 'North', 'LYSM', '— blank —', 'Carried revenue last year'],
+      ['Advertiser E', 'Tanmay Ghosh', 'East', 'Client Personnel Met', '— blank —', 'A meeting was logged'],
+      ['Advertiser F', 'Nikhil Barve', 'South', 'Client Type', '— blank —', 'Marked as advertising this month']
+    ],
+    foot: 'Showing 6 of 34. The exec who owns the row is the one who can fill it.' },
+
+  { id: 'c2', n: 19, title: 'Two fields disagree', owner: 'Sales',
+    what: 'Two values on the same row say things that cannot both be true. The check reports the pair and stops there — it does not decide which of the two is wrong.',
+    head: ['Advertiser', 'Exec', 'Region', 'Field', 'Against', 'The contradiction'],
+    rows: [
+      ['Advertiser G', 'Akshaya Iyer', 'West', 'Client Status', 'Projection', 'Status says not in plan, revenue says otherwise'],
+      ['Advertiser H', 'Deepali Shresta', 'North', 'Client Status', 'Projection', 'Deal marked closed with nothing projected'],
+      ['Advertiser J', 'Nikhil Barve', 'South', 'Genre Budget', 'Campaign Budget', 'A part is larger than the whole'],
+      ['Advertiser K', 'Pooja Ranade', 'South', 'Genre Budget', 'Campaign Budget', 'A part is larger than the whole'],
+      ['Advertiser L', 'Tanmay Ghosh', 'East', 'On-TV flag', 'Budget columns', 'Flag and figures point opposite ways']
+    ],
+    foot: 'Showing 5 of 19. Either field may be the wrong one; the exec decides.' },
+
+  { id: 'c3', n: 11, title: 'A value sits outside its range', owner: 'Sales manager',
+    what: 'A number is far from what the rows around it would suggest, or moves further in a day than the month usually moves. Not wrong by definition — worth a second look before it reaches a summary.',
+    head: ['Advertiser', 'Exec', 'Region', 'Field', 'Value', 'Why it stands out'],
+    rows: [
+      ['Advertiser M', 'Akshaya Iyer', 'West', 'Upside', 'above regular', 'Most of the projection is unconfirmed'],
+      ['Advertiser N', 'Ankita Kohli', 'West', 'Upside', 'above regular', 'Most of the projection is unconfirmed'],
+      ['Advertiser P', 'Pooja Ranade', 'South', 'Genre Budget', 'cut twice this week', 'Second reduction in nine days'],
+      ['Advertiser Q', 'Harsh Malviya', 'North', 'SET Impact', 'entered once, then cleared', 'Added and removed the same day']
+    ],
+    foot: 'Showing 4 of 11. Surfaced to the manager rather than sent back as a correction.' },
+
+  { id: 'c4', n: 6, title: 'A row appears more than once', owner: 'Sales manager',
+    what: 'The same client shows up twice in one genre for one month under two owners. Both rows feed the projection, so the figure is counted twice until someone decides who owns the client.',
+    head: ['Advertiser', 'Exec', 'Region', 'Also under', 'Region', 'Effect'],
+    rows: [
+      ['Advertiser R', 'Akshaya Iyer', 'West', 'Binjal Vora', 'West', 'Counted twice'],
+      ['Advertiser S', 'Tanmay Ghosh', 'East', 'Pooja Ranade', 'South', 'Counted twice'],
+      ['Advertiser T', 'Pooja Ranade', 'South', 'Nikhil Barve', 'South', 'Counted twice']
+    ],
+    foot: 'Only a manager or PRS can resolve this, because resolving it means deciding ownership.' },
+
+  { id: 'c5', n: 27, title: 'A reference has no match', owner: 'PRS',
+    what: 'A name typed into the grid has no match in the master or the list it should come from, so the row cannot group with the same advertiser’s other rows.',
+    head: ['As typed', 'Exec', 'Region', 'Field', 'Closest match', 'Rows affected'],
+    rows: [
+      ['Advertiser U Pvt Ltd', 'Akshaya Iyer', 'West', 'Advertiser Common Name', 'ADVERTISER U', '4'],
+      ['Advertiser V Ltd.', 'Binjal Vora', 'West', 'Advertiser Common Name', 'ADVERTISER V', '3'],
+      ['M/s Advertiser W', 'Nikhil Barve', 'South', 'Advertiser Common Name', 'ADVERTISER W', '2'],
+      ['Agency X Media', 'Deepali Shresta', 'North', 'Agency Common Name', 'AGENCY X', '5']
+    ],
+    foot: 'PRS owns this one. It is listed so it is counted, not so it is sent to sales.' }
+];
+
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { rule: 'c1' }; }
+
+  renderVals() {
+    var self = this, st = this.state;
+
+    var sel = SHAPES[0];
+    SHAPES.forEach(function (r) { if (r.id === st.rule) { sel = r; } });
+
+    var total = 0, bySales = 0, byPRS = 0;
+    SHAPES.forEach(function (r) {
+      total += r.n;
+      if (r.owner === 'PRS') { byPRS += r.n; } else { bySales += r.n; }
+    });
+
+    var kpis = [
+      { label: 'Rows flagged', value: String(total), note: 'across every check' },
+      { label: 'Check categories', value: String(SHAPES.length), note: 'the shapes a check can take' },
+      { label: 'For sales to fix', value: String(bySales), note: 'the exec or their manager' },
+      { label: 'For PRS to fix', value: String(byPRS), note: 'masters and lists' }
+    ].map(function (k) {
+      return { label: k.label, value: k.value, note: k.note,
+        valStyle: 'font-family: "IBM Plex Mono", monospace; font-size: 25px; font-weight: 500; line-height: 1.25; letter-spacing: -0.01em;' };
+    });
+
+    var rules = SHAPES.map(function (r) {
+      var on = r.id === sel.id;
+      return {
+        title: r.title, count: String(r.n), ownerLabel: 'Fixed by ' + r.owner,
+        style: 'appearance: none; width: 100%; box-sizing: border-box; display: flex; align-items: center; gap: 10px; padding: 13px 18px; border: none; border-bottom: 1px solid #f4f2ec; border-left: 3px solid '
+          + (on ? '#23605a' : 'transparent') + '; background: ' + (on ? '#f1f5f3' : '#ffffff') + '; font: inherit; cursor: pointer; text-align: left;',
+        titleStyle: 'font-size: 12.5px; font-weight: ' + (on ? '600' : '500') + '; color: #15171a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;',
+        countStyle: 'flex-shrink: 0; font-family: "IBM Plex Mono", monospace; font-size: 12.5px; font-weight: 600;',
+        onPick: function () { self.setState({ rule: r.id }); }
+      };
+    });
+
+    var W = [198, 140, 86, 168, 156, 250];
+    var detHead = sel.head.map(function (h, i) {
+      return { label: h, style: 'width: ' + W[i] + 'px; flex-shrink: 0; padding-right: 12px; box-sizing: border-box; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #8a8c90;' };
+    });
+    var detRows = sel.rows.map(function (row) {
+      return { cells: row.map(function (v, i) {
+        return { v: v, style: 'width: ' + W[i] + 'px; flex-shrink: 0; padding-right: 12px; box-sizing: border-box; font-size: 12.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: '
+          + (i === 0 ? '#15171a' : (i === 5 ? '#6b5535' : '#56585c')) + ';' };
+      }) };
+    });
+
+    return {
+      kpis: kpis, rules: rules,
+      detailTitle: sel.title, detailWhat: sel.what,
+      detailOwner: sel.owner, detailCount: String(sel.n), detailFoot: sel.foot,
+      chipStyle: 'display: inline-flex; align-items: center; height: 22px; padding: 0 10px; border-radius: 3px; background: #f4f3ef; border: 1px solid #e7e5dd; font-family: "IBM Plex Mono", monospace; font-size: 10.5px; color: #56585c;',
+      detHead: detHead, detRows: detRows
+    };
+  }
+}
+
+return Component;
+})();</script>
+<script>window.__DC1 = (function () {
+
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = {
+      tab: 'lists', toast: '',
+      lists: [
+        { id: 'nature', name: 'Nature of Meeting', cols: 'column M', changed: '09 Sep · PRS', values: [
+          { id: 'v1', t: 'Physical', used: 27, st: 'active', ch: '—' }, { id: 'v2', t: 'Virtual', used: 7, st: 'active', ch: '—' },
+          { id: 'v3', t: 'Telephonic', used: 13, st: 'active', ch: '—' },
+          { id: 'v4', t: 'In-person', used: 0, st: 'retired', ch: '09 Sep' } ] },
+        { id: 'status', name: 'Client Status', cols: 'column K', changed: '02 Sep · PRS', values: [
+          { id: 's1', t: 'Not in Plan', used: 1642, st: 'active', ch: '—' }, { id: 's2', t: 'In Discussions', used: 2318, st: 'active', ch: '—' },
+          { id: 's3', t: 'Deal Closed', used: 1571, st: 'active', ch: '—' }, { id: 's4', t: 'Not active on TV', used: 682, st: 'active', ch: '02 Sep' },
+          { id: 's5', t: 'Not Active', used: 682, st: 'retired', ch: '02 Sep' } ] },
+        { id: 'ctype', name: 'Client Type', cols: 'column J', changed: '—', values: [
+          { id: 'c1', t: 'Active on SET / SAB', used: 2946, st: 'active', ch: '—' },
+          { id: 'c2', t: 'Active on PHGEC Missing on SET/SAB', used: 1104, st: 'active', ch: '—' },
+          { id: 'c3', t: 'Active on Other Entertainment (Sports / Marathi / HMOV) Missed on PHGEC', used: 738, st: 'active', ch: '—' },
+          { id: 'c4', t: 'Potential Clients from News', used: 486, st: 'active', ch: '—' },
+          { id: 'c5', t: 'Potential Clients from Digital, Outdoor & Other Platforms', used: 521, st: 'active', ch: '—' },
+          { id: 'c6', t: 'Upcountry', used: 418, st: 'active', ch: '—' } ] },
+        { id: 'region', name: 'Region', cols: 'column D', changed: '—', values: [
+          { id: 'r1', t: 'North', used: 1488, st: 'active', ch: '—' }, { id: 'r2', t: 'South', used: 1602, st: 'active', ch: '—' },
+          { id: 'r3', t: 'East', used: 1194, st: 'active', ch: '—' }, { id: 'r4', t: 'West', used: 1747, st: 'active', ch: '—' } ] },
+        { id: 'gh', name: 'Group Head', cols: 'column H', changed: '12 Sep · PRS', values: [
+          { id: 'g1', t: 'V. Suresh', used: 3106, st: 'active', ch: '—' }, { id: 'g2', t: 'M. Bhatia', used: 2925, st: 'active', ch: '—' } ] },
+        { id: 'rh', name: 'Region Head', cols: 'column I', changed: '12 Sep · PRS', values: [
+          { id: 'h1', t: 'K. Nair', used: 3235, st: 'active', ch: '—' }, { id: 'h2', t: 'T. Bose', used: 2796, st: 'active', ch: '—' } ] }
+      ],
+      listSel: 'nature', listQ: '', valQ: '', valFilter: 'all', checked: {},
+      people: [
+        { id: 'knair', n: 'K. Nair', role: 'Region head', region: 'West · North', mgr: null, advs: 118, depth: 0, flag: '' },
+        { id: 'vsuresh', n: 'V. Suresh', role: 'Group head', region: 'West · North', mgr: 'knair', advs: 118, depth: 1, flag: '' },
+        { id: 'rmenon', n: 'R. Menon', role: 'Exec', region: 'West', mgr: 'vsuresh', advs: 31, depth: 2, flag: '' },
+        { id: 'akhanna', n: 'A. Khanna', role: 'Exec', region: 'North', mgr: 'vsuresh', advs: 27, depth: 2, flag: '' },
+        { id: 'dsharma', n: 'D. Sharma', role: 'Exec', region: 'North', mgr: 'vsuresh', advs: 24, depth: 2, flag: '' },
+        { id: 'tjoshi', n: 'T. Joshi', role: 'Exec (IC)', region: 'West', mgr: 'vsuresh', advs: 18, depth: 2, flag: 'no region head' },
+        { id: 'mqureshi', n: 'M. Qureshi', role: 'Exec', region: 'West', mgr: 'vsuresh', advs: 18, depth: 2, flag: 'on leave, no cover' },
+        { id: 'tbose', n: 'T. Bose', role: 'Region head', region: 'South · East', mgr: null, advs: 96, depth: 0, flag: '' },
+        { id: 'mbhatia', n: 'M. Bhatia', role: 'Group head', region: 'South · East', mgr: 'tbose', advs: 96, depth: 1, flag: '' },
+        { id: 'siyer', n: 'S. Iyer', role: 'Exec', region: 'South', mgr: 'mbhatia', advs: 29, depth: 2, flag: '' },
+        { id: 'pdesai', n: 'P. Desai', role: 'Exec', region: 'South', mgr: 'mbhatia', advs: 26, depth: 2, flag: '' },
+        { id: 'nrao', n: 'N. Rao', role: 'Exec (IC)', region: 'East', mgr: 'mbhatia', advs: 41, depth: 2, flag: '' }
+      ],
+      personSel: 'mqureshi', treeQ: '', roleFilter: 'all', collapsed: {},
+      delegs: [
+        { id: 'd1', st: 'Active', kind: 'Temporary cover', from: 'S. Iyer', to: 'R. Menon', scope: '29 advertisers, all genres', win: '15 Sep → 30 Sep', credit: 'stays with S. Iyer' },
+        { id: 'd2', st: 'Active', kind: 'Temporary cover', from: 'D. Sharma', to: 'A. Khanna', scope: '6 advertisers, HGEC only', win: '12 Sep → 26 Sep', credit: 'stays with D. Sharma' },
+        { id: 'd3', st: 'Active', kind: 'Permanent transfer', from: 'B. Kulkarni', to: 'N. Rao', scope: '41 advertisers, East', win: 'from 01 Sep', credit: 'moved to N. Rao' },
+        { id: 'd4', st: 'Scheduled', kind: 'Temporary cover', from: 'P. Desai', to: 'S. Iyer', scope: '26 advertisers, all genres', win: '01 Oct → 14 Oct', credit: 'stays with P. Desai' },
+        { id: 'd5', st: 'Needed', kind: 'Not yet created', from: 'M. Qureshi', to: '—', scope: '18 advertisers, unattended', win: 'on leave to 30 Sep', credit: '—' },
+        { id: 'd6', st: 'Ended', kind: 'Temporary cover', from: 'N. Rao', to: 'P. Desai', scope: '12 advertisers, FTA', win: '18 Aug → 31 Aug', credit: 'stayed with N. Rao' }
+      ],
+      delegFilter: 'all', delegQ: '',
+      logFilter: 'all',
+      modal: null
+    };
+  }
+
+  open(kind, target, form, step) { this.setState({ modal: { kind: kind, target: target || null, form: form || {}, step: step || 1 } }); }
+  close() { this.setState({ modal: null }); }
+  say(msg) { this.setState({ toast: msg }); }
+  setForm(k, v) { var m = this.state.modal, f = {}; for (var q in m.form) { f[q] = m.form[q]; } f[k] = v; this.setState({ modal: { kind: m.kind, target: m.target, form: f, step: m.step } }); }
+
+  curList() { var self = this, out = null; this.state.lists.forEach(function (l) { if (l.id === self.state.listSel) { out = l; } }); return out; }
+  person(id) { var out = null; this.state.people.forEach(function (p) { if (p.id === id) { out = p; } }); return out; }
+
+  commit() {
+    var st = this.state, m = st.modal, self = this;
+    var lists = st.lists.map(function (l) { return { id: l.id, name: l.name, cols: l.cols, changed: l.changed, values: l.values.map(function (v) { return { id: v.id, t: v.t, used: v.used, st: v.st, ch: v.ch }; }) }; });
+    var cur = null; lists.forEach(function (l) { if (l.id === st.listSel) { cur = l; } });
+
+    if (m.kind === 'addValue') {
+      if (!m.form.name) { return; }
+      cur.values.push({ id: 'n' + Date.now(), t: m.form.name, used: 0, st: 'active', ch: 'just now' });
+      this.setState({ lists: lists, modal: null, toast: '"' + m.form.name + '" added to ' + cur.name + ' — live in all six genres' });
+      return;
+    }
+    if (m.kind === 'renameValue') {
+      if (!m.form.name) { return; }
+      var old = '';
+      cur.values.forEach(function (v) { if (v.id === m.target) { old = v.t; v.t = m.form.name; v.ch = 'just now'; } });
+      this.setState({ lists: lists, modal: null, toast: m.form.mode === 'new' ? ('"' + m.form.name + '" created; "' + old + '" retired — history keeps the old name') : ('Renamed everywhere — ' + old + ' → ' + m.form.name) });
+      return;
+    }
+    if (m.kind === 'retireValue') {
+      cur.values.forEach(function (v) { if (v.id === m.target) { v.st = v.st === 'retired' ? 'active' : 'retired'; v.ch = 'just now'; } });
+      this.setState({ lists: lists, modal: null, toast: 'State changed — existing rows untouched' });
+      return;
+    }
+    if (m.kind === 'deleteValue') {
+      cur.values = cur.values.filter(function (v) { return v.id !== m.target; });
+      lists.forEach(function (l, i) { if (l.id === st.listSel) { lists[i] = cur; } });
+      this.setState({ lists: lists, modal: null, toast: 'Value deleted — it had no rows behind it' });
+      return;
+    }
+    if (m.kind === 'bulkRetire') {
+      cur.values.forEach(function (v) { if (st.checked[v.id]) { v.st = 'retired'; v.ch = 'just now'; } });
+      this.setState({ lists: lists, checked: {}, modal: null, toast: 'Selected values retired' });
+      return;
+    }
+    if (m.kind === 'newList') {
+      if (!m.form.name) { return; }
+      lists.push({ id: 'l' + Date.now(), name: m.form.name, cols: m.form.col || 'not yet bound', changed: 'just now', values: [] });
+      this.setState({ lists: lists, listSel: lists[lists.length - 1].id, modal: null, toast: 'List created — bind it to a column to start using it' });
+      return;
+    }
+
+    var people = st.people.map(function (p) { return { id: p.id, n: p.n, role: p.role, region: p.region, mgr: p.mgr, advs: p.advs, depth: p.depth, flag: p.flag }; });
+    if (m.kind === 'addPerson') {
+      if (!m.form.name) { return; }
+      var mgrId = m.form.mgr || 'vsuresh';
+      var mgr = null; people.forEach(function (p) { if (p.id === mgrId) { mgr = p; } });
+      var idx = 0; people.forEach(function (p, i) { if (p.id === mgrId) { idx = i; } });
+      people.splice(idx + 1, 0, { id: 'p' + Date.now(), n: m.form.name, role: m.form.role || 'Exec', region: m.form.region || 'West', mgr: mgrId, advs: 0, depth: (mgr ? mgr.depth + 1 : 1), flag: '' });
+      this.setState({ people: people, modal: null, toast: m.form.name + ' added under ' + (mgr ? mgr.n : 'top level') });
+      return;
+    }
+    if (m.kind === 'movePerson') {
+      var newMgr = m.form.mgr;
+      if (!newMgr) { return; }
+      var nm = null; people.forEach(function (p) { if (p.id === newMgr) { nm = p; } });
+      people.forEach(function (p) { if (p.id === m.target) { p.mgr = newMgr; p.depth = nm.depth + 1; } });
+      var moved = this.person(m.target);
+      this.setState({ people: people, modal: null, toast: moved.n + ' now reports to ' + nm.n + ' — effective ' + (m.form.from || '01 Oct') });
+      return;
+    }
+    if (m.kind === 'deactivate') {
+      var p0 = this.person(m.target);
+      if (p0 && p0.advs > 0) { return; }
+      people = people.filter(function (p) { return p.id !== m.target; });
+      this.setState({ people: people, personSel: people.length ? people[0].id : null, modal: null, toast: (p0 ? p0.n : 'Person') + ' deactivated' });
+      return;
+    }
+
+    var delegs = st.delegs.map(function (d) { return { id: d.id, st: d.st, kind: d.kind, from: d.from, to: d.to, scope: d.scope, win: d.win, credit: d.credit }; });
+    if (m.kind === 'newDeleg') {
+      if (m.step < 3) { this.setState({ modal: { kind: m.kind, target: m.target, form: m.form, step: m.step + 1 } }); return; }
+      var transfer = m.form.kind === 'Permanent transfer';
+      var np = { id: 'x' + Date.now(), st: (m.form.start === '01 Oct' ? 'Scheduled' : 'Active'), kind: m.form.kind || 'Temporary cover', from: m.form.from || 'M. Qureshi', to: m.form.to || 'R. Menon', scope: (m.form.scope || 'All advertisers') + ', ' + (m.form.genre || 'all genres'), win: transfer ? ('from ' + (m.form.start || '18 Sep')) : ((m.form.start || '18 Sep') + ' → ' + (m.form.end || '30 Sep')), credit: transfer ? ('moved to ' + (m.form.to || 'R. Menon')) : ('stays with ' + (m.form.from || 'M. Qureshi')) };
+      delegs = delegs.filter(function (d) { return !(d.st === 'Needed' && d.from === np.from); });
+      delegs.unshift(np);
+      this.setState({ delegs: delegs, modal: null, toast: (transfer ? 'Transfer' : 'Cover') + ' created — ' + np.to + ' covers ' + np.from });
+      return;
+    }
+    if (m.kind === 'endDeleg') {
+      delegs.forEach(function (d) { if (d.id === m.target) { d.st = 'Ended'; d.win = d.win.split(' → ')[0] + ' → today'; } });
+      this.setState({ delegs: delegs, modal: null, toast: 'Cover ended — access removed immediately' });
+      return;
+    }
+    if (m.kind === 'deleteDeleg') {
+      delegs = delegs.filter(function (d) { return d.id !== m.target; });
+      this.setState({ delegs: delegs, modal: null, toast: 'Scheduled delegation deleted' });
+      return;
+    }
+    this.setState({ modal: null });
+  }
+
+  renderVals() {
+    var self = this, st = this.state;
+    var pill = function (on, extra) { return 'appearance: none; height: 28px; padding: 0 11px; border-radius: 3px; border: 1px solid ' + (on ? '#15171a' : '#e3e1da') + '; background: ' + (on ? '#15171a' : '#ffffff') + '; color: ' + (on ? '#ffffff' : '#56585c') + '; font: inherit; font-size: 11.5px; font-weight: ' + (on ? '600' : '400') + '; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;' + (extra || ''); };
+
+    var need = 0; st.delegs.forEach(function (d) { if (d.st === 'Needed') { need = need + 1; } });
+    var tabDefs = [['lists', 'Dropdown lists', String(st.lists.length)], ['tree', 'Hierarchy', String(st.people.length)], ['deleg', 'Delegations', need ? String(need) + '!' : ''], ['log', 'Change log', '']];
+    var tabs = tabDefs.map(function (t) {
+      var on = st.tab === t[0];
+      return { label: t[1], badge: t[2], style: 'appearance: none; display: inline-flex; align-items: center; gap: 7px; height: 30px; padding: 0 12px; border-radius: 3px; border: none; background: ' + (on ? '#ffffff' : 'transparent') + '; color: ' + (on ? '#15171a' : '#b9bbbe') + '; font: inherit; font-size: 12px; font-weight: ' + (on ? '600' : '400') + '; cursor: pointer;', badgeStyle: t[2] ? ('font-family: "IBM Plex Mono", monospace; font-size: 10px; ' + (t[2].indexOf('!') !== -1 ? 'color: #b9791f; font-weight: 700;' : 'opacity: 0.6;')) : 'display: none;', onPick: function () { self.setState({ tab: t[0], modal: null }); } };
+    });
+
+    // ---- lists tab
+    var cur = this.curList() || { name: '', cols: '', values: [], changed: '' };
+    var listRail = st.lists.filter(function (l) { return !st.listQ || l.name.toLowerCase().indexOf(st.listQ.toLowerCase()) !== -1; }).map(function (l) {
+      var on = l.id === st.listSel, act = 0, ret = 0;
+      l.values.forEach(function (v) { if (v.st === 'retired') { ret = ret + 1; } else { act = act + 1; } });
+      return { name: l.name, meta: l.cols + ' · ' + act + ' active' + (ret ? ' · ' + ret + ' retired' : ''), weight: on ? '600' : '400', style: 'appearance: none; width: 100%; display: flex; align-items: center; gap: 8px; text-align: left; padding: 11px 16px; border: none; border-left: 3px solid ' + (on ? '#23605a' : 'transparent') + '; background: ' + (on ? '#eef3f2' : 'transparent') + '; font: inherit; color: #15171a; cursor: pointer;', dotStyle: ret ? 'width: 6px; height: 6px; border-radius: 3px; background: #c7c4ba;' : 'display: none;', onPick: function () { self.setState({ listSel: l.id, valQ: '', checked: {} }); } };
+    });
+
+    var vf = [['all', 'All'], ['active', 'Active'], ['retired', 'Retired']];
+    var valFilters = vf.map(function (f) { var on = st.valFilter === f[0]; return { label: f[1], style: pill(on), onPick: function () { self.setState({ valFilter: f[0] }); } }; });
+
+    var vis = cur.values.filter(function (v) {
+      var q = !st.valQ || v.t.toLowerCase().indexOf(st.valQ.toLowerCase()) !== -1;
+      var f = st.valFilter === 'all' || (st.valFilter === 'retired' ? v.st === 'retired' : v.st !== 'retired');
+      return q && f;
+    });
+    var nChecked = 0; for (var k in st.checked) { if (st.checked[k]) { nChecked = nChecked + 1; } }
+
+    var values = vis.map(function (v) {
+      var ret = v.st === 'retired', unused = v.used === 0, on = !!st.checked[v.id];
+      return {
+        text: v.t, used: v.used === 0 ? 'no rows' : v.used.toLocaleString() + ' rows', state: ret ? 'Retired' : 'Active', changed: v.ch,
+        checkMark: on ? '✓' : '', checkStyle: 'appearance: none; width: 17px; height: 17px; border-radius: 3px; border: 1px solid ' + (on ? '#23605a' : '#c7c4ba') + '; background: ' + (on ? '#23605a' : '#ffffff') + '; color: #ffffff; font-size: 11px; line-height: 1; cursor: pointer; padding: 0;',
+        textStyle: 'width: 300px; font-size: 13px; font-weight: 500; color: ' + (ret ? '#8a8c90' : '#15171a') + ';' + (ret ? ' text-decoration: line-through;' : ''),
+        stateStyle: 'display: inline-flex; align-items: center; height: 20px; padding: 0 9px; border-radius: 10px; background: ' + (ret ? '#f2f1ec' : '#e4edeb') + '; color: ' + (ret ? '#6a6c70' : '#1d544e') + '; font-size: 11px; font-weight: 600;',
+        rowStyle: 'display: flex; align-items: center; height: 44px; padding: 0 22px; border-bottom: 1px solid #f4f2ec; background: ' + (on ? '#f7faf9' : '#ffffff') + ';',
+        toggleLabel: unused ? 'Delete' : (ret ? 'Restore' : 'Retire'),
+        toggleStyle: 'appearance: none; height: 26px; padding: 0 10px; border: 1px solid ' + (unused ? '#e6cfcf' : '#e3e1da') + '; border-radius: 3px; background: #ffffff; font: inherit; font-size: 11.5px; color: ' + (unused ? '#8f2a2a' : '#56585c') + '; cursor: pointer;',
+        onCheck: function () { var c = {}; for (var q in st.checked) { c[q] = st.checked[q]; } c[v.id] = !c[v.id]; self.setState({ checked: c }); },
+        onRename: function () { self.open('renameValue', v.id, { name: v.t, mode: v.used > 0 ? 'everywhere' : 'everywhere' }); },
+        onToggle: function () { self.open(unused ? 'deleteValue' : 'retireValue', v.id, {}); }
+      };
+    });
+
+    // ---- hierarchy tab
+    var rf = [['all', 'All'], ['Region head', 'RH'], ['Group head', 'GH'], ['Exec', 'Exec']];
+    var roleFilters = rf.map(function (f) { var on = st.roleFilter === f[0]; return { label: f[1], style: pill(on, ' height: 30px;'), onPick: function () { self.setState({ roleFilter: f[0] }); } }; });
+
+    var hidden = {};
+    st.people.forEach(function (p) { if (st.collapsed[p.id]) { hidden[p.id] = true; } });
+    var treeVis = st.people.filter(function (p) {
+      if (st.treeQ && p.n.toLowerCase().indexOf(st.treeQ.toLowerCase()) === -1) { return false; }
+      if (st.roleFilter !== 'all' && p.role.indexOf(st.roleFilter) === -1) { return false; }
+      var m = p.mgr;
+      while (m) { if (st.collapsed[m]) { return false; } var mp = self.person(m); m = mp ? mp.mgr : null; }
+      return true;
+    });
+    var hasKids = {};
+    st.people.forEach(function (p) { if (p.mgr) { hasKids[p.mgr] = true; } });
+
+    var roleColor = { 'Region head': ['#e7e4ea', '#4b4355'], 'Group head': ['#e2e9f2', '#27477d'], 'Exec': ['#f2f1ec', '#3e4145'], 'Exec (IC)': ['#efe9de', '#6b5426'] };
+    var tree = treeVis.map(function (p) {
+      var on = p.id === st.personSel, rc = roleColor[p.role] || roleColor['Exec'], kids = !!hasKids[p.id], col = !!st.collapsed[p.id];
+      return {
+        name: p.n, role: p.role, advs: p.advs + ' advs', weight: on ? '600' : (p.depth < 2 ? '600' : '400'),
+        twisty: kids ? (col ? '▸' : '▾') : '', twistyStyle: 'appearance: none; width: 20px; height: 100%; margin-left: ' + (14 + p.depth * 20) + 'px; border: none; background: transparent; color: #8a8c90; font-size: 10px; cursor: ' + (kids ? 'pointer' : 'default') + '; padding: 0; flex-shrink: 0;',
+        btnStyle: 'appearance: none; flex-grow: 1; display: flex; align-items: center; gap: 9px; height: 100%; padding: 0 16px 0 2px; border: none; background: transparent; font: inherit; color: #15171a; cursor: pointer; text-align: left; min-width: 0;',
+        roleStyle: 'display: inline-flex; align-items: center; height: 19px; padding: 0 8px; border-radius: 3px; background: ' + rc[0] + '; color: ' + rc[1] + '; font-size: 10.5px; font-weight: 500; white-space: nowrap;',
+        flag: p.flag ? '!' : '', flagStyle: p.flag ? 'width: 15px; height: 15px; border-radius: 8px; background: #f3e4cd; color: #8a5210; font-size: 10px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;' : 'display: none;',
+        rowStyle: 'display: flex; align-items: center; height: 40px; border-bottom: 1px solid #f4f2ec; background: ' + (on ? '#eef3f2' : (p.flag ? '#fdf8f1' : '#ffffff')) + ';',
+        onToggle: function () { if (!kids) { return; } var c = {}; for (var q in st.collapsed) { c[q] = st.collapsed[q]; } c[p.id] = !c[p.id]; self.setState({ collapsed: c }); },
+        onSelect: function () { self.setState({ personSel: p.id }); }
+      };
+    });
+
+    var sel = this.person(st.personSel) || { n: '—', role: '', region: '', advs: 0, mgr: null, flag: '' };
+    var mgrP = sel.mgr ? this.person(sel.mgr) : null;
+    var reports = st.people.filter(function (p) { return p.mgr === sel.id; });
+    var initials = sel.n.split(' ').map(function (x) { return x.charAt(0); }).join('').replace('.', '').substring(0, 2);
+
+    // ---- delegations tab
+    var counts = { all: st.delegs.length };
+    st.delegs.forEach(function (d) { counts[d.st] = (counts[d.st] || 0) + 1; });
+    var df = [['all', 'All'], ['Active', 'Active'], ['Scheduled', 'Scheduled'], ['Needed', 'Needed'], ['Ended', 'Ended']];
+    var delegFilters = df.map(function (f) {
+      var on = st.delegFilter === f[0], c = f[0] === 'all' ? counts.all : (counts[f[0]] || 0);
+      return { label: f[1], cnt: String(c), cntStyle: 'font-family: "IBM Plex Mono", monospace; font-size: 10px; opacity: 0.65;' + (f[0] === 'Needed' && c ? ' color: #b9791f; opacity: 1; font-weight: 700;' : ''), style: pill(on), onPick: function () { self.setState({ delegFilter: f[0] }); } };
+    });
+    var stateColor = { 'Active': ['#e4edeb', '#1d544e'], 'Scheduled': ['#e6ebf4', '#27477d'], 'Needed': ['#f7ecdc', '#8a5210'], 'Ended': ['#f2f1ec', '#6a6c70'] };
+    var delegVis = st.delegs.filter(function (d) {
+      var f = st.delegFilter === 'all' || d.st === st.delegFilter;
+      var q = !st.delegQ || (d.from + ' ' + d.to + ' ' + d.scope).toLowerCase().indexOf(st.delegQ.toLowerCase()) !== -1;
+      return f && q;
+    });
+    var delegs = delegVis.map(function (d) {
+      var c = stateColor[d.st];
+      return {
+        state: d.st, kind: d.kind, from: d.from, to: d.to === '—' ? 'nobody' : d.to, scope: d.scope, window: d.win, credit: d.credit,
+        stateStyle: 'display: inline-flex; align-items: center; height: 20px; padding: 0 9px; border-radius: 10px; background: ' + c[0] + '; color: ' + c[1] + '; font-size: 11px; font-weight: 600;',
+        rowStyle: 'display: flex; align-items: center; height: 46px; padding: 0 22px; border-bottom: 1px solid #f4f2ec; background: ' + (d.st === 'Needed' ? '#fdf8f1' : '#ffffff') + ';',
+        canEnd: d.st === 'Active', canDelete: d.st === 'Scheduled', isGap: d.st === 'Needed',
+        onEnd: function () { self.open('endDeleg', d.id, {}); },
+        onDelete: function () { self.open('deleteDeleg', d.id, {}); },
+        onFix: function () { self.open('newDeleg', null, { from: d.from, kind: 'Temporary cover', scope: 'All advertisers', genre: 'all genres', start: '18 Sep', end: '30 Sep' }, 1); }
+      };
+    });
+
+    // ---- log tab
+    var logRaw = [
+      ['17 Sep 11:20', 'Delegation', 'Cover created — S. Iyer to R. Menon, 15–30 Sep', 'M. Bhatia', '29 advertisers'],
+      ['15 Sep 11:05', 'Schema', 'HGEC — Impact 4 and Impact 5 opened for the festive quarter', 'N. Deshpande', 'HGEC only'],
+      ['15 Sep 10:42', 'Formula', 'SET Overall corrected to include SET HD Regular', 'N. Deshpande', 'HGEC · from Sep-26'],
+      ['12 Sep 09:30', 'Hierarchy', 'Group Head switched from typed to derived', 'S. Kulkarni', 'all genres'],
+      ['12 Sep 09:12', 'Hierarchy', 'D. Sharma moved under V. Suresh', 'S. Kulkarni', '24 advertisers'],
+      ['11 Sep 14:02', 'List', 'Nature of Meeting — "Pitch" added', 'N. Deshpande', 'all genres'],
+      ['09 Sep 15:20', 'List', 'Nature of Meeting — "Renewal" added', 'N. Deshpande', 'all genres'],
+      ['09 Sep 15:18', 'List', 'Nature of Meeting — "In-person" retired, duplicate of "Physical"', 'N. Deshpande', 'coverage formulas count Physical only'],
+      ['02 Sep 16:15', 'List', 'Client Status — "Not Active" renamed to "Not active on TV"', 'S. Kulkarni', '682 rows kept the old name'],
+      ['01 Sep 08:00', 'Delegation', 'Permanent transfer — B. Kulkarni to N. Rao', 'T. Bose', '41 advertisers'],
+      ['01 Sep 07:00', 'Load', 'SPNI LYSM Rev — September figures loaded', 'automated', 'all genres']
+    ];
+    var areaColor = { 'Schema': ['#e2e9f2', '#27477d'], 'Formula': ['#e2e9f2', '#27477d'], 'List': ['#efe9de', '#6b5426'], 'Hierarchy': ['#e7e4ea', '#4b4355'], 'Delegation': ['#f1ebf2', '#4e3a53'], 'Load': ['#e5ecea', '#20514b'] };
+    var lf = [['all', 'All'], ['List', 'Lists'], ['Hierarchy', 'Hierarchy'], ['Delegation', 'Delegations'], ['Formula', 'Formulas'], ['Load', 'Loads']];
+    var logFilters = lf.map(function (f) { var on = st.logFilter === f[0]; return { label: f[1], style: pill(on), onPick: function () { self.setState({ logFilter: f[0] }); } }; });
+    var log = logRaw.filter(function (l) { return st.logFilter === 'all' || l[1] === st.logFilter; }).map(function (l) {
+      var c = areaColor[l[1]];
+      return { when: l[0], area: l[1], what: l[2], by: l[3], reach: l[4], areaStyle: 'display: inline-flex; align-items: center; height: 20px; padding: 0 9px; border-radius: 3px; background: ' + c[0] + '; color: ' + c[1] + '; font-size: 11px; font-weight: 500;' };
+    });
+
+    // ---- modal
+    var m = st.modal, mf = [], mi = [], mTitle = '', mSub = '', mConfirm = 'Save', danger = false, blocked = false, foot = '', impactTitle = 'What this changes', steps = [], width = 560, impactWarn = false;
+    var textField = function (id, label, key, ph, hint) {
+      return { id: id, label: label, isText: true, isPick: false, value: (m.form[key] || ''), ph: ph || '', hint: hint || '', hintStyle: hint ? 'font-size: 11px; color: #8a8c90;' : 'display: none;', onChange: function (e) { self.setForm(key, e.target.value); } };
+    };
+    var pickField = function (id, label, key, opts, hint) {
+      return { id: id, label: label, isText: false, isPick: true, hint: hint || '', hintStyle: hint ? 'font-size: 11px; color: #8a8c90;' : 'display: none;', options: opts.map(function (o) { var on = m.form[key] === o; return { label: o, style: 'appearance: none; height: 32px; padding: 0 12px; border-radius: 3px; border: 1px solid ' + (on ? '#23605a' : '#d6d3cb') + '; background: ' + (on ? '#eef3f2' : '#ffffff') + '; color: ' + (on ? '#1d544e' : '#56585c') + '; font: inherit; font-size: 12.5px; font-weight: ' + (on ? '600' : '400') + '; cursor: pointer;', onPick: function () { self.setForm(key, o); } }; }) };
+    };
+    var line = function (icon, text, kind) { return { icon: icon, text: text, iconStyle: 'width: 17px; height: 17px; flex-shrink: 0; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; background: ' + (kind === 'warn' ? '#f3e4cd' : (kind === 'bad' ? '#f4dede' : '#e4edeb')) + '; color: ' + (kind === 'warn' ? '#8a5210' : (kind === 'bad' ? '#8f2a2a' : '#1d544e')) + ';' }; };
+
+    if (m) {
+      var vTarget = null; cur.values.forEach(function (v) { if (v.id === m.target) { vTarget = v; } });
+      if (m.kind === 'addValue') {
+        mTitle = 'Add a value to ' + cur.name; mSub = 'It becomes selectable in ' + cur.cols + ' across all six genre blocks the moment you save.';
+        mf = [textField('f-name', 'Value', 'name', 'e.g. Upfront commitment')];
+        mi = [line('✓', 'Available immediately in HGEC, HFF, FTA, Marathi GEC, Bengali GEC and Kids'), line('✓', 'No existing row changes')];
+        mConfirm = 'Add value'; foot = 'Logged as a list change';
+      } else if (m.kind === 'renameValue') {
+        var used = vTarget ? vTarget.used : 0;
+        mTitle = 'Rename "' + (vTarget ? vTarget.t : '') + '"'; mSub = used ? (used.toLocaleString() + ' rows already carry this value, so how you rename it matters.') : 'No rows carry this value yet, so a rename is straightforward.';
+        mf = [textField('f-name', 'New value', 'name', '')];
+        if (used) {
+          mf.push(pickField('f-mode', 'How to apply it', 'mode', ['everywhere', 'new'], 'everywhere: historical rows show the new name. new: a new value is created and the old one is retired, so history keeps what was actually recorded.'));
+          mi = m.form.mode === 'new'
+            ? [line('✓', 'A new value is created and "' + (vTarget ? vTarget.t : '') + '" is retired', 'ok'), line('✓', used.toLocaleString() + ' historical rows keep the old name'), line('!', 'Reports grouping by this field will show both values until the old rows age out', 'warn')]
+            : [line('!', used.toLocaleString() + ' historical rows will show the new name', 'warn'), line('!', 'Last month’s reports will no longer match what was on screen at the time', 'warn')];
+        } else { mi = [line('✓', 'No rows affected')]; }
+        mConfirm = 'Rename'; foot = 'Logged as a list change'; width = 620;
+      } else if (m.kind === 'retireValue') {
+        var rv = vTarget || { t: '', used: 0, st: 'active' }, isRet = rv.st === 'retired';
+        mTitle = (isRet ? 'Restore' : 'Retire') + ' "' + rv.t + '"'; mSub = isRet ? 'It becomes selectable again for new entries.' : 'It disappears from the dropdown for new entries. Nothing already recorded changes.';
+        mi = isRet ? [line('✓', 'Selectable again across all genres')] : [line('✓', rv.used.toLocaleString() + ' existing rows keep this value and stay readable'), line('✓', 'Reports that group by this field still show it'), line('!', 'Reps can no longer pick it for new rows', 'warn')];
+        mConfirm = isRet ? 'Restore' : 'Retire'; foot = 'Reversible at any time';
+      } else if (m.kind === 'deleteValue') {
+        mTitle = 'Delete "' + (vTarget ? vTarget.t : '') + '"'; mSub = 'This value has never been used, so it can be removed completely.';
+        mi = [line('✓', 'No rows reference it'), line('!', 'This cannot be undone — you would have to add it again', 'warn')];
+        mConfirm = 'Delete'; danger = true; foot = 'Permitted only because no rows use it';
+      } else if (m.kind === 'bulkRetire') {
+        mTitle = 'Retire ' + nChecked + ' values'; mSub = 'They disappear from new entries across every genre. Existing rows are untouched.';
+        mi = [line('✓', 'Existing rows keep their values'), line('!', 'Reps lose these options for new rows', 'warn')];
+        mConfirm = 'Retire ' + nChecked; foot = 'Reversible per value';
+      } else if (m.kind === 'newList') {
+        mTitle = 'New dropdown list'; mSub = 'Create the list first, then bind it to a column and add values.';
+        mf = [textField('f-name', 'List name', 'name', 'e.g. Campaign Objective'), pickField('f-col', 'Bind to column', 'col', ['not yet bound', 'new column'], 'A list can exist unbound while you build it out.')];
+        mi = [line('✓', 'Shared across all six genres, like every other column A–O list')];
+        mConfirm = 'Create list'; foot = 'Logged as a list change';
+      } else if (m.kind === 'addPerson') {
+        mTitle = 'Add a person'; mSub = 'They appear in the hierarchy immediately and can be picked as an owner.';
+        mf = [textField('f-name', 'Name', 'name', 'e.g. R. Bhalla'), pickField('f-role', 'Role', 'role', ['Exec', 'Exec (IC)', 'Group head', 'Region head']), pickField('f-region', 'Region', 'region', ['West', 'North', 'South', 'East']), pickField('f-mgr', 'Reports to', 'mgr', st.people.filter(function (p) { return p.depth < 2; }).map(function (p) { return p.id; }))];
+        mf[3].options = st.people.filter(function (p) { return p.depth < 2; }).map(function (p) { var on = m.form.mgr === p.id; return { label: p.n, style: 'appearance: none; height: 32px; padding: 0 12px; border-radius: 3px; border: 1px solid ' + (on ? '#23605a' : '#d6d3cb') + '; background: ' + (on ? '#eef3f2' : '#ffffff') + '; color: ' + (on ? '#1d544e' : '#56585c') + '; font: inherit; font-size: 12.5px; font-weight: ' + (on ? '600' : '400') + '; cursor: pointer;', onPick: function () { self.setForm('mgr', p.id); } }; });
+        mi = [line('✓', 'Starts with zero advertisers — assign or transfer some to them next'), line('✓', 'Group Head and Region Head resolve from this position automatically')];
+        mConfirm = 'Add person'; foot = 'Logged as a hierarchy change'; width = 640;
+      } else if (m.kind === 'movePerson') {
+        var mp = this.person(m.target) || { n: '', advs: 0 };
+        mTitle = 'Move ' + mp.n; mSub = 'Changing who they report to changes who can see their rows and who gets their end-of-day digest.';
+        mf = [pickField('f-mgr', 'New manager', 'mgr', []), pickField('f-from', 'Effective from', 'from', ['today', '01 Oct'], 'Backdating does not rewrite digests that already went out.')];
+        mf[0].options = st.people.filter(function (p) { return p.depth < 2 && p.id !== m.target; }).map(function (p) { var on = m.form.mgr === p.id; return { label: p.n + ' · ' + p.role, style: 'appearance: none; height: 32px; padding: 0 12px; border-radius: 3px; border: 1px solid ' + (on ? '#23605a' : '#d6d3cb') + '; background: ' + (on ? '#eef3f2' : '#ffffff') + '; color: ' + (on ? '#1d544e' : '#56585c') + '; font: inherit; font-size: 12.5px; font-weight: ' + (on ? '600' : '400') + '; cursor: pointer;', onPick: function () { self.setForm('mgr', p.id); } }; });
+        mi = [line('!', mp.advs + ' advertisers change visibility — the old manager stops seeing them', 'warn'), line('!', 'Their daily digest moves to the new manager from the effective date', 'warn'), line('✓', 'Owner field and credit are untouched — this is reporting, not ownership')];
+        mConfirm = 'Move'; foot = 'Logged as a hierarchy change'; width = 640; blocked = !m.form.mgr;
+      } else if (m.kind === 'deactivate') {
+        var dp = this.person(m.target) || { n: '', advs: 0 };
+        blocked = dp.advs > 0;
+        mTitle = 'Deactivate ' + dp.n;
+        mSub = blocked ? 'This cannot be done yet — they still own advertisers.' : 'They lose access immediately and disappear from owner pickers.';
+        mi = blocked
+          ? [line('×', dp.n + ' owns ' + dp.advs + ' advertisers. Those rows would become invisible to everyone.', 'bad'), line('→', 'Transfer them permanently to another exec, or set up cover first', 'warn'), line('✓', 'History stays intact either way — deactivating never deletes rows')]
+          : [line('✓', 'No advertisers owned, so nothing becomes orphaned'), line('✓', 'Their past edits stay in the audit trail under their name')];
+        mConfirm = blocked ? 'Transfer first' : 'Deactivate'; danger = !blocked; foot = blocked ? 'Blocked by a validation rule' : 'Reversible by re-adding the person';
+      } else if (m.kind === 'newDeleg') {
+        var transfer = m.form.kind === 'Permanent transfer';
+        steps = ['1 · Who and what kind', '2 · Scope and window', '3 · Review'];
+        width = 680;
+        if (m.step === 1) {
+          mTitle = 'New delegation'; mSub = 'Who is away, and does their work move temporarily or for good?';
+          mf = [pickField('f-from', 'Whose advertisers', 'from', st.people.filter(function (p) { return p.depth === 2; }).map(function (p) { return p.n; })),
+                pickField('f-kind', 'Kind', 'kind', ['Temporary cover', 'Permanent transfer'], 'Cover leaves the owner alone. Transfer changes it, and credit moves with it.'),
+                pickField('f-to', 'Who takes it on', 'to', st.people.filter(function (p) { return p.depth === 2 && p.n !== m.form.from; }).map(function (p) { return p.n; }))];
+          mConfirm = 'Next'; blocked = !m.form.from || !m.form.to || !m.form.kind;
+        } else if (m.step === 2) {
+          mTitle = 'Scope and window'; mSub = 'Narrow it to the rows that actually need covering.';
+          mf = [pickField('f-scope', 'Which advertisers', 'scope', ['All advertisers', 'Selected advertisers', 'By client status']),
+                pickField('f-genre', 'Which genres', 'genre', ['all genres', 'HGEC only', 'HFF only', 'FTA only']),
+                pickField('f-start', 'Starts', 'start', ['18 Sep', '01 Oct'])];
+          if (!transfer) { mf.push(pickField('f-end', 'Ends', 'end', ['30 Sep', '14 Oct', '31 Oct'], 'Access is removed automatically on this date — nobody has to remember.')); }
+          mConfirm = 'Next'; blocked = !m.form.scope || !m.form.start;
+        } else {
+          mTitle = 'Review'; mSub = 'Confirm what this does before it goes live.';
+          impactTitle = 'On save'; impactWarn = transfer;
+          mi = transfer
+            ? [line('!', 'The owner field changes on ' + (m.form.from === 'M. Qureshi' ? '18' : '26') + ' advertisers — this is an ownership change, not access', 'warn'),
+               line('!', 'Credit moves to ' + (m.form.to || '—') + ' from ' + (m.form.start || '18 Sep') + ', including deals ' + (m.form.from || '—') + ' already closed', 'warn'),
+               line('✓', 'Audit keeps every past edit under the name of whoever made it'),
+               line('✓', m.form.from + '’s daily digest stops including these advertisers')]
+            : [line('✓', (m.form.to || '—') + ' can see and edit ' + (m.form.from === 'M. Qureshi' ? '18' : '26') + ' advertisers from ' + (m.form.start || '18 Sep')),
+               line('✓', 'Credit stays with ' + (m.form.from || '—') + ' — the owner field is untouched'),
+               line('✓', 'Every edit is logged under ' + (m.form.to || '—') + ', marked as covering'),
+               line('✓', 'Access is removed automatically on ' + (m.form.end || '30 Sep'))];
+          mConfirm = transfer ? 'Transfer ownership' : 'Create cover';
+          foot = transfer ? 'Requires a region head or PRS' : 'Requires a group head or above';
+        }
+      } else if (m.kind === 'endDeleg') {
+        mTitle = 'End this cover now'; mSub = 'Access is removed the moment you confirm, rather than on the scheduled end date.';
+        mi = [line('✓', 'The delegate loses sight of those rows immediately'), line('✓', 'Their edits so far stay in the audit trail'), line('!', 'If the owner is still away, nobody will be covering those advertisers', 'warn')];
+        mConfirm = 'End now'; foot = 'Recorded as an early end';
+      } else if (m.kind === 'deleteDeleg') {
+        mTitle = 'Delete this scheduled delegation'; mSub = 'It has not started, so nothing has happened under it yet.';
+        mi = [line('✓', 'No access was ever granted'), line('!', 'The absence it was created for still needs covering', 'warn')];
+        mConfirm = 'Delete'; danger = true; foot = 'Only possible before it starts';
+      }
+    }
+
+    return {
+      tabs: tabs, isLists: st.tab === 'lists', isTree: st.tab === 'tree', isDeleg: st.tab === 'deleg', isLog: st.tab === 'log',
+      listCount: st.lists.length + ' lists', listQ: st.listQ, onListQ: function (e) { self.setState({ listQ: e.target.value }); },
+      listRail: listRail, listTitle: cur.name, listSub: 'Feeds ' + cur.cols + ' · shared across all six genres · last changed ' + cur.changed,
+      valQ: st.valQ, onValQ: function (e) { self.setState({ valQ: e.target.value }); }, valFilters: valFilters,
+      valCountLine: vis.length + ' of ' + cur.values.length + ' values', values: values, valuesEmpty: vis.length === 0,
+      anyChecked: nChecked > 0, checkedCount: nChecked,
+      onClearChecked: function () { self.setState({ checked: {} }); },
+      onBulkRetire: function () { self.open('bulkRetire', null, {}); },
+      onAddValue: function () { self.open('addValue', null, { name: '' }); },
+      onNewList: function () { self.open('newList', null, { name: '', col: 'not yet bound' }); },
+
+      peopleCount: st.people.length + ' people', treeQ: st.treeQ, onTreeQ: function (e) { self.setState({ treeQ: e.target.value }); },
+      roleFilters: roleFilters, tree: tree, treeFooter: treeVis.length + ' shown of ' + st.people.length + ' · click a row to see what their position controls',
+      personInitials: initials, personName: sel.n, personMeta: sel.role + ' · ' + sel.region + (mgrP ? ' · reports to ' + mgrP.n : ' · top of the tree'),
+      personStats: [
+        { label: 'Advertisers owned', value: String(sel.advs) },
+        { label: 'Direct reports', value: String(reports.length) },
+        { label: 'Role', value: sel.role },
+        { label: 'Region', value: sel.region }
+      ].map(function (s) { return { label: s.label, value: s.value, valStyle: 'font-family: "IBM Plex Mono", monospace; font-size: 19px; font-weight: 500;' }; }),
+      personEffects: [
+        { k: 'Row visibility', v: sel.role === 'Exec' || sel.role === 'Exec (IC)' ? 'Sees only the ' + sel.advs + ' advertisers where the Exec column matches them, plus anything delegated to them.' : 'Sees every advertiser beneath them in this tree — ' + sel.advs + ' rows across ' + reports.length + ' direct reports.' },
+        { k: 'Digest routing', v: reports.length ? 'Receives one end-of-day digest covering all ' + reports.length + ' direct reports and everyone beneath them.' : 'Appears in ' + (mgrP ? mgrP.n : 'their manager') + '’s end-of-day digest. Does not receive one.' },
+        { k: 'Delegation rights', v: reports.length ? 'Can create cover and permanent transfers for anyone beneath them.' : 'Cannot delegate their own advertisers — only a manager or PRS can.' },
+        { k: 'Column H', v: sel.role === 'Exec (IC)' ? 'Individual contributor, so Group Head resolves to themselves rather than to ' + (mgrP ? mgrP.n : 'a manager') + '.' : 'Group Head resolves to ' + (sel.role === 'Group head' ? sel.n : (mgrP ? mgrP.n : '—')) + '.' }
+      ],
+      personWarn: !!sel.flag, personWarnTitle: sel.flag === 'on leave, no cover' ? 'On leave with no cover' : 'Incomplete position',
+      personWarnBody: sel.flag === 'on leave, no cover' ? (sel.n + ' is on leave to 30 Sep and still owns ' + sel.advs + ' advertisers with no delegation against them. Nobody can see or update those rows until someone creates cover. Deactivating is blocked for the same reason.') : (sel.n + ' has no region head assigned for their region, so column I resolves to blank on all ' + sel.advs + ' of their rows.'),
+      onMovePerson: function () { self.open('movePerson', sel.id, { from: 'today' }); },
+      onDeactivate: function () { self.open('deactivate', sel.id, {}); },
+      onAddPerson: function () { self.open('addPerson', null, { role: 'Exec', region: 'West', mgr: 'vsuresh' }); },
+
+      delegQ: st.delegQ, onDelegQ: function (e) { self.setState({ delegQ: e.target.value }); },
+      delegFilters: delegFilters, delegs: delegs, delegCountLine: delegVis.length + ' of ' + st.delegs.length,
+      onNewDeleg: function () { self.open('newDeleg', null, { kind: 'Temporary cover', scope: 'All advertisers', genre: 'all genres', start: '18 Sep', end: '30 Sep' }, 1); },
+
+      logFilters: logFilters, log: log,
+
+      modalOpen: !!m, modalTitle: mTitle, modalSub: mSub, modalFields: mf, modalImpact: mi, modalHasImpact: mi.length > 0,
+      impactTitle: impactTitle, impactStyle: 'background: ' + (impactWarn ? '#fdf8f1' : '#faf9f6') + '; border: 1px solid ' + (impactWarn ? '#f0e2cd' : '#efedE6') + '; border-radius: 4px; padding: 14px 16px;',
+      modalHasSteps: steps.length > 0, modalSteps: steps.map(function (s, i) {
+        var on = m && m.step === i + 1, done = m && m.step > i + 1;
+        return { label: s, style: 'display: inline-flex; align-items: center; height: 26px; padding: 0 11px; border-radius: 3px; font-size: 11.5px; font-weight: ' + (on ? '600' : '400') + '; background: ' + (on ? '#15171a' : (done ? '#e4edeb' : '#f2f1ec')) + '; color: ' + (on ? '#ffffff' : (done ? '#1d544e' : '#8a8c90')) + ';' };
+      }),
+      modalConfirm: mConfirm, modalFoot: foot, modalCanBack: !!(m && m.kind === 'newDeleg' && m.step > 1),
+      modalStyle: 'width: ' + width + 'px; background: #ffffff; border-radius: 6px; box-shadow: 0 24px 60px rgba(21,23,26,0.28); display: flex; flex-direction: column; max-height: 90%;',
+      confirmStyle: 'appearance: none; height: 36px; padding: 0 18px; border: none; border-radius: 3px; background: ' + (blocked ? '#d6d3cb' : (danger ? '#8f2a2a' : '#23605a')) + '; color: #ffffff; font: inherit; font-size: 13px; font-weight: 500; cursor: ' + (blocked ? 'not-allowed' : 'pointer') + ';',
+      onCloseModal: function () { self.close(); },
+      onBack: function () { self.setState({ modal: { kind: m.kind, target: m.target, form: m.form, step: m.step - 1 } }); },
+      onConfirm: function () { if (blocked) { return; } self.commit(); },
+      toastOpen: !!st.toast, toast: st.toast
+    };
+  }
+}
+
+return Component;
+})();</script>
+<script>
+mountDC('dc-template-0', window.__DC0, 'dc-host-0');
+mountDC('dc-template-1', window.__DC1, 'dc-host-1');
+</script>
+<script src="assets/site.js"></script>
+</body>
+</html>

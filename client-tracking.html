@@ -1,0 +1,480 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Client tracking · Revenue Grid</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+.stage-inner { margin: 0; font-family: "Schibsted Grotesk", system-ui, sans-serif; }
+button:focus-visible { outline: 2px solid #23605a; outline-offset: 1px; }
+.stage-inner{margin:0;font-family:"Schibsted Grotesk",system-ui,sans-serif;color:#15171a;}
+.stage-inner a{color:#23605a;}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <span class="brand"><a href="index.html">Revenue Grid</a></span>
+  <span class="sub">SPNI ad sales · wireframes</span>
+  <span class="spacer"></span>
+  <span class="meta">Eight screens to be built</span>
+</header>
+<nav class="nav">
+<a href="entry-grid.html">Entry grid</a>
+<a href="manager-view.html">Manager View</a>
+<a href="projection-summary.html">Projection summary</a>
+<a href="client-tracking.html" class="on">Client tracking</a>
+<a href="coverage-accuracy.html">Coverage &amp; accuracy</a>
+<a href="prs-insights.html">PRS Insights and Masters</a>
+<a href="dashboard.html">Leadership dashboard</a>
+<a href="delegation.html">Delegation</a>
+</nav>
+
+<div class="boardhead">
+  <h1>Client tracking</h1>
+  <p>Meeting coverage, the client funnel from TV down to SET and SAB, and the Client Type mix.</p>
+</div>
+<div class="boardbar">
+  
+  <div class="zoom">
+    <button type="button" data-mode="fit" class="on">Fit width</button>
+    <button type="button" data-mode="full">100%</button>
+  </div>
+  <span class="hint" data-hint="0">Switch tabs; on the funnel, toggle between client count and revenue. Each tab carries what the data checks found in that same data.</span>
+</div>
+<div class="stage">
+<section class="boardpane" data-pane="0"><div class="stage-frame" data-zoom="fit"><div class="stage-scroll"><div class="stage-inner" id="dc-host-0" data-w="1680" data-h="1200" style="width:1680px;height:1200px;"></div></div></div></section>
+</div>
+<template id="dc-template-0"><div style="width: 1680px; height: 1200px; box-sizing: border-box; background: #f4f3ef; color: #15171a; display: flex; flex-direction: column; overflow: hidden;">
+
+  <div style="height: 52px; flex-shrink: 0; background: #15171a; display: flex; align-items: center; gap: 14px; padding: 0 20px;">
+    <span style="font-size: 14px; font-weight: 700; color: #ffffff;">Revenue Grid</span>
+    <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #9a9c9f;">Client tracking &middot; HGEC &middot; Oct'26</span>
+    <div style="flex-grow: 1;"></div>
+    <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #9a9c9f;">Replicates the Client Tracking Summary sheet, figure for figure</span>
+  </div>
+
+  <div style="height: 50px; flex-shrink: 0; background: #ffffff; border-bottom: 1px solid #e3e1da; display: flex; align-items: center; gap: 8px; padding: 0 20px;">
+    <sc-for list="{{tabs}}" as="t" hint-placeholder-count="3">
+      <button type="button" onClick="{{t.onPick}}" style="{{t.style}}">{{t.label}}</button>
+    </sc-for>
+    <div style="width: 1px; height: 18px; background: #e3e1da; margin: 0 4px;"></div>
+    <span style="{{measureLabelStyle}}">Measure</span>
+    <sc-for list="{{measures}}" as="m" hint-placeholder-count="2">
+      <button type="button" onClick="{{m.onPick}}" style="{{m.style}}">{{m.label}}</button>
+    </sc-for>
+    <div style="flex-grow: 1;"></div>
+    <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #56585c;">{{subline}}</span>
+  </div>
+
+  <div style="flex-grow: 1; min-height: 0; padding: 18px 20px; display: flex; flex-direction: column; gap: 14px; overflow: hidden;">
+
+    <div style="display: flex; gap: 12px; flex-shrink: 0;">
+      <sc-for list="{{kpis}}" as="k" hint-placeholder-count="4">
+        <div style="flex: 1 1 0; background: #ffffff; border: 1px solid #e3e1da; border-radius: 5px; padding: 12px 16px 14px; display: flex; flex-direction: column; gap: 3px;">
+          <span style="font-size: 10px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: #8a8c90;">{{k.label}}</span>
+          <span style="{{k.valStyle}}">{{k.value}}</span>
+          <span style="{{k.noteStyle}}">{{k.note}}</span>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="display: flex; gap: 14px; flex-grow: 1; min-height: 0;">
+
+      <div style="flex: 1 1 0; background: #ffffff; border: 1px solid #e3e1da; border-radius: 5px; padding: 16px 20px 18px; display: flex; flex-direction: column; min-width: 0;">
+        <div style="font-size: 14px; font-weight: 600;">{{tableTitle}}</div>
+        <div style="font-size: 11.5px; color: #56585c; margin-bottom: 12px;">{{tableSub}}</div>
+        <div style="display: flex; align-items: flex-end; height: 34px; border-bottom: 1px solid #c7c4ba; flex-shrink: 0;">
+          <span style="{{rowLabelHeadStyle}}">{{rowLabelHead}}</span>
+          <sc-for list="{{head}}" as="h" hint-placeholder-count="6">
+            <span style="{{h.style}}">{{h.label}}</span>
+          </sc-for>
+        </div>
+        <sc-for list="{{rows}}" as="r" hint-placeholder-count="7">
+          <div style="{{r.rowStyle}}">
+            <span style="{{r.nameStyle}}" title="{{r.name}}">{{r.name}}</span>
+            <sc-for list="{{r.cells}}" as="c" hint-placeholder-count="6">
+              <span style="{{c.style}}">{{c.v}}</span>
+            </sc-for>
+          </div>
+        </sc-for>
+        <div style="flex-grow: 1;"></div>
+        <div style="margin-top: 10px; padding-top: 9px; border-top: 1px solid #f0eee8; font-size: 11.5px; color: #56585c;">{{tableFoot}}</div>
+      </div>
+
+      <div style="width: 640px; flex-shrink: 0; display: flex; flex-direction: column; gap: 14px; min-height: 0;">
+
+        <div style="background: #ffffff; border: 1px solid #e3e1da; border-radius: 5px; padding: 16px 20px 18px; flex-grow: 1; min-height: 0; display: flex; flex-direction: column;">
+          <div style="font-size: 14px; font-weight: 600;">{{chartTitle}}</div>
+          <div style="font-size: 11.5px; color: #56585c; margin-bottom: 4px;">{{chartSub}}</div>
+          <div style="display: flex; gap: 14px; padding: 8px 0 10px; flex-wrap: wrap;">
+            <sc-for list="{{legend}}" as="l" hint-placeholder-count="4">
+              <span style="display: inline-flex; align-items: center; gap: 6px; font-size: 11px; color: #56585c;"><span style="{{l.swatch}}"></span>{{l.label}}</span>
+            </sc-for>
+          </div>
+          <sc-for list="{{bars}}" as="b" hint-placeholder-count="6">
+            <div style="{{b.rowStyle}}">
+              <span style="{{b.nameStyle}}" title="{{b.name}}">{{b.name}}</span>
+              <div style="flex-grow: 1; display: flex; height: 22px; align-items: stretch; background: #f4f3ef; border-radius: 2px; overflow: hidden;">
+                <div style="{{b.s1}}"></div>
+                <div style="{{b.s2}}"></div>
+                <div style="{{b.s3}}"></div>
+                <div style="{{b.s4}}"></div>
+              </div>
+              <span style="width: 72px; flex-shrink: 0; text-align: right; font-family: 'IBM Plex Mono', monospace; font-size: 12px;">{{b.total}}</span>
+            </div>
+          </sc-for>
+          <div style="flex-grow: 1;"></div>
+          <div style="margin-top: 8px; padding-top: 9px; border-top: 1px solid #f0eee8; font-size: 11.5px; color: #56585c;">{{chartFoot}}</div>
+        </div>
+
+        <div style="{{flagCardStyle}}">
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+            <span style="width: 7px; height: 7px; border-radius: 4px; background: #b3540f;"></span>
+            <span style="font-size: 10px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: #8a5210;">Sent to PRS as a data check</span>
+          </div>
+          <sc-for list="{{flags}}" as="f" hint-placeholder-count="3">
+            <div style="display: flex; gap: 10px; padding: 7px 0; border-top: 1px solid #f0e4d2;">
+              <span style="width: 4px; flex-shrink: 0; background: #e2a34a; border-radius: 2px;"></span>
+              <div style="display: flex; flex-direction: column; gap: 2px; min-width: 0;">
+                <span style="font-size: 12.5px; font-weight: 600;">{{f.title}}</span>
+                <span style="font-size: 11.5px; color: #6b5535; line-height: 1.45;">{{f.body}}</span>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div style="height: 34px; flex-shrink: 0; background: #ebe9e2; border-top: 1px solid #c7c4ba; display: flex; align-items: center; gap: 10px; padding: 0 20px;">
+    <span style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; color: #56585c;">{{footRef}}</span>
+    <div style="flex-grow: 1;"></div>
+    <span style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; color: #8a8c90;">Sales enters. The system counts. PRS is told what looks off.</span>
+  </div>
+</div></template>
+
+<div class="foot">Wireframe. Figures are sample data from the current working file, shown so the layout can be judged — not a production system.</div>
+<script src="assets/dc-lite.js"></script>
+<script>window.__DC0 = (function () {
+
+var REG = ['West', 'North', 'South', 'East'];
+
+// Every figure below is read straight off the Client Tracking Summary sheet of
+// CRM_Format - HGEC - Oct'26.
+var DEPLOYED = [364, 325, 96, 42];
+var MIX = { Physical: [8, 16, 0, 3], Virtual: [2, 5, 0, 0], Telephonic: [2, 9, 0, 2], Undefined: [0, 0, 0, 0] };
+
+var FUNNEL = {
+  count: {
+    tv:   [82, 57, 27, 6],
+    hgec: [82, 57, 27, 6],
+    set:  [54, 48, 19, 3],
+    sab:  [63, 47, 25, 4]
+  },
+  rev: {
+    tv:   [148.47, 151.21, 16.50, 8.00],
+    hgec: [127.08, 82.92, 30.91, 5.70],
+    set:  [50.83, 29.70, 13.45, 0.40],
+    sab:  [27.67, 15.07, 10.08, 0.70]
+  }
+};
+
+var CTYPES = [
+  ['Active on SET / SAB', [13, 4, 18, 2]],
+  ['Active on PHGEC Missing on SET/SAB', [0, 0, 1, 1]],
+  ['Active on Other Entertainment (Sports / Marathi / HMOV) Missed on PHGEC', [0, 1, 4, 0]],
+  ['Potential Clients from News', [5, 2, 0, 0]],
+  ['Potential Clients from Digital, Outdoor & Other Platforms', [0, 24, 2, 1]],
+  ['Upcountry', [0, 0, 1, 0]]
+];
+
+var BARROW = 'display: flex; align-items: center; height: 46px;';
+var BLUE = '#2a78d6', ORANGE = '#eb6834', AQUA = '#1baf7a', YELLOW = '#eda100', GREY = '#c9c6bd';
+
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { tab: 'coverage', measure: 'count' }; }
+
+  sum(a) { var t = 0; for (var i = 0; i < a.length; i++) { t = t + a[i]; } return t; }
+  n0(v) { return String(Math.round(v)); }
+  n2(v) { return (Math.round(v * 100) / 100).toFixed(2); }
+  pc(a, b) { return b ? (Math.round(a / b * 1000) / 10).toFixed(1) + '%' : '—'; }
+
+  cellStyle(w, strong, tone) {
+    return 'width: ' + w + 'px; flex-shrink: 0; text-align: right; padding-right: 14px; box-sizing: border-box; '
+      + 'font-family: "IBM Plex Mono", monospace; font-size: 12px; font-weight: ' + (strong ? '600' : '400')
+      + '; color: ' + (tone || (strong ? '#15171a' : '#56585c')) + ';';
+  }
+  headStyle(w) {
+    return 'width: ' + w + 'px; flex-shrink: 0; text-align: right; padding-right: 14px; box-sizing: border-box; '
+      + 'font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #8a8c90;';
+  }
+  nameStyle(w, strong) {
+    return 'width: ' + w + 'px; flex-shrink: 0; padding-right: 12px; box-sizing: border-box; font-size: '
+      + (w > 300 ? '11.5' : '12.5') + 'px; font-weight: ' + (strong ? '600' : '400')
+      + '; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;';
+  }
+  seg(v, tot, colour, showLabel) {
+    var p = tot ? (v / tot * 100) : 0;
+    return 'width: ' + p + '%; background: ' + colour + '; display: flex; align-items: center; justify-content: center; '
+      + 'color: #ffffff; font-family: "IBM Plex Mono", monospace; font-size: 10.5px; overflow: hidden;'
+      + (showLabel && p > 11 ? '' : ' color: transparent;');
+  }
+
+  renderVals() {
+    var self = this, st = this.state;
+    var tabDefs = [['coverage', 'Meeting coverage'], ['funnel', 'Client funnel'], ['ctype', 'Client type mix']];
+    var tabs = tabDefs.map(function (d) {
+      var on = st.tab === d[0];
+      return { label: d[1], style: 'appearance: none; height: 32px; padding: 0 14px; border-radius: 3px; border: 1px solid '
+        + (on ? '#23605a' : '#e3e1da') + '; background: ' + (on ? '#23605a' : '#ffffff') + '; color: ' + (on ? '#ffffff' : '#56585c')
+        + '; font: inherit; font-size: 12px; font-weight: 500; cursor: pointer;',
+        onPick: function () { self.setState({ tab: d[0] }); } };
+    });
+
+    var showMeasure = st.tab === 'funnel';
+    var measures = [['count', 'Client count'], ['rev', '₹ Cr']].map(function (d) {
+      var on = st.measure === d[0];
+      return { label: d[1], style: (showMeasure ? '' : 'display: none; ')
+        + 'appearance: none; height: 28px; padding: 0 12px; border-radius: 3px; border: 1px solid '
+        + (on ? '#15171a' : '#e3e1da') + '; background: ' + (on ? '#15171a' : '#ffffff') + '; color: ' + (on ? '#ffffff' : '#56585c')
+        + '; font: inherit; font-size: 11.5px; font-weight: ' + (on ? '600' : '400') + '; cursor: pointer;',
+        onPick: function () { self.setState({ measure: d[0] }); } };
+    });
+    var measureLabelStyle = (showMeasure ? '' : 'display: none; ')
+      + 'font-size: 10px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: #8a8c90;';
+
+    var kpis = [], head = [], rows = [], bars = [], legend = [], flags = [];
+    var rowLabelHead = 'Region', rowLabelW = 190, tableTitle = '', tableSub = '', tableFoot = '';
+    var chartTitle = '', chartSub = '', chartFoot = '', subline = '', footRef = '';
+
+    var W = 96;
+
+    // ---------------------------------------------------------------- coverage
+    if (st.tab === 'coverage') {
+      var meet = REG.map(function (r, i) { return MIX.Physical[i] + MIX.Virtual[i] + MIX.Telephonic[i] + MIX.Undefined[i]; });
+      var totDep = this.sum(DEPLOYED), totMeet = this.sum(meet);
+      var totPhys = this.sum(MIX.Physical);
+
+      kpis = [
+        { label: 'Deployed clients', value: this.n0(totDep), note: 'rows carrying an owner this month', good: null },
+        { label: 'Meetings logged', value: this.n0(totMeet), note: 'a meeting counts when Meeting Date is filled', good: null },
+        { label: 'Coverage', value: this.pc(totMeet, totDep), note: 'at most ' + this.n0(totMeet) + ' of ' + this.n0(totDep) + ' clients were met', good: false },
+        { label: 'Physical share', value: this.pc(totPhys, totMeet), note: 'the rest virtual or telephonic', good: null }
+      ];
+
+      tableTitle = 'Meeting coverage by region';
+      tableSub = 'Client Tracking Summary rows 3–5 and 9–13, reproduced.';
+      rowLabelHead = 'Region'; rowLabelW = 140;
+      head = [['Physical', W], ['Virtual', W], ['Telephonic', W], ['Undefined', W], ['Total', W], ['% Physical', W], ['Deployed', W], ['Coverage', W]]
+        .map(function (h) { return { label: h[0], style: self.headStyle(h[1]) }; });
+
+      rows = REG.map(function (r, i) {
+        var tot = meet[i];
+        var vals = [MIX.Physical[i], MIX.Virtual[i], MIX.Telephonic[i], MIX.Undefined[i], tot];
+        var cells = vals.map(function (v, j) { return { v: self.n0(v), style: self.cellStyle(W, j === 4) }; });
+        cells.push({ v: tot ? self.pc(MIX.Physical[i], tot) : '—', style: self.cellStyle(W, false) });
+        cells.push({ v: self.n0(DEPLOYED[i]), style: self.cellStyle(W, false) });
+        cells.push({ v: self.pc(tot, DEPLOYED[i]), style: self.cellStyle(W, true, tot === 0 ? '#8f2a2a' : '#15171a') });
+        return { name: r, cells: cells, nameStyle: self.nameStyle(140, false),
+          rowStyle: 'display: flex; align-items: center; height: 36px; border-bottom: 1px solid #f4f2ec;' };
+      });
+      var tVals = [totPhys, self.sum(MIX.Virtual), self.sum(MIX.Telephonic), self.sum(MIX.Undefined), totMeet];
+      var tCells = tVals.map(function (v, j) { return { v: self.n0(v), style: self.cellStyle(W, true) }; });
+      tCells.push({ v: self.pc(totPhys, totMeet), style: self.cellStyle(W, true) });
+      tCells.push({ v: self.n0(totDep), style: self.cellStyle(W, true) });
+      tCells.push({ v: self.pc(totMeet, totDep), style: self.cellStyle(W, true) });
+      rows.push({ name: 'Total', cells: tCells, nameStyle: self.nameStyle(140, true),
+        rowStyle: 'display: flex; align-items: center; height: 40px; border-top: 1px solid #c7c4ba;' });
+
+      tableFoot = 'Undefined is not a dropdown value. It is what is left when a logged meeting carries a Nature of Meeting the coverage formula does not recognise.';
+
+      chartTitle = 'How the 47 meetings were held';
+      chartSub = 'Share within each region, not against the client base.';
+      legend = [['Physical', BLUE], ['Virtual', ORANGE], ['Telephonic', AQUA], ['Undefined', GREY]]
+        .map(function (l) { return { label: l[0], swatch: 'width: 10px; height: 10px; border-radius: 2px; background: ' + l[1] + ';' }; });
+      bars = REG.map(function (r, i) {
+        var tot = meet[i];
+        return { name: r, nameStyle: self.nameStyle(96, false), total: tot ? self.n0(tot) : 'none', rowStyle: BARROW,
+          s1: self.seg(MIX.Physical[i], tot, BLUE, true), s2: self.seg(MIX.Virtual[i], tot, ORANGE, true),
+          s3: self.seg(MIX.Telephonic[i], tot, AQUA, true), s4: self.seg(MIX.Undefined[i], tot, GREY, true) };
+      });
+      chartFoot = 'South logged nothing, so its bar is empty rather than zero-width.';
+
+      flags = [
+        { title: 'South: 96 deployed clients, 0 meetings', body: 'No meeting has been logged in South all month. Either the meetings happened and were not entered, or the region genuinely met nobody.' },
+        { title: 'Two competing lists for Nature of Meeting', body: 'The Dropdown List sheet holds Physical / Virtual / Telephonic and, separately, In-person / Virtual / Telephonic. The coverage formulas count Physical. Anything entered as In-person falls into Undefined.' },
+        { title: 'Coverage is 5.7% overall', body: '47 meetings against a base of 827 deployed clients, and the sheet counts meetings rather than distinct clients, so true coverage is at most this. Worth confirming that the deployed-client base is current before reading this as a coverage failure.' }
+      ];
+      subline = 'Meetings counted on a non-blank Meeting Date';
+      footRef = 'Client Tracking Summary B2:J13';
+    }
+
+    // ------------------------------------------------------------------ funnel
+    if (st.tab === 'funnel') {
+      var isRev = st.measure === 'rev';
+      var D = isRev ? FUNNEL.rev : FUNNEL.count;
+      var f = isRev ? function (v) { return '₹' + self.n2(v); } : function (v) { return self.n0(v); };
+      var tTv = this.sum(D.tv), tHg = this.sum(D.hgec), tSet = this.sum(D.set), tSab = this.sum(D.sab);
+
+      kpis = [
+        { label: isRev ? 'Campaign budget on TV' : 'Clients advertising on TV', value: f(tTv), note: isRev ? 'column P, summed by region' : 'column BF reads Yes', good: null },
+        { label: isRev ? 'Genre budget in HGEC' : 'Clients advertising in HGEC', value: f(tHg), note: isRev ? 'column Q, summed by region' : 'column Q above zero', good: null },
+        { label: 'Converted to SET', value: this.pc(tSet, tHg), note: f(tSet) + ' of ' + f(tHg), good: null },
+        { label: 'Converted to SAB', value: this.pc(tSab, tHg), note: f(tSab) + ' of ' + f(tHg), good: null }
+      ];
+
+      tableTitle = isRev ? 'Client funnel by region — ₹ Cr' : 'Client funnel by region — client count';
+      tableSub = 'Client Tracking Summary rows 26–32. Conversion is measured against HGEC, not against TV.';
+      rowLabelHead = 'Stage'; rowLabelW = 250;
+      head = REG.concat(['Total']).map(function (r) { return { label: r, style: self.headStyle(112) }; });
+
+      var stages = [
+        ['Clients Advertising on TV', D.tv, tTv, false],
+        ['Clients Advertising in HGEC', D.hgec, tHg, false],
+        ['Client Advertising on SET', D.set, tSet, false],
+        ['Client Advertising on SAB', D.sab, tSab, false]
+      ];
+      rows = stages.map(function (s) {
+        var cells = s[1].map(function (v) { return { v: f(v), style: self.cellStyle(112, false) }; });
+        cells.push({ v: f(s[2]), style: self.cellStyle(112, true) });
+        return { name: s[0], cells: cells, nameStyle: self.nameStyle(250, false),
+          rowStyle: 'display: flex; align-items: center; height: 36px; border-bottom: 1px solid #f4f2ec;' };
+      });
+      [['Conversion on SET', D.set, tSet], ['Conversion on SAB', D.sab, tSab]].forEach(function (c) {
+        var cells = c[1].map(function (v, i) { return { v: self.pc(v, D.hgec[i]), style: self.cellStyle(112, false, '#27477d') }; });
+        cells.push({ v: self.pc(c[2], tHg), style: self.cellStyle(112, true, '#27477d') });
+        rows.push({ name: c[0], cells: cells, nameStyle: self.nameStyle(250, false),
+          rowStyle: 'display: flex; align-items: center; height: 36px; border-bottom: 1px solid #f4f2ec; background: #fafbfd;' });
+      });
+      var wsCells = REG.map(function (r, i) {
+        var ws = (D.set[i] + D.sab[i]) / D.tv[i] * 100;
+        return { v: (Math.round(ws * 10) / 10).toFixed(1) + '%', style: self.cellStyle(112, true, ws > 100 ? '#8f2a2a' : '#15171a') };
+      });
+      wsCells.push({ v: self.pc(tSet + tSab, tTv), style: self.cellStyle(112, true) });
+      rows.push({ name: 'Wallet share — SPNI of TV', cells: wsCells, nameStyle: self.nameStyle(250, true),
+        rowStyle: 'display: flex; align-items: center; height: 40px; border-top: 1px solid #c7c4ba;' });
+
+      tableFoot = isRev
+        ? 'TV and HGEC read the budget columns the sales team types. SET and SAB read the projection columns the grid calculates.'
+        : 'On TV and in HGEC return the same 172 clients in every region. The sheet asks two questions and gets one answer.';
+
+      chartTitle = 'Where the funnel loses clients';
+      chartSub = 'Each bar is that region’s HGEC base, split by what SPNI won.';
+      legend = [['On SET and SAB', BLUE], ['SET only', ORANGE], ['SAB only', AQUA], ['Neither', GREY]]
+        .map(function (l) { return { label: l[0], swatch: 'width: 10px; height: 10px; border-radius: 2px; background: ' + l[1] + ';' }; });
+      bars = REG.map(function (r, i) {
+        var base = D.hgec[i], s = D.set[i], b = D.sab[i];
+        var both = Math.max(0, s + b - base), setOnly = Math.max(0, s - both), sabOnly = Math.max(0, b - both);
+        var none = Math.max(0, base - both - setOnly - sabOnly);
+        return { name: r, nameStyle: self.nameStyle(96, false), total: f(base), rowStyle: BARROW,
+          s1: self.seg(both, base, BLUE, true), s2: self.seg(setOnly, base, ORANGE, true),
+          s3: self.seg(sabOnly, base, AQUA, true), s4: self.seg(none, base, GREY, true) };
+      });
+      chartFoot = 'Overlap is inferred, not recorded. The sheet counts SET clients and SAB clients separately and never asks how many are the same client.';
+
+      flags = [
+        { title: 'South genre budget exceeds its campaign budget', body: 'HGEC genre budget reads ₹30.91 Cr against a TV campaign budget of ₹16.50 Cr for the same clients. One of the two columns is wrong; wallet share comes out at 142.6%.' },
+        { title: 'On TV and in HGEC return identical counts', body: 'All 172 clients marked as advertising on TV also show an HGEC budget above zero, in every region. Either every TV advertiser is an HGEC advertiser, or column BF is being set from column Q.' },
+        { title: 'Wallet share is computed for West only', body: 'Cell H32 divides SET plus SAB by TV for West and stops. North, South, East and the total have no formula at all.' }
+      ];
+      subline = isRev ? 'Revenue in ₹ Cr, HGEC only' : 'Distinct advertisers, HGEC only';
+      footRef = 'Client Tracking Summary B24:L32';
+    }
+
+    // ------------------------------------------------------------------- ctype
+    if (st.tab === 'ctype') {
+      var totals = CTYPES.map(function (t) { return self.sum(t[1]); });
+      var grand = this.sum(totals);
+      var byReg = REG.map(function (r, i) { var t = 0; CTYPES.forEach(function (c) { t = t + c[1][i]; }); return t; });
+      var onTv = this.sum(FUNNEL.count.tv);
+
+      kpis = [
+        { label: 'Rows carrying a Client Type', value: this.n0(grand), note: 'out of ' + this.n0(onTv) + ' clients advertising on TV', good: false },
+        { label: 'Typed coverage', value: this.pc(grand, onTv), note: this.n0(onTv - grand) + ' advertising clients have no type', good: false },
+        { label: 'Largest bucket', value: 'Active on SET / SAB', note: this.n0(totals[0]) + ' clients, ' + this.pc(totals[0], grand) + ' of typed rows', good: null, small: true },
+        { label: 'Prospecting buckets', value: this.n0(totals[3] + totals[4] + totals[5]), note: 'News, Digital / OOH and Upcountry combined', good: null }
+      ];
+
+      tableTitle = 'Client Type mix by region';
+      tableSub = 'Client Tracking Summary rows 39–46, counted off column J.';
+      rowLabelHead = 'Client Type'; rowLabelW = 360;
+      head = REG.concat(['Total', 'Share']).map(function (r) { return { label: r, style: self.headStyle(92) }; });
+
+      rows = CTYPES.map(function (t, k) {
+        var cells = t[1].map(function (v) { return { v: self.n0(v), style: self.cellStyle(92, false, v === 0 ? '#a9aba4' : '#56585c') }; });
+        cells.push({ v: self.n0(totals[k]), style: self.cellStyle(92, true) });
+        cells.push({ v: self.pc(totals[k], grand), style: self.cellStyle(92, false) });
+        return { name: t[0], cells: cells, nameStyle: self.nameStyle(360, false),
+          rowStyle: 'display: flex; align-items: center; height: 36px; border-bottom: 1px solid #f4f2ec;' };
+      });
+      var gCells = byReg.map(function (v) { return { v: self.n0(v), style: self.cellStyle(92, true) }; });
+      gCells.push({ v: this.n0(grand), style: this.cellStyle(92, true) });
+      gCells.push({ v: '100.0%', style: this.cellStyle(92, true) });
+      rows.push({ name: 'Total typed', cells: gCells, nameStyle: this.nameStyle(360, true),
+        rowStyle: 'display: flex; align-items: center; height: 40px; border-top: 1px solid #c7c4ba;' });
+      var uCells = REG.map(function (r, i) {
+        return { v: self.n0(FUNNEL.count.tv[i] - byReg[i]), style: self.cellStyle(92, false, '#8f2a2a') };
+      });
+      uCells.push({ v: this.n0(onTv - grand), style: this.cellStyle(92, true, '#8f2a2a') });
+      uCells.push({ v: this.pc(onTv - grand, onTv), style: this.cellStyle(92, false, '#8f2a2a') });
+      rows.push({ name: 'Advertising, no type entered', cells: uCells, nameStyle: this.nameStyle(360, false),
+        rowStyle: 'display: flex; align-items: center; height: 36px; background: #fdf6ef;' });
+
+      tableFoot = 'The sheet carries a seventh row, Not active on TV, counted against Client Type. That value lives on the Client Status list, so the row can only ever return zero.';
+
+      chartTitle = 'Typed clients by region';
+      chartSub = 'Each bar is one region’s typed rows, split by bucket.';
+      legend = [['Active on SET / SAB', BLUE], ['Missing on SET/SAB', ORANGE], ['Other entertainment', AQUA], ['Prospecting', YELLOW]]
+        .map(function (l) { return { label: l[0], swatch: 'width: 10px; height: 10px; border-radius: 2px; background: ' + l[1] + ';' }; });
+      bars = REG.map(function (r, i) {
+        var a = CTYPES[0][1][i], b = CTYPES[1][1][i], c = CTYPES[2][1][i];
+        var d = CTYPES[3][1][i] + CTYPES[4][1][i] + CTYPES[5][1][i];
+        var tot = a + b + c + d;
+        return { name: r, nameStyle: self.nameStyle(96, false), total: tot ? self.n0(tot) : 'none', rowStyle: BARROW,
+          s1: self.seg(a, tot, BLUE, true), s2: self.seg(b, tot, ORANGE, true),
+          s3: self.seg(c, tot, AQUA, true), s4: self.seg(d, tot, YELLOW, true) };
+      });
+      chartFoot = 'North is almost entirely prospecting: 24 of its 31 typed rows are Digital, Outdoor & Other Platforms.';
+
+      flags = [
+        { title: '93 advertising clients carry no Client Type', body: 'Only 79 of the 172 clients advertising on TV have column J filled. The prospecting view is being read off 46% of the base.' },
+        { title: 'A Client Status value is being counted as a Client Type', body: 'Row 45 counts Not active on TV against column J. That value only exists on the Client Status list, so the row returns zero whatever the data says.' },
+        { title: 'Hardcoded numbers sit beside the formulas', body: 'Cells H39 to H43 hold typed constants — 170, 5, 40, 138, 42 — in a block whose header row stops at column G. Nothing reads them and nothing updates them.' }
+      ];
+      subline = 'Counted off column J, Client Type';
+      footRef = 'Client Tracking Summary B37:G46';
+    }
+
+    var kpiOut = kpis.map(function (k) {
+      return { label: k.label, value: k.value, note: k.note,
+        valStyle: 'font-family: "IBM Plex Mono", monospace; font-size: ' + (k.small ? '15' : '25') + 'px; font-weight: '
+          + (k.small ? '600' : '500') + '; line-height: 1.25; letter-spacing: -0.01em;',
+        noteStyle: 'font-size: 11.5px; color: ' + (k.good === false ? '#8a5210' : '#56585c') + ';' };
+    });
+
+    return {
+      tabs: tabs, measures: measures, measureLabelStyle: measureLabelStyle, subline: subline, footRef: footRef,
+      kpis: kpiOut,
+      tableTitle: tableTitle, tableSub: tableSub, tableFoot: tableFoot,
+      rowLabelHead: rowLabelHead, rowLabelHeadStyle: 'width: ' + rowLabelW + 'px; flex-shrink: 0; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #8a8c90;',
+      head: head, rows: rows,
+      chartTitle: chartTitle, chartSub: chartSub, chartFoot: chartFoot, legend: legend, bars: bars,
+      flagCardStyle: 'background: #fdf7f0; border: 1px solid #edd9bd; border-radius: 5px; padding: 14px 18px 12px; flex-shrink: 0;',
+      flags: flags
+    };
+  }
+}
+
+return Component;
+})();</script>
+<script>
+mountDC('dc-template-0', window.__DC0, 'dc-host-0');
+</script>
+<script src="assets/site.js"></script>
+</body>
+</html>

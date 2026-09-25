@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Delegation · Revenue Grid</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+.stage-inner { margin: 0; font-family: "Schibsted Grotesk", system-ui, sans-serif; }
+a { color: #23605a; } a:hover { color: #164039; }
+.stage-inner{margin:0;font-family:"Schibsted Grotesk",system-ui,sans-serif;color:#15171a;}
+.stage-inner a{color:#23605a;}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <span class="brand"><a href="index.html">Revenue Grid</a></span>
+  <span class="sub">SPNI ad sales · wireframes</span>
+  <span class="spacer"></span>
+  <span class="meta">Eight screens to be built</span>
+</header>
+<nav class="nav">
+<a href="entry-grid.html">Entry grid</a>
+<a href="manager-view.html">Manager View</a>
+<a href="projection-summary.html">Projection summary</a>
+<a href="client-tracking.html">Client tracking</a>
+<a href="coverage-accuracy.html">Coverage &amp; accuracy</a>
+<a href="prs-insights.html">PRS Insights and Masters</a>
+<a href="dashboard.html">Leadership dashboard</a>
+<a href="delegation.html" class="on">Delegation</a>
+</nav>
+
+<div class="boardhead">
+  <h1>Delegation</h1>
+  <p>Moving a client to another exec: permanent transfer when someone leaves, temporary cover when someone is away, and who is allowed to do each.</p>
+</div>
+<div class="boardbar">
+  
+  <div class="zoom">
+    <button type="button" data-mode="fit" class="on">Fit width</button>
+    <button type="button" data-mode="full">100%</button>
+  </div>
+  <span class="hint" data-hint="0">Nine operations with the branches that matter: where the system asks a second question, and where it refuses outright. The permission matrix at the foot gates every one.</span>
+</div>
+<div class="stage">
+<section class="boardpane" data-pane="0"><div class="stage-frame" data-zoom="fit"><div class="stage-scroll"><div class="stage-inner" id="dc-host-0" data-w="1680" data-h="1420" style="width:1680px;height:1420px;"></div></div></div></section>
+</div>
+<template id="dc-template-0"><div style="width: 1680px; height: 1420px; box-sizing: border-box; background: #f4f3ef; color: #15171a; display: flex; flex-direction: column;">
+
+  <div style="height: 52px; flex-shrink: 0; background: #15171a; display: flex; align-items: center; gap: 14px; padding: 0 20px;">
+    <span style="font-size: 14px; font-weight: 700; color: #ffffff;">Revenue Grid</span>
+    <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #9a9c9f;">Shared setup · CRUD flows</span>
+    <div style="flex-grow: 1;"></div>
+    <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #9a9c9f;">every branch below is wired in the prototype</span>
+  </div>
+
+  <div style="padding: 22px 24px 8px; flex-shrink: 0;">
+    <div style="font-size: 19px; font-weight: 700; margin-bottom: 4px;">What happens when someone changes shared setup</div>
+    <div style="font-size: 13px; color: #56585c; max-width: 118ch; line-height: 1.55;">Three tabs, nine operations. The branches that matter are the ones where the system says no, or asks a second question — because those are the rules that keep history honest once the grid has years of rows behind it.</div>
+    <div style="display: flex; gap: 14px; margin-top: 14px;">
+      <sc-for list="{{legend}}" as="g" hint-placeholder-count="5">
+        <span style="display: inline-flex; align-items: center; gap: 7px; font-size: 11.5px; color: #56585c;">
+          <span style="{{g.swatch}}"></span>{{g.label}}
+        </span>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="flex-grow: 1; padding: 14px 24px 0; display: flex; gap: 20px; min-height: 0;">
+    <sc-for list="{{columns}}" as="col" hint-placeholder-count="3">
+      <div style="flex-grow: 1; flex-basis: 0; min-width: 0; background: #ffffff; border: 1px solid #e3e1da; border-radius: 6px; padding: 18px 20px 20px; display: flex; flex-direction: column;">
+        <div style="display: flex; align-items: baseline; gap: 9px; padding-bottom: 12px; border-bottom: 1px solid #e3e1da; margin-bottom: 16px;">
+          <span style="{{col.dot}}"></span>
+          <span style="font-size: 15px; font-weight: 700;">{{col.title}}</span>
+          <span style="flex-grow: 1;"></span>
+          <span style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; color: #8a8c90;">{{col.ops}}</span>
+        </div>
+
+        <sc-for list="{{col.rows}}" as="r" hint-placeholder-count="12">
+          <sc-if value="{{r.isTitle}}" hint-placeholder-val="{{ false }}">
+            <div style="{{r.titleStyle}}">{{r.title}}</div>
+          </sc-if>
+
+          <sc-if value="{{r.isNode}}" hint-placeholder-val="{{ true }}">
+            <div style="display: flex; flex-direction: column; align-items: stretch;">
+              <div style="{{r.connStyle}}"></div>
+              <div style="{{r.boxStyle}}">
+                <div style="display: flex; align-items: center; gap: 7px; margin-bottom: 5px;">
+                  <span style="{{r.tagStyle}}">{{r.tag}}</span>
+                  <span style="font-size: 12.5px; font-weight: 600; line-height: 1.3;">{{r.head}}</span>
+                </div>
+                <div style="{{r.detailStyle}}">{{r.detail}}</div>
+              </div>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{r.isSplit}}" hint-placeholder-val="{{ false }}">
+            <div style="display: flex; flex-direction: column;">
+              <div style="height: 14px; display: flex; justify-content: center;"><div style="width: 1px; background: #c7c4ba;"></div></div>
+              <div style="display: flex; gap: 10px; align-items: stretch;">
+                <sc-for list="{{r.arms}}" as="a" hint-placeholder-count="2">
+                  <div style="flex-grow: 1; flex-basis: 0; min-width: 0; display: flex; flex-direction: column; gap: 7px;">
+                    <span style="{{a.condStyle}}">{{a.cond}}</span>
+                    <div style="{{a.boxStyle}}">
+                      <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 5px;">
+                        <span style="{{a.tagStyle}}">{{a.tag}}</span>
+                        <span style="font-size: 12px; font-weight: 600; line-height: 1.3;">{{a.head}}</span>
+                      </div>
+                      <div style="{{a.detailStyle}}">{{a.detail}}</div>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </sc-if>
+        </sc-for>
+      </div>
+    </sc-for>
+  </div>
+
+  <div style="flex-shrink: 0; padding: 20px 24px 22px;">
+    <div style="background: #ffffff; border: 1px solid #e3e1da; border-radius: 6px; padding: 18px 20px;">
+      <div style="display: flex; align-items: baseline; gap: 10px; margin-bottom: 14px;">
+        <span style="font-size: 15px; font-weight: 700;">Who may do what</span>
+        <span style="font-size: 12.5px; color: #56585c;">Every operation above is gated on this. An exec can request a change but never make one.</span>
+      </div>
+      <div style="display: flex; align-items: center; height: 28px; border-bottom: 1px solid #c7c4ba;">
+        <span style="width: 400px; font-size: 10px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #8a8c90;">Operation</span>
+        <sc-for list="{{matrixCols}}" as="c" hint-placeholder-count="4">
+          <span style="{{c.style}}">{{c.label}}</span>
+        </sc-for>
+        <span style="flex-grow: 1; font-size: 10px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #8a8c90; padding-left: 20px;">Note</span>
+      </div>
+      <sc-for list="{{matrix}}" as="m" hint-placeholder-count="9">
+        <div style="display: flex; align-items: center; height: 34px; border-bottom: 1px solid #f4f2ec;">
+          <span style="width: 400px; font-size: 12.5px;">{{m.op}}</span>
+          <sc-for list="{{m.cells}}" as="c" hint-placeholder-count="4">
+            <span style="{{c.style}}">{{c.mark}}</span>
+          </sc-for>
+          <span style="flex-grow: 1; font-size: 12px; color: #56585c; padding-left: 20px;">{{m.note}}</span>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</div></template>
+
+<div class="foot">Wireframe. Figures are sample data from the current working file, shown so the layout can be judged — not a production system.</div>
+<script src="assets/dc-lite.js"></script>
+<script>window.__DC0 = (function () {
+
+class Component extends DCLogic {
+  tone(t) {
+    return {
+      action:  ['#ffffff', '#d6d3cb', '#f2f1ec', '#3e4145', 'Do'],
+      check:   ['#faf9f6', '#c7c4ba', '#ebe9e2', '#4a4c50', 'Check'],
+      ok:      ['#eef3f2', '#cfe0dd', '#dbe9e6', '#1d544e', 'Result'],
+      warn:    ['#fdf8f1', '#f0e2cd', '#f3e4cd', '#8a5210', 'Careful'],
+      blocked: ['#fbeeee', '#e6cfcf', '#f4dede', '#8f2a2a', 'Blocked']
+    }[t];
+  }
+
+  node(tone, head, detail, first) {
+    var c = this.tone(tone);
+    return {
+      isNode: true, isSplit: false, isTitle: false,
+      tag: c[4], head: head, detail: detail,
+      connStyle: first ? 'display: none;' : 'height: 14px; width: 1px; margin-left: auto; margin-right: auto; background: #c7c4ba;',
+      boxStyle: 'background: ' + c[0] + '; border: 1px solid ' + c[1] + '; border-radius: 4px; padding: 11px 13px;',
+      tagStyle: 'display: inline-flex; align-items: center; height: 17px; padding: 0 7px; border-radius: 3px; background: ' + c[2] + '; color: ' + c[3] + '; font-family: "IBM Plex Mono", monospace; font-size: 9px; letter-spacing: 0.06em; text-transform: uppercase; flex-shrink: 0;',
+      detailStyle: detail ? 'font-size: 11.5px; color: #56585c; line-height: 1.45;' : 'display: none;'
+    };
+  }
+
+  split(arms) {
+    var self = this;
+    return {
+      isNode: false, isSplit: true, isTitle: false,
+      arms: arms.map(function (a) {
+        var c = self.tone(a[0]);
+        return {
+          cond: a[1], head: a[2], detail: a[3], tag: c[4],
+          condStyle: 'display: inline-flex; align-items: center; align-self: flex-start; height: 20px; padding: 0 9px; border-radius: 10px; background: #ebe9e2; color: #4a4c50; font-family: "IBM Plex Mono", monospace; font-size: 10px;',
+          boxStyle: 'flex-grow: 1; background: ' + c[0] + '; border: 1px solid ' + c[1] + '; border-radius: 4px; padding: 11px 12px;',
+          tagStyle: 'display: inline-flex; align-items: center; height: 17px; padding: 0 6px; border-radius: 3px; background: ' + c[2] + '; color: ' + c[3] + '; font-family: "IBM Plex Mono", monospace; font-size: 9px; letter-spacing: 0.06em; text-transform: uppercase; flex-shrink: 0;',
+          detailStyle: a[3] ? 'font-size: 11.5px; color: #56585c; line-height: 1.45;' : 'display: none;'
+        };
+      })
+    };
+  }
+
+  title(t, first) {
+    return { isTitle: true, isNode: false, isSplit: false, title: t, titleStyle: 'font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #8a8c90; margin: ' + (first ? '0' : '26px') + ' 0 12px 0;' };
+  }
+
+  renderVals() {
+    var n = this.node.bind(this), s = this.split.bind(this), t = this.title.bind(this);
+
+    var columns = [
+      {
+        title: 'Dropdown lists', ops: '3 operations', color: '#6b5426', bg: '#efe9de',
+        rows: [
+          t('Add a value', true),
+          n('action', 'Type the value, save', 'One field. Nothing else to decide.', true),
+          n('ok', 'Live in all six genres at once', 'Columns A–O are shared, so HGEC through Kids get it together. No existing row changes.'),
+
+          t('Rename a value'),
+          n('action', 'Enter the new name', '', true),
+          n('check', 'Is the value already on any row?', 'The prototype shows the count — "1,284 rows".'),
+          s([
+            ['ok', 'no rows', 'Rename in place', 'Nothing historical to protect.'],
+            ['check', 'rows exist', 'Ask how to apply it', 'Two answers, and they are not equivalent.']
+          ]),
+          s([
+            ['warn', 'rename everywhere', 'History shows the new name', 'Last month’s report stops matching what was on screen at the time.'],
+            ['ok', 'new value + retire old', 'History keeps what was recorded', 'Reports show both values until old rows age out.']
+          ]),
+
+          t('Remove a value'),
+          n('check', 'Is the value on any row?', '', true),
+          s([
+            ['ok', 'no rows — delete', 'Removed outright', 'The only case where delete is offered at all.'],
+            ['warn', 'rows exist — retire', 'Hidden from new entries', 'Every existing row keeps the value and stays readable. Delete is never offered.']
+          ])
+        ]
+      },
+      {
+        title: 'Hierarchy', ops: '3 operations', color: '#4b4355', bg: '#e7e4ea',
+        rows: [
+          t('Add a person', true),
+          n('action', 'Name, role, region, reports-to', 'Four fields, all pickers except the name.', true),
+          n('ok', 'Appears in owner pickers immediately', 'Columns H and I start resolving through them. Starts with zero advertisers.'),
+
+          t('Move under a new manager'),
+          n('action', 'Pick the new manager and an effective date', '', true),
+          n('warn', 'Preview before saving', 'N advertisers change visibility · the daily digest re-routes from the effective date.'),
+          s([
+            ['ok', 'today', 'Applies now', 'Tomorrow’s digest goes to the new manager.'],
+            ['ok', 'future date', 'Queued', 'Digests already sent are never rewritten.']
+          ]),
+          n('ok', 'Owner field untouched', 'This is reporting, not ownership. Nobody’s credit moves.'),
+
+          t('Deactivate a person'),
+          n('check', 'Do they still own advertisers?', '', true),
+          s([
+            ['ok', 'none', 'Deactivate', 'Past edits stay in the audit under their name.'],
+            ['blocked', 'owns rows', 'Refused', 'Those rows would become invisible to everyone. The dialog offers transfer or cover instead.']
+          ]),
+          n('action', 'Blocked path sends you to delegation', 'Transfer permanently, or set up cover — then deactivate.')
+        ]
+      },
+      {
+        title: 'Delegations', ops: '3 operations', color: '#4e3a53', bg: '#f1ebf2',
+        rows: [
+          t('Create — step 1', true),
+          n('action', 'Who is away, and who takes it on', '', true),
+          n('check', 'Cover, or permanent transfer?', 'This single answer decides everything downstream.'),
+          s([
+            ['ok', 'cover', 'Owner stays put', 'Access only. Credit does not move.'],
+            ['warn', 'transfer', 'Owner field changes', 'Credit moves with it, including deals already closed.']
+          ]),
+
+          t('Create — steps 2 and 3'),
+          n('action', 'Scope and window', 'All advertisers, selected ones, or by client status. Genre-wide or one genre.', true),
+          n('check', 'Review the consequences', 'Spelled out in full before the button is live.'),
+          s([
+            ['ok', 'cover saved', 'Auto-ends on the date', 'Access is removed without anyone remembering to do it. Edits log under the delegate, marked as covering.'],
+            ['warn', 'transfer saved', 'Needs a region head or PRS', 'A group head alone cannot move ownership.']
+          ]),
+
+          t('End or delete'),
+          n('check', 'Has it started yet?', '', true),
+          s([
+            ['ok', 'not started', 'Delete', 'Nothing ever happened under it.'],
+            ['warn', 'active', 'End now', 'Access goes immediately. Edits made so far stay in the audit.']
+          ]),
+          n('blocked', 'Ended delegations are read-only', 'They are part of the record of who could see what, and when.')
+        ]
+      }
+    ].map(function (c) {
+      return { title: c.title, ops: c.ops, rows: c.rows, dot: 'width: 10px; height: 10px; border-radius: 3px; background: ' + c.bg + '; border: 1px solid ' + c.color + ';' };
+    });
+
+    var legend = [
+      ['Do', '#ffffff', '#d6d3cb'], ['Check', '#faf9f6', '#c7c4ba'], ['Result', '#eef3f2', '#cfe0dd'],
+      ['Careful', '#fdf8f1', '#f0e2cd'], ['Blocked', '#fbeeee', '#e6cfcf']
+    ].map(function (l) {
+      return { label: l[0], swatch: 'width: 11px; height: 11px; border-radius: 3px; background: ' + l[1] + '; border: 1px solid ' + l[2] + ';' };
+    });
+
+    var roles = ['Exec', 'Group head', 'Region head', 'PRS'];
+    var matrixCols = roles.map(function (r) {
+      return { label: r, style: 'width: 132px; text-align: center; font-size: 10px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #8a8c90;' };
+    });
+
+    var mark = function (v) {
+      var m = { y: ['✓', '#e4edeb', '#1d544e'], n: ['—', 'transparent', '#c7c4ba'], r: ['req', '#f3e4cd', '#8a5210'] }[v];
+      return { mark: m[0], style: 'width: 132px; display: flex; align-items: center; justify-content: center; font-size: ' + (v === 'r' ? '10px' : '12px') + '; font-weight: 600; color: ' + m[2] + ';' };
+    };
+
+    var matrixRaw = [
+      ['Add or rename a dropdown value', ['n', 'n', 'n', 'y'], 'List changes are PRS-only, in every genre'],
+      ['Retire or delete a dropdown value', ['n', 'n', 'n', 'y'], 'Delete only where no row uses the value'],
+      ['Add a person to the hierarchy', ['n', 'n', 'r', 'y'], 'Region head may request; PRS executes'],
+      ['Move a person under a new manager', ['n', 'n', 'r', 'y'], 'Changes visibility and digest routing'],
+      ['Deactivate a person', ['n', 'n', 'n', 'y'], 'Blocked while they still own advertisers'],
+      ['Create temporary cover', ['n', 'y', 'y', 'y'], 'The exec going on leave cannot create their own'],
+      ['Create a permanent transfer', ['n', 'n', 'y', 'y'], 'Moves credit, so it sits above group head'],
+      ['End an active delegation early', ['n', 'y', 'y', 'y'], 'Same level as creating cover'],
+      ['Delete a scheduled delegation', ['n', 'y', 'y', 'y'], 'Only before it starts'],
+      ['Read the change log', ['y', 'y', 'y', 'y'], 'Visible to everyone; editable by nobody']
+    ];
+    var matrix = matrixRaw.map(function (r) {
+      return { op: r[0], note: r[2], cells: r[1].map(mark) };
+    });
+
+    return { columns: columns, legend: legend, matrixCols: matrixCols, matrix: matrix };
+  }
+}
+
+return Component;
+})();</script>
+<script>
+mountDC('dc-template-0', window.__DC0, 'dc-host-0');
+</script>
+<script src="assets/site.js"></script>
+</body>
+</html>
